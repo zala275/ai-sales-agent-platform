@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SalesAI Pro - Live Widget Demo & Visitor Interaction</title>
+    <meta name="description" content="Test the SalesAI live chat widget - see how it captures leads in real time."/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#131b2e",
+                        "on-primary-container": "#9aa4be",
+                        "secondary-container": "#2170e4",
+                        "secondary": "#0058be",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-container": "#23005c",
+                        "surface": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "outline-variant": "#c6c6cd",
+                        "outline": "#76777d"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(19, 27, 46, 0.08);
+            box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
+        }
+        .ai-gradient { background: linear-gradient(135deg, #2170e4 0%, #9466ff 100%); }
+        .ai-gradient-text {
+            background: linear-gradient(135deg, #2170e4 0%, #9466ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+        .mock-hero {
+            background-color: #f8fafc;
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .chat-scroll::-webkit-scrollbar { width: 4px; }
+        .chat-scroll::-webkit-scrollbar-thumb { background: #c6c6cd; border-radius: 4px; }
+        @keyframes bounce-dot {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-4px); }
+        }
+        .typing-dot:nth-child(1) { animation: bounce-dot 1s 0s infinite; }
+        .typing-dot:nth-child(2) { animation: bounce-dot 1s 0.15s infinite; }
+        .typing-dot:nth-child(3) { animation: bounce-dot 1s 0.3s infinite; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .slide-up { animation: slideUp 0.3s ease forwards; }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(33,112,228,0.4); }
+            70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(33,112,228,0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(33,112,228,0); }
+        }
+        .pulse-ring { animation: pulse-ring 2s infinite; }
+        .widget-closed { display: none; }
+        .widget-open { display: flex; }
+    </style>
+</head>
+<body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="visitor-demo">
+
+    <!-- Unified Master Sidebar -->
+    <div id="main-sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 ml-0 md:ml-[280px] min-h-screen flex flex-col">
+        <!-- Top Nav -->
+        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-6 z-40">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-purple-600 text-[22px]">play_circle</span>
+                <div>
+                    <h1 class="text-sm font-bold text-on-surface">Live Widget Demo</h1>
+                    <p class="text-xs text-outline hidden sm:block">Real-time Visitor Interaction Showcase</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5 px-2.5 py-1 bg-green-50 text-green-700 text-xs font-semibold rounded-full border border-green-200">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                    Widget Live
+                </span>
+                <button onclick="resetDemo()" class="flex items-center gap-1.5 px-3 py-1.5 bg-surface-container border border-outline-variant/30 text-on-surface text-xs font-semibold rounded-lg hover:bg-outline-variant/20 transition-colors">
+                    <span class="material-symbols-outlined text-[15px]">restart_alt</span>
+                    Reset Demo
+                </button>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="flex-1 pt-16 flex flex-col">
+
+            <!-- Intro Banner -->
+            <div class="bg-primary-container text-white px-6 py-3 flex items-center justify-between text-xs flex-wrap gap-2">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-yellow-400 text-[16px]" style="font-variation-settings:'FILL' 1">info</span>
+                    <span class="text-on-primary-container"><strong class="text-white">Demo Mode:</strong> This simulates a real customer website with a SalesAI Pro widget embedded. Interact with the widget to see AI lead capture in action.</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="autoPlayDemo()" class="flex items-center gap-1 px-2.5 py-1 bg-secondary-container text-white rounded-lg hover:bg-secondary transition-colors font-semibold">
+                        <span class="material-symbols-outlined text-[14px]">play_arrow</span> Auto-Play
+                    </button>
+                    <a href="leads.html" class="flex items-center gap-1 text-secondary-fixed hover:text-white transition-colors font-semibold">
+                        View Captured Leads <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mock Website Canvas -->
+            <div class="flex-1 mock-hero relative overflow-hidden">
+
+                <!-- Mock Website Header -->
+                <header class="bg-white/90 backdrop-blur-md border-b border-gray-200 h-16 flex items-center px-8 justify-between sticky top-0 z-10 shadow-sm">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-primary-container rounded-lg flex items-center justify-center">
+                            <span class="material-symbols-outlined text-white text-[18px]">change_history</span>
+                        </div>
+                        <span class="font-bold text-gray-900 text-base tracking-tight">Acme Corp</span>
+                    </div>
+                    <nav class="hidden md:flex gap-8">
+                        <a class="text-sm text-gray-500 hover:text-gray-900 transition-colors" href="#">Products</a>
+                        <a class="text-sm text-gray-500 hover:text-gray-900 transition-colors" href="#">Solutions</a>
+                        <a class="text-sm text-gray-900 font-semibold border-b-2 border-secondary pb-[22px]" href="#">Pricing</a>
+                        <a class="text-sm text-gray-500 hover:text-gray-900 transition-colors" href="#">Resources</a>
+                    </nav>
+                    <div class="flex items-center gap-3">
+                        <button class="text-sm text-gray-600 hover:text-gray-900 transition-colors font-medium">Log In</button>
+                        <button class="bg-primary-container text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-secondary-container transition-colors">Get Started</button>
+                    </div>
+                </header>
+
+                <!-- Mock Website Content (Pricing Page) -->
+                <div class="max-w-6xl mx-auto px-8 py-16">
+                    <div class="text-center max-w-3xl mx-auto mb-14">
+                        <div class="inline-block px-3 py-1 bg-blue-100 text-secondary text-xs font-semibold rounded-full mb-4 uppercase tracking-wider">Simple Pricing</div>
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4 tracking-tight">Transparent Pricing for Modern Teams</h2>
+                        <p class="text-gray-500 text-base mb-8">Choose the plan that fits your growth. No hidden fees, ever.</p>
+                        <div class="inline-flex bg-gray-100 p-1 rounded-lg">
+                            <button class="px-5 py-2 rounded-md shadow bg-white text-gray-900 text-sm font-medium">Monthly</button>
+                            <button class="px-5 py-2 rounded-md text-gray-500 text-sm font-medium hover:text-gray-700 transition-colors">Annually <span class="text-green-600 font-bold">(Save 20%)</span></button>
+                        </div>
+                    </div>
+
+                    <!-- Pricing Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                        <!-- Starter -->
+                        <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Starter</h3>
+                            <div class="mb-1"><span class="text-4xl font-extrabold text-gray-900">$29</span><span class="text-gray-400 text-sm">/mo</span></div>
+                            <p class="text-sm text-gray-500 mb-6">For small teams and startups.</p>
+                            <button class="w-full py-2.5 border-2 border-gray-200 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-colors mb-6">Start Free Trial</button>
+                            <ul class="space-y-3 flex-1">
+                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>1 AI Agent</li>
+                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>500 leads/month</li>
+                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>Basic Analytics</li>
+                                <li class="flex gap-2.5 text-sm text-gray-400"><span class="material-symbols-outlined text-gray-300 text-[18px]">cancel</span>CRM Integrations</li>
+                            </ul>
+                        </div>
+
+                        <!-- Professional (Popular) -->
+                        <div class="bg-primary-container border-2 border-secondary-container rounded-2xl p-8 flex flex-col shadow-xl relative transform scale-105">
+                            <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-secondary-container text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow">Most Popular</div>
+                            <h3 class="text-secondary-fixed text-xs font-bold uppercase tracking-wider mb-2">Professional</h3>
+                            <div class="mb-1"><span class="text-4xl font-extrabold text-white">$79</span><span class="text-on-primary-container text-sm">/mo</span></div>
+                            <p class="text-sm text-on-primary-container mb-6">For growing businesses.</p>
+                            <button onclick="AppState && AppState.openPaymentSimulator('professional','Professional Tier',79)" class="w-full py-2.5 bg-secondary-container text-white rounded-xl text-sm font-bold hover:bg-secondary transition-colors mb-6 shadow-lg shadow-secondary/30">
+                                Get Started
+                            </button>
+                            <ul class="space-y-3 flex-1">
+                                <li class="flex gap-2.5 text-sm text-secondary-fixed"><span class="material-symbols-outlined text-secondary-fixed text-[18px]">check_circle</span>5 AI Agents</li>
+                                <li class="flex gap-2.5 text-sm text-secondary-fixed"><span class="material-symbols-outlined text-secondary-fixed text-[18px]">check_circle</span>Unlimited leads</li>
+                                <li class="flex gap-2.5 text-sm text-secondary-fixed"><span class="material-symbols-outlined text-secondary-fixed text-[18px]">check_circle</span>Advanced Analytics</li>
+                                <li class="flex gap-2.5 text-sm text-secondary-fixed"><span class="material-symbols-outlined text-secondary-fixed text-[18px]">check_circle</span>CRM Integrations</li>
+                            </ul>
+                        </div>
+
+                        <!-- Enterprise -->
+                        <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Enterprise</h3>
+                            <div class="mb-1"><span class="text-4xl font-extrabold text-gray-900">Custom</span></div>
+                            <p class="text-sm text-gray-500 mb-6">For large-scale organizations.</p>
+                            <button onclick="openWidget(); setTimeout(()=>sendAutoMsg('I want to learn about the Enterprise plan'),400)" class="w-full py-2.5 border-2 border-gray-200 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-colors mb-6">Contact Sales</button>
+                            <ul class="space-y-3 flex-1">
+                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>Unlimited Agents</li>
+                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>White-label widget</li>
+                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>Dedicated support</li>
+                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>Custom integrations</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Social proof -->
+                    <div class="text-center mt-14">
+                        <p class="text-sm text-gray-400 mb-5">Trusted by 2,400+ fast-growing companies</p>
+                        <div class="flex justify-center gap-10 flex-wrap opacity-40 grayscale">
+                            <span class="text-xl font-extrabold text-gray-700">Stripe</span>
+                            <span class="text-xl font-extrabold text-gray-700">Shopify</span>
+                            <span class="text-xl font-extrabold text-gray-700">Notion</span>
+                            <span class="text-xl font-extrabold text-gray-700">Linear</span>
+                            <span class="text-xl font-extrabold text-gray-700">Vercel</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- SALESAI PRO CHAT WIDGET (EMBEDDED) -->
+                <!-- ============================================================ -->
+                <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4" id="salesai-widget-root">
+
+                    <!-- Proactive Popup -->
+                    <div id="proactive-popup" class="glass-card rounded-xl p-4 max-w-[260px] shadow-xl slide-up mb-1">
+                        <div class="flex items-start gap-2.5 mb-2">
+                            <div class="w-8 h-8 rounded-full ai-gradient flex-shrink-0 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">smart_toy</span>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-on-surface">Sales Agent</p>
+                                <p class="text-xs text-on-surface-variant mt-0.5">👋 I noticed you're on the pricing page. Can I help you choose the right plan?</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openWidget(); document.getElementById('proactive-popup').remove()" class="flex-1 py-1.5 ai-gradient text-white text-xs font-semibold rounded-lg hover:opacity-90 transition-opacity">
+                                Yes, help me!
+                            </button>
+                            <button onclick="document.getElementById('proactive-popup').remove()" class="px-3 py-1.5 text-outline text-xs hover:text-on-surface transition-colors">
+                                Not now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chat Window -->
+                    <div id="chat-widget-window" class="widget-closed flex-col w-[360px] max-w-[calc(100vw-48px)] glass-card rounded-2xl overflow-hidden shadow-2xl origin-bottom-right transition-all duration-300">
+                        <!-- Header -->
+                        <div class="ai-gradient p-4 flex items-center justify-between relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+                            <div class="flex items-center gap-3 relative z-10">
+                                <div class="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 shadow-inner pulse-ring">
+                                    <span class="material-symbols-outlined text-white text-[20px]" style="font-variation-settings:'FILL' 1">smart_toy</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-white text-sm font-bold leading-tight">Sales Agent · Apex Closer</h4>
+                                    <p class="text-white/70 text-xs flex items-center gap-1 mt-0.5">
+                                        <span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
+                                        Online · Powered by SalesAI Pro
+                                    </p>
+                                </div>
+                            </div>
+                            <button aria-label="Close chat" onclick="closeWidget()" class="text-white/80 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/10 relative z-10">
+                                <span class="material-symbols-outlined text-[20px]">close</span>
+                            </button>
+                        </div>
+
+                        <!-- Chat Messages -->
+                        <div id="chat-messages" class="chat-scroll h-[340px] overflow-y-auto p-4 space-y-3 bg-surface/60">
+                            <!-- Agent greeting -->
+                            <div class="flex gap-2.5">
+                                <div class="w-8 h-8 rounded-full ai-gradient flex-shrink-0 flex items-center justify-center mt-0.5 shadow-sm">
+                                    <span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">smart_toy</span>
+                                </div>
+                                <div>
+                                    <div class="bg-white border border-outline-variant/10 rounded-2xl rounded-tl-none p-3 shadow-sm max-w-[85%]">
+                                        <p class="text-xs text-on-surface">Hi! I'm your Tech Sales Specialist. 👋 I can help you find the perfect plan, answer product questions, or connect you with our team. What can I help you with today?</p>
+                                    </div>
+                                    <p class="text-[10px] text-outline mt-1 pl-1">Just now</p>
+                                </div>
+                            </div>
+                            <!-- Quick reply chips -->
+                            <div class="flex flex-wrap gap-1.5 pl-10">
+                                <button onclick="sendChatMsg('What is the Enterprise plan?')" class="px-2.5 py-1 text-[11px] border border-secondary-container/40 text-secondary-container rounded-full hover:bg-secondary-container hover:text-white transition-colors">
+                                    Enterprise plan?
+                                </button>
+                                <button onclick="sendChatMsg('What integrations do you support?')" class="px-2.5 py-1 text-[11px] border border-secondary-container/40 text-secondary-container rounded-full hover:bg-secondary-container hover:text-white transition-colors">
+                                    Integrations?
+                                </button>
+                                <button onclick="sendChatMsg('Can I get a free trial?')" class="px-2.5 py-1 text-[11px] border border-secondary-container/40 text-secondary-container rounded-full hover:bg-secondary-container hover:text-white transition-colors">
+                                    Free trial?
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input -->
+                        <div class="p-3 border-t border-outline-variant/20 bg-white">
+                            <div class="flex items-center gap-2">
+                                <input id="chat-input" type="text" placeholder="Type your message..."
+                                    class="flex-1 text-xs border border-outline-variant/30 rounded-xl px-3 py-2.5 bg-surface focus:outline-none focus:ring-1 focus:ring-secondary-container focus:border-secondary-container"
+                                    onkeydown="if(event.key==='Enter') sendChatMsg()"/>
+                                <button onclick="sendChatMsg()" class="w-9 h-9 ai-gradient text-white rounded-xl flex items-center justify-center hover:opacity-90 transition-opacity flex-shrink-0 shadow">
+                                    <span class="material-symbols-outlined text-[16px]" style="font-variation-settings:'FILL' 1">send</span>
+                                </button>
+                            </div>
+                            <p class="text-[10px] text-outline text-center mt-2">Powered by <strong class="ai-gradient-text">SalesAI Pro</strong> · 🔒 Secure</p>
+                        </div>
+                    </div>
+
+                    <!-- FAB Toggle Button -->
+                    <button id="widget-fab" onclick="toggleWidget()" class="w-14 h-14 rounded-full ai-gradient shadow-2xl flex items-center justify-center hover:scale-105 transition-transform duration-200 active:scale-95 border-2 border-white/20 relative">
+                        <span id="fab-icon" class="material-symbols-outlined text-white" style="font-variation-settings:'FILL' 1">forum</span>
+                        <!-- Notification dot -->
+                        <span class="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full border-2 border-white text-[9px] text-white font-bold flex items-center justify-center" id="fab-badge">1</span>
+                    </button>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- LIVE LEAD CAPTURE INDICATOR (bottom left overlay) -->
+                <!-- ============================================================ -->
+                <div id="lead-capture-toast" class="fixed bottom-6 left-6 z-40 flex flex-col gap-2 pointer-events-none" style="max-width: 280px;"></div>
+
+            </div><!-- End mock-hero -->
+
+            <!-- Demo Controls Bar (below mock website) -->
+            <div class="bg-primary-container border-t border-white/10 px-6 py-4">
+                <div class="max-w-6xl mx-auto">
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <p class="text-white text-sm font-bold mb-0.5">🎮 Demo Controls</p>
+                            <p class="text-on-primary-container text-xs">Simulate real visitor interactions to see the full SalesAI Pro pipeline in action.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="openWidget()" class="flex items-center gap-1.5 px-3 py-2 bg-secondary-container text-white text-xs font-semibold rounded-lg hover:bg-secondary transition-colors">
+                                <span class="material-symbols-outlined text-[14px]">chat</span>
+                                Open Widget
+                            </button>
+                            <button onclick="simulateHotLead()" class="flex items-center gap-1.5 px-3 py-2 bg-green-600 text-white text-xs font-semibold rounded-lg hover:bg-green-700 transition-colors">
+                                <span class="material-symbols-outlined text-[14px]">local_fire_department</span>
+                                Simulate Hot Lead
+                            </button>
+                            <button onclick="simulateLeadCapture()" class="flex items-center gap-1.5 px-3 py-2 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition-colors">
+                                <span class="material-symbols-outlined text-[14px]">person_add</span>
+                                Capture Lead
+                            </button>
+                            <button onclick="autoPlayDemo()" class="flex items-center gap-1.5 px-3 py-2 bg-amber-500 text-white text-xs font-semibold rounded-lg hover:bg-amber-600 transition-colors">
+                                <span class="material-symbols-outlined text-[14px]">play_circle</span>
+                                Full Auto Demo
+                            </button>
+                            <a href="leads.html" class="flex items-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold rounded-lg transition-colors">
+                                <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+                                View Leads Pipeline
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Live Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 pt-4 border-t border-white/10">
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-white" id="stat-conversations">0</p>
+                            <p class="text-xs text-on-primary-container">Conversations</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-green-400" id="stat-leads">0</p>
+                            <p class="text-xs text-on-primary-container">Leads Captured</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-secondary-fixed" id="stat-msgs">0</p>
+                            <p class="text-xs text-on-primary-container">Messages Sent</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-yellow-400" id="stat-rate">0%</p>
+                            <p class="text-xs text-on-primary-container">Lead Conversion</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app-state.js"></script>
+    <script>
+        // =============================================================
+        // WIDGET STATE
+        // =============================================================
+        let widgetOpen = false;
+        let msgCount = 0;
+        let leadCount = 0;
+        let convCount = 0;
+        let currentStep = 'greeting';
+        let leadEmailPending = false;
+
+        function toggleWidget() {
+            widgetOpen ? closeWidget() : openWidget();
+        }
+
+        function openWidget() {
+            widgetOpen = true;
+            document.getElementById('chat-widget-window').classList.remove('widget-closed');
+            document.getElementById('chat-widget-window').classList.add('widget-open');
+            document.getElementById('fab-icon').textContent = 'expand_more';
+            document.getElementById('fab-badge').style.display = 'none';
+            document.getElementById('proactive-popup')?.remove();
+            convCount++;
+            updateStats();
+        }
+
+        function closeWidget() {
+            widgetOpen = false;
+            document.getElementById('chat-widget-window').classList.remove('widget-open');
+            document.getElementById('chat-widget-window').classList.add('widget-closed');
+            document.getElementById('fab-icon').textContent = 'forum';
+        }
+
+        // =============================================================
+        // CHAT LOGIC
+        // =============================================================
+        const aiResponses = {
+            'enterprise': {
+                msg: "Our <strong>Enterprise plan</strong> is fully custom — unlimited agents, white-label widget, dedicated account manager, and custom API integrations. Typical pricing starts at $199/mo. Would you like me to connect you with our sales team?",
+                next: 'lead_capture'
+            },
+            'integration': {
+                msg: "We support <strong>Salesforce, HubSpot, Pipedrive, Zoho, Slack, and 20+ more</strong> via native integrations. We also offer a full REST API for custom setups. Which CRM are you currently using?",
+                next: 'follow_up'
+            },
+            'trial': {
+                msg: "Yes! We offer a <strong>14-day free trial</strong> on all plans — no credit card required. You get full access to all features. Want me to set up a trial account for you right now?",
+                next: 'lead_capture'
+            },
+            'price': {
+                msg: "Our plans start at <strong>$29/mo</strong> (Starter), <strong>$79/mo</strong> (Professional – most popular), and <strong>custom Enterprise</strong> pricing. Annual plans save 20%. Which tier interests you most?",
+                next: 'follow_up'
+            },
+            'lead_capture': {
+                msg: "Great! To connect you with the right person, can I grab your <strong>work email</strong>? I'll have someone reach out within 1 business hour.",
+                next: 'email_input',
+                showForm: true
+            },
+            'default': {
+                msg: "Thanks for asking! Let me look that up for you... Based on your interest, I'd recommend our <strong>Professional plan at $79/mo</strong>. It includes 5 AI agents and full CRM integration. Shall I set up a demo call?",
+                next: 'lead_capture'
+            }
+        };
+
+        function getAIResponse(msg) {
+            const lower = msg.toLowerCase();
+            if (lower.includes('enterprise') || lower.includes('custom')) return aiResponses.enterprise;
+            if (lower.includes('integrat') || lower.includes('salesforce') || lower.includes('hubspot')) return aiResponses.integration;
+            if (lower.includes('trial') || lower.includes('free')) return aiResponses.trial;
+            if (lower.includes('price') || lower.includes('cost') || lower.includes('plan') || lower.includes('pricing')) return aiResponses.price;
+            if (lower.includes('demo') || lower.includes('connect') || lower.includes('team') || lower.includes('sales')) return aiResponses.lead_capture;
+            return aiResponses.default;
+        }
+
+        function sendChatMsg(overrideMsg) {
+            const input = document.getElementById('chat-input');
+            const msg = overrideMsg || input.value.trim();
+            if (!msg) return;
+            if (input) input.value = '';
+
+            const container = document.getElementById('chat-messages');
+            msgCount++;
+            updateStats();
+
+            // User message
+            container.insertAdjacentHTML('beforeend', `
+                <div class="flex gap-2.5 justify-end slide-up">
+                    <div class="bg-secondary-container text-white rounded-2xl rounded-tr-none p-3 shadow-sm max-w-[80%]">
+                        <p class="text-xs">${msg}</p>
+                    </div>
+                </div>
+            `);
+            container.scrollTop = container.scrollHeight;
+
+            // Handle email capture
+            if (leadEmailPending && msg.includes('@')) {
+                leadEmailPending = false;
+                const typId = 'typing-' + Date.now();
+                container.insertAdjacentHTML('beforeend', `<div id="${typId}" class="flex gap-2.5"><div class="w-8 h-8 rounded-full ai-gradient flex-shrink-0 flex items-center justify-center mt-0.5 shadow-sm"><span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">smart_toy</span></div><div class="bg-white border border-outline-variant/10 rounded-2xl rounded-tl-none p-3 shadow-sm"><div class="flex gap-1"><div class="typing-dot w-1.5 h-1.5 bg-outline rounded-full"></div><div class="typing-dot w-1.5 h-1.5 bg-outline rounded-full"></div><div class="typing-dot w-1.5 h-1.5 bg-outline rounded-full"></div></div></div></div>`);
+                container.scrollTop = container.scrollHeight;
+                setTimeout(() => {
+                    document.getElementById(typId)?.remove();
+                    container.insertAdjacentHTML('beforeend', `
+                        <div class="flex gap-2.5 slide-up">
+                            <div class="w-8 h-8 rounded-full ai-gradient flex-shrink-0 flex items-center justify-center mt-0.5 shadow-sm">
+                                <span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">smart_toy</span>
+                            </div>
+                            <div class="bg-white border border-green-200 rounded-2xl rounded-tl-none p-3 shadow-sm max-w-[90%] bg-green-50">
+                                <p class="text-xs text-on-surface">🎉 <strong>Perfect!</strong> I've captured your contact and a sales specialist will reach out to <strong>${msg}</strong> within 1 hour. You're all set!</p>
+                                <div class="mt-2 flex items-center gap-1.5 text-green-700 text-[11px] font-semibold">
+                                    <span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                    Lead captured & CRM synced
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    container.scrollTop = container.scrollHeight;
+                    simulateLeadCapture(msg);
+                }, 1000);
+                return;
+            }
+
+            // Normal AI response
+            const typId = 'typing-' + Date.now();
+            container.insertAdjacentHTML('beforeend', `<div id="${typId}" class="flex gap-2.5"><div class="w-8 h-8 rounded-full ai-gradient flex-shrink-0 flex items-center justify-center mt-0.5 shadow-sm"><span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">smart_toy</span></div><div class="bg-white border border-outline-variant/10 rounded-2xl rounded-tl-none p-3 shadow-sm"><div class="flex gap-1"><div class="typing-dot w-1.5 h-1.5 bg-outline rounded-full"></div><div class="typing-dot w-1.5 h-1.5 bg-outline rounded-full"></div><div class="typing-dot w-1.5 h-1.5 bg-outline rounded-full"></div></div></div></div>`);
+            container.scrollTop = container.scrollHeight;
+
+            setTimeout(() => {
+                document.getElementById(typId)?.remove();
+                const response = getAIResponse(msg);
+
+                let extraHtml = '';
+                if (response.showForm || response.next === 'lead_capture') {
+                    extraHtml = `
+                        <button onclick="sendChatMsg('Yes, connect me with sales')" class="mt-2 w-full py-1.5 ai-gradient text-white text-[11px] font-semibold rounded-lg hover:opacity-90 transition-opacity">
+                            Yes, connect me with sales →
+                        </button>
+                    `;
+                    if (response.next === 'email_input') {
+                        leadEmailPending = true;
+                    }
+                }
+
+                container.insertAdjacentHTML('beforeend', `
+                    <div class="flex gap-2.5 slide-up">
+                        <div class="w-8 h-8 rounded-full ai-gradient flex-shrink-0 flex items-center justify-center mt-0.5 shadow-sm">
+                            <span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">smart_toy</span>
+                        </div>
+                        <div class="bg-white border border-outline-variant/10 rounded-2xl rounded-tl-none p-3 shadow-sm max-w-[90%]">
+                            <p class="text-xs text-on-surface">${response.msg}</p>
+                            ${extraHtml}
+                        </div>
+                    </div>
+                `);
+
+                if (response.next === 'lead_capture') {
+                    setTimeout(() => {
+                        container.insertAdjacentHTML('beforeend', `
+                            <div class="flex gap-2.5 slide-up">
+                                <div class="w-8 h-8 rounded-full ai-gradient flex-shrink-0 flex items-center justify-center mt-0.5 shadow-sm">
+                                    <span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">smart_toy</span>
+                                </div>
+                                <div class="bg-white border border-outline-variant/10 rounded-2xl rounded-tl-none p-3 shadow-sm max-w-[90%]">
+                                    <p class="text-xs text-on-surface mb-2">Just drop your work email and I'll have someone reach out within 1 hour!</p>
+                                    <form onsubmit="captureLeadForm(event)" class="flex gap-2">
+                                        <input type="email" placeholder="work@email.com" required class="flex-1 text-xs border border-outline-variant/30 rounded-lg px-2 py-1.5 bg-surface focus:outline-none focus:ring-1 focus:ring-secondary-container"/>
+                                        <button type="submit" class="px-3 py-1.5 ai-gradient text-white text-[11px] font-bold rounded-lg hover:opacity-90 transition-opacity">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        `);
+                        container.scrollTop = container.scrollHeight;
+                    }, 800);
+                }
+                container.scrollTop = container.scrollHeight;
+            }, 1400);
+        }
+
+        function captureLeadForm(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input').value;
+            e.target.closest('.bg-white').innerHTML = `
+                <p class="text-xs text-green-700 font-semibold flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                    Got it! Connecting you with a specialist shortly at <strong>${email}</strong>
+                </p>
+            `;
+            simulateLeadCapture(email);
+        }
+
+        function sendAutoMsg(msg) {
+            openWidget();
+            setTimeout(() => {
+                document.getElementById('chat-input').value = msg;
+                sendChatMsg();
+            }, 300);
+        }
+
+        // =============================================================
+        // LEAD CAPTURE SIMULATION
+        // =============================================================
+        const fakeNames = ["David Miller", "Priya Shah", "Marcus Chen", "Elena Rossi", "James Park", "Sofia Alvarez"];
+        const fakeCompanies = ["Acme Corp", "TechVentures", "GlobalNet", "NovaSoft", "StartupXYZ", "DigitalEdge"];
+
+        function simulateLeadCapture(email) {
+            const name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+            const company = fakeCompanies[Math.floor(Math.random() * fakeCompanies.length)];
+            leadCount++;
+            updateStats();
+
+            // Show lead capture toast
+            const toastContainer = document.getElementById('lead-capture-toast');
+            const toast = document.createElement('div');
+            toast.className = 'pointer-events-auto glass-card rounded-xl p-3 shadow-xl slide-up flex items-center gap-3 border-l-4 border-green-500';
+            toast.innerHTML = `
+                <div class="w-9 h-9 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-green-600 text-[18px]" style="font-variation-settings:'FILL' 1">person_add</span>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-xs font-bold text-on-surface">🔥 New Lead Captured!</p>
+                    <p class="text-[11px] text-on-surface-variant truncate">${name} · ${company}</p>
+                    <p class="text-[10px] text-green-600 font-semibold mt-0.5">Score: 94% Hot · CRM Synced ✓</p>
+                </div>
+            `;
+            toastContainer.appendChild(toast);
+            if (AppState) AppState.captureLead();
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.4s';
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+
+        function simulateHotLead() {
+            openWidget();
+            setTimeout(() => sendChatMsg('I want to learn about the Enterprise plan'), 400);
+        }
+
+        // =============================================================
+        // STATS
+        // =============================================================
+        function updateStats() {
+            document.getElementById('stat-conversations').textContent = convCount;
+            document.getElementById('stat-leads').textContent = leadCount;
+            document.getElementById('stat-msgs').textContent = msgCount;
+            const rate = convCount > 0 ? Math.round((leadCount / convCount) * 100) : 0;
+            document.getElementById('stat-rate').textContent = rate + '%';
+        }
+
+        // =============================================================
+        // AUTO PLAY DEMO
+        // =============================================================
+        function autoPlayDemo() {
+            AppState && AppState.showToast('Auto-Demo Starting', 'Watch the full lead capture flow...');
+            openWidget();
+            const steps = [
+                { delay: 1200, msg: 'What plans do you offer?' },
+                { delay: 4500, msg: 'Tell me about the Enterprise plan' },
+                { delay: 8000, msg: 'Yes, connect me with sales' },
+            ];
+            steps.forEach(step => setTimeout(() => sendChatMsg(step.msg), step.delay));
+            setTimeout(() => {
+                const input = document.getElementById('chat-input');
+                if (input) input.value = 'john.doe@enterprise.com';
+                setTimeout(() => sendChatMsg('john.doe@enterprise.com'), 12000);
+            }, 11000);
+        }
+
+        function resetDemo() {
+            document.getElementById('chat-messages').innerHTML = `
+                <div class="flex gap-2.5">
+                    <div class="w-8 h-8 rounded-full ai-gradient flex-shrink-0 flex items-center justify-center mt-0.5 shadow-sm">
+                        <span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">smart_toy</span>
+                    </div>
+                    <div>
+                        <div class="bg-white border border-outline-variant/10 rounded-2xl rounded-tl-none p-3 shadow-sm max-w-[85%]">
+                            <p class="text-xs text-on-surface">Hi! I'm your Tech Sales Specialist. 👋 Demo reset — ready for a fresh conversation!</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            msgCount = 0; leadCount = 0; convCount = 0;
+            leadEmailPending = false;
+            updateStats();
+            AppState && AppState.showToast('Demo Reset', 'All counters cleared. Ready for a fresh demo!');
+        }
+
+        // Show proactive popup after 3 seconds
+        setTimeout(() => {
+            const popup = document.getElementById('proactive-popup');
+            if (popup) popup.style.display = 'block';
+        }, 3000);
+    </script>
+</body>
+</html>

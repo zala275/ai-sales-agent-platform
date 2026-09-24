@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SalesAI Pro - Super Admin & Platform Health</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#131b2e",
+                        "on-primary-container": "#9aa4be",
+                        "secondary-container": "#2170e4",
+                        "secondary": "#0058be",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-container": "#23005c",
+                        "surface": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "outline-variant": "#c6c6cd",
+                        "outline": "#76777d"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(19, 27, 46, 0.08);
+            box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
+        }
+        .ai-gradient-border {
+            border-top: 3px solid transparent;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), linear-gradient(90deg, #2170e4, #9466ff);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="dashboard">
+
+    <!-- Unified Master Sidebar -->
+    <div id="main-sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 ml-0 md:ml-[280px] min-h-screen flex flex-col">
+        <!-- TopNavBar -->
+        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-6 z-40 transition-all">
+            <div class="flex items-center gap-3">
+                <span class="text-xs px-2.5 py-1 rounded-full bg-secondary-fixed/50 text-secondary font-semibold uppercase tracking-wider">Super Admin View</span>
+                <span class="text-xs text-outline hidden sm:inline">Platform Health & Aggregates</span>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="AppState.openPaymentSimulator('enterprise', 'Enterprise Tier', 199)" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-secondary-container hover:bg-secondary text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
+                    <span class="material-symbols-outlined text-[16px]">credit_card</span>
+                    <span>Test Checkout ($199)</span>
+                </button>
+                <a href="visitor-demo.html" class="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:opacity-90 text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
+                    <span class="material-symbols-outlined text-[16px]">play_circle</span>
+                    <span>Live Visitor Demo</span>
+                </a>
+                <div class="h-6 w-px bg-outline-variant/30"></div>
+                <button onclick="AppState.showToast('Notifications Checked', 'All systems operational.')" class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full relative">
+                    <span class="material-symbols-outlined text-[20px]">notifications</span>
+                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-secondary-container rounded-full"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Page Body -->
+        <div class="p-6 md:p-8 mt-16 max-w-7xl w-full mx-auto space-y-6">
+            <!-- Welcome Header -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-on-surface">Platform Health Overview</h2>
+                    <p class="text-sm text-on-surface-variant mt-1">Multi-tenant SaaS metrics, global ARR, and aggregate agent usage.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="AppState.showToast('Report Exported', 'Super admin summary downloaded as CSV.')" class="px-3.5 py-2 border border-outline-variant/40 hover:bg-surface-container rounded-xl text-xs font-medium text-on-surface transition-colors flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base">download</span> Export Metrics
+                    </button>
+                    <a href="billing.html" class="px-4 py-2 bg-primary-container text-white rounded-xl text-xs font-semibold hover:bg-opacity-90 transition-colors flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base">payments</span> Manage Plans
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <!-- Stat Card 1 -->
+                <div class="glass-card rounded-2xl p-5 flex flex-col justify-between">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <p class="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Total Workspaces</p>
+                            <h3 class="text-2xl font-extrabold text-on-surface mt-1">2,540</h3>
+                        </div>
+                        <div class="bg-secondary-fixed/30 p-2.5 rounded-xl text-secondary">
+                            <span class="material-symbols-outlined text-xl">corporate_fare</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-secondary text-xs font-medium">
+                        <span class="material-symbols-outlined text-[16px] mr-1">trending_up</span>
+                        <span>+12.5% vs last month</span>
+                    </div>
+                </div>
+
+                <!-- Stat Card 2 -->
+                <div class="glass-card rounded-2xl p-5 flex flex-col justify-between">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <p class="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Monthly Revenue (MRR)</p>
+                            <h3 class="text-2xl font-extrabold text-on-surface mt-1 mrr-display">$18,450</h3>
+                        </div>
+                        <div class="bg-emerald-100 dark:bg-emerald-900/40 p-2.5 rounded-xl text-emerald-600">
+                            <span class="material-symbols-outlined text-xl">payments</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-emerald-600 text-xs font-medium">
+                        <span class="material-symbols-outlined text-[16px] mr-1">trending_up</span>
+                        <span>+16.4% recurring growth</span>
+                    </div>
+                </div>
+
+                <!-- Stat Card 3 -->
+                <div class="glass-card rounded-2xl p-5 ai-gradient-border flex flex-col justify-between">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <p class="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Global AI Tokens</p>
+                            <h3 class="text-2xl font-extrabold text-on-surface mt-1">8.2M / 10M</h3>
+                        </div>
+                        <div class="bg-purple-100 dark:bg-purple-900/40 p-2.5 rounded-xl text-purple-700">
+                            <span class="material-symbols-outlined text-xl">memory</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="w-full bg-surface-container rounded-full h-2 mb-1.5 overflow-hidden">
+                            <div class="bg-gradient-to-r from-secondary-container to-purple-600 h-2 rounded-full" style="width: 82%"></div>
+                        </div>
+                        <span class="text-[11px] text-outline">82% quota consumed</span>
+                    </div>
+                </div>
+
+                <!-- Stat Card 4 -->
+                <div class="glass-card rounded-2xl p-5 flex flex-col justify-between">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <p class="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Active Sales Agents</p>
+                            <h3 class="text-2xl font-extrabold text-on-surface mt-1">486 Live</h3>
+                        </div>
+                        <div class="bg-secondary-fixed/30 p-2.5 rounded-xl text-secondary">
+                            <span class="material-symbols-outlined text-xl">smart_toy</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-on-surface-variant text-xs">
+                        <span class="inline-block w-2 h-2 rounded-full bg-green-500 mr-1.5 animate-pulse"></span>
+                        <span>99.98% runtime uptime</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts & Architecture Overview -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Chart -->
+                <div class="glass-card rounded-2xl lg:col-span-2 p-6 flex flex-col">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+                        <div>
+                            <h3 class="font-bold text-lg text-on-surface">Global Revenue Growth</h3>
+                            <p class="text-xs text-outline">Monthly recurring SaaS subscription collections</p>
+                        </div>
+                        <select class="bg-surface-container-low border border-outline-variant/30 rounded-lg text-xs font-medium text-on-surface py-1.5 px-3 focus:ring-1 focus:ring-secondary-container">
+                            <option>Last 6 Months</option>
+                            <option>Year to Date (2026)</option>
+                        </select>
+                    </div>
+
+                    <!-- SVG Bar Chart -->
+                    <div class="flex-1 bg-surface-container-low/50 rounded-xl border border-outline-variant/20 p-5 flex flex-col justify-end min-h-[260px]">
+                        <div class="flex items-end justify-between gap-3 h-48 w-full pt-4">
+                            <div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+                                <div class="w-full max-w-[42px] bg-secondary-container/40 rounded-t-lg transition-all hover:bg-secondary-container/60" style="height: 45%" title="$9.2k"></div>
+                                <span class="text-[11px] font-medium text-outline">Apr</span>
+                            </div>
+                            <div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+                                <div class="w-full max-w-[42px] bg-secondary-container/50 rounded-t-lg transition-all hover:bg-secondary-container/70" style="height: 58%" title="$11.8k"></div>
+                                <span class="text-[11px] font-medium text-outline">May</span>
+                            </div>
+                            <div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+                                <div class="w-full max-w-[42px] bg-secondary-container/60 rounded-t-lg transition-all hover:bg-secondary-container/80" style="height: 64%" title="$13.1k"></div>
+                                <span class="text-[11px] font-medium text-outline">Jun</span>
+                            </div>
+                            <div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+                                <div class="w-full max-w-[42px] bg-secondary-container/70 rounded-t-lg transition-all hover:bg-secondary-container/90" style="height: 72%" title="$14.9k"></div>
+                                <span class="text-[11px] font-medium text-outline">Jul</span>
+                            </div>
+                            <div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+                                <div class="w-full max-w-[42px] bg-secondary-container/85 rounded-t-lg transition-all hover:bg-secondary-container" style="height: 85%" title="$16.8k"></div>
+                                <span class="text-[11px] font-medium text-outline">Aug</span>
+                            </div>
+                            <div class="flex-1 flex flex-col items-center gap-2 h-full justify-end">
+                                <div class="w-full max-w-[42px] bg-gradient-to-t from-secondary to-purple-600 rounded-t-lg shadow-md transition-all" style="height: 94%" title="$18.5k"></div>
+                                <span class="text-[11px] font-bold text-secondary">Sep (Now)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database & Logic Overlay -->
+                <div class="glass-card rounded-2xl bg-primary-container text-white flex flex-col p-6 relative overflow-hidden">
+                    <div class="flex items-center gap-2 mb-4 text-secondary-fixed">
+                        <span class="material-symbols-outlined">dns</span>
+                        <h3 class="font-bold text-base">Backend & Multi-Tenancy</h3>
+                    </div>
+
+                    <div class="space-y-3 flex-1 text-xs">
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-3.5">
+                            <span class="text-secondary-fixed font-bold flex items-center gap-1.5 mb-1">
+                                <span class="material-symbols-outlined text-[16px]">account_tree</span>
+                                Tenant Isolation Logic
+                            </span>
+                            <p class="text-white/70 leading-relaxed">
+                                Each customer workspace operates in isolated database namespaces. RAG vectors indexed via Pinecone/pgvector with strict tenant ID checks.
+                            </p>
+                        </div>
+
+                        <div class="bg-white/5 border border-white/10 rounded-xl p-3.5">
+                            <span class="text-purple-300 font-bold flex items-center gap-1.5 mb-1">
+                                <span class="material-symbols-outlined text-[16px]">verified</span>
+                                Database Schemas
+                            </span>
+                            <ul class="text-white/70 space-y-1.5 mt-2">
+                                <li class="flex items-center gap-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                    <span>SQL Schema: <code class="bg-black/40 px-1 py-0.5 rounded text-white/90">database/schema.sql</code></span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                                    <span>Seed Data: <code class="bg-black/40 px-1 py-0.5 rounded text-white/90">database/seed.sql</code></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a href="deployment.html" class="mt-4 w-full py-2 bg-white/10 hover:bg-white/15 text-center rounded-xl text-xs font-semibold text-secondary-fixed transition-colors flex items-center justify-center gap-1.5">
+                        <span class="material-symbols-outlined text-sm">terminal</span> View Embed Snippet
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Workspaces Table -->
+            <div class="glass-card rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-on-surface">Recent Tenant Subscriptions</h3>
+                        <p class="text-xs text-outline">Real-time signups and active billing tiers</p>
+                    </div>
+                    <a href="leads.html" class="text-xs font-semibold text-secondary hover:underline flex items-center gap-1">
+                        <span>View Leads Pipeline</span>
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-outline-variant/20 text-outline font-semibold uppercase tracking-wider">
+                                <th class="pb-3">Client Workspace</th>
+                                <th class="pb-3">Plan Tier</th>
+                                <th class="pb-3">Status</th>
+                                <th class="pb-3">Active Agents</th>
+                                <th class="pb-3 text-right">Joined Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant/10 text-on-surface font-medium">
+                            <tr class="hover:bg-surface-container-low/60 transition-colors">
+                                <td class="py-3.5 flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs">AC</div>
+                                    <div>
+                                        <p class="font-bold text-sm">ApexCloud SaaS</p>
+                                        <p class="text-[11px] text-outline">sarah@apexcloud.io</p>
+                                    </div>
+                                </td>
+                                <td class="py-3.5 font-semibold text-secondary">Professional Tier ($79/mo)</td>
+                                <td class="py-3.5">
+                                    <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-semibold">Active</span>
+                                </td>
+                                <td class="py-3.5">2 Live Agents</td>
+                                <td class="py-3.5 text-right text-outline">Today, 10:14 AM</td>
+                            </tr>
+
+                            <tr class="hover:bg-surface-container-low/60 transition-colors">
+                                <td class="py-3.5 flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 font-bold flex items-center justify-center text-xs">FT</div>
+                                    <div>
+                                        <p class="font-bold text-sm">FinTechScale Ltd</p>
+                                        <p class="text-[11px] text-outline">rahul@fintechscale.in</p>
+                                    </div>
+                                </td>
+                                <td class="py-3.5 font-semibold text-purple-700">Enterprise Tier ($199/mo)</td>
+                                <td class="py-3.5">
+                                    <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-semibold">Active</span>
+                                </td>
+                                <td class="py-3.5">6 Live Agents</td>
+                                <td class="py-3.5 text-right text-outline">Yesterday</td>
+                            </tr>
+
+                            <tr class="hover:bg-surface-container-low/60 transition-colors">
+                                <td class="py-3.5 flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-xs">GS</div>
+                                    <div>
+                                        <p class="font-bold text-sm">GlobalNet Systems</p>
+                                        <p class="text-[11px] text-outline">m.sterling@globalnet.org</p>
+                                    </div>
+                                </td>
+                                <td class="py-3.5 font-semibold text-on-surface-variant">Starter Tier ($29/mo)</td>
+                                <td class="py-3.5">
+                                    <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[11px] font-semibold">Trial (5d left)</span>
+                                </td>
+                                <td class="py-3.5">1 Live Agent</td>
+                                <td class="py-3.5 text-right text-outline">Sep 21, 2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app-state.js"></script>
+</body>
+</html>

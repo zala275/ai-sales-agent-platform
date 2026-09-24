@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Agent A/B Testing Lab</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#76777d",
+                    "on-secondary-container": "#fefcff",
+                    "inverse-surface": "#2d3133",
+                    "on-surface": "#191c1e",
+                    "tertiary-fixed-dim": "#d0bcff",
+                    "secondary-fixed": "#d8e2ff",
+                    "surface-bright": "#f7f9fb",
+                    "surface-variant": "#e0e3e5",
+                    "background": "#f7f9fb",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#adc6ff",
+                    "on-tertiary-fixed-variant": "#5516be",
+                    "primary-fixed": "#dae2fd",
+                    "on-tertiary-fixed": "#23005c",
+                    "surface-container": "#eceef0",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#000000",
+                    "on-secondary-fixed": "#001a42",
+                    "primary": "#000000",
+                    "surface-container-high": "#e6e8ea",
+                    "surface-dim": "#d8dadc",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-surface-variant": "#45464d",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed": "#e9ddff",
+                    "secondary-container": "#2170e4",
+                    "secondary": "#0058be",
+                    "inverse-on-surface": "#eff1f3",
+                    "surface": "#f7f9fb",
+                    "outline-variant": "#c6c6cd",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "on-tertiary-container": "#9466ff",
+                    "on-background": "#191c1e",
+                    "on-secondary-fixed-variant": "#004395",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#7c839b",
+                    "inverse-primary": "#bec6e0",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#23005c",
+                    "surface-tint": "#565e74",
+                    "primary-container": "#131b2e",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-primary-fixed": "#131b2e",
+                    "surface-container-low": "#f2f4f6",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sidebar-width": "280px",
+                    "container-margin": "32px",
+                    "unit": "4px",
+                    "gutter": "24px",
+                    "card-padding": "24px"
+            },
+            "fontFamily": {
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "title-lg": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "display-lg": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "label-md": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "title-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+        },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f7f9fb;
+            color: #191c1e;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(19, 27, 46, 0.08);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        .ai-gradient-border {
+            position: relative;
+        }
+        .ai-gradient-border::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0058be 0%, #2170e4 50%, #9466ff 100%);
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+        .sparkline {
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full py-unit-gutter w-sidebar-width h-screen fixed left-0 top-0 bg-primary-container dark:bg-primary-container shadow-sm z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<img class="w-8 h-8 rounded-DEFAULT object-cover" data-alt="A highly detailed 3D render of an abstract geometric logo, combining a hexagon and a glowing sphere, representing artificial intelligence. The logo is rendered in electric blue and vibrant purple, set against a dark navy background. Professional, sleek, modern enterprise software aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqjE6ylAh5gqHCki3iJBbXAwImy6FV_YvKj8_wB7WWn6xFmkui0jaOnB9az4-lxuSu1hqRwKWLiqAjR6CNa6vjn5ONesLXkCBrIaK8BZ3lo1iNYlZbTP6jKqxrAuR7Hw9rQjfUXyHgppuPORjivt9se_Z8denZbV4pO00VTIRqeQf3Zgrc82geY6gekQcdSWkEVomROX_1fFqsXevP_edoEv7XTNA1x6m8KHDsX26iZFFQfwjmZvdDVw"/>
+<div>
+<h1 class="text-title-lg font-title-lg font-bold text-on-primary dark:text-on-primary">SalesAI</h1>
+<p class="text-label-md font-label-md text-on-primary-container text-[10px] uppercase tracking-wider">Precision Intelligence</p>
+</div>
+</div>
+<div class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary-container/70 font-medium hover:text-on-primary-container hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span class="text-body-md font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-secondary font-bold border-l-4 border-secondary bg-white/10 active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="text-body-md font-body-md">AI Agents</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary-container/70 font-medium hover:text-on-primary-container hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">auto_stories</span>
+<span class="text-body-md font-body-md">Knowledge Base</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary-container/70 font-medium hover:text-on-primary-container hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">group</span>
+<span class="text-body-md font-body-md">Leads</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary-container/70 font-medium hover:text-on-primary-container hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">leaderboard</span>
+<span class="text-body-md font-body-md">Analytics</span>
+</a>
+</div>
+<div class="px-4 mt-auto space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary-container/70 font-medium hover:text-on-primary-container hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">payments</span>
+<span class="text-body-md font-body-md">Billing</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-primary-container/70 font-medium hover:text-on-primary-container hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="text-body-md font-body-md">Settings</span>
+</a>
+<div class="mt-4 px-4">
+<button class="w-full bg-secondary hover:bg-secondary-container text-on-secondary font-label-md text-label-md py-2.5 rounded-DEFAULT transition-colors">
+                    Upgrade Plan
+                </button>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-sidebar-width min-h-screen flex flex-col relative">
+<!-- TopNavBar -->
+<header class="h-16 fixed top-0 right-0 w-full md:w-[calc(100%-theme(spacing.sidebar-width))] bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 flex justify-between items-center px-container-margin z-40">
+<div class="flex items-center gap-4">
+<!-- Mobile Menu Trigger (hidden on md) -->
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50 text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/30 rounded-full text-body-md font-body-md text-primary focus:border-secondary focus:ring-1 focus:ring-secondary outline-none w-64 transition-all" placeholder="Search experiments..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-secondary transition-colors duration-200 active:opacity-80 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border border-surface"></span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors duration-200 active:opacity-80">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-high overflow-hidden ml-2 cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate executive, clean lighting, light background. Used as a user avatar in a modern software interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaUif7fYleI3Vr0ILlMjKaFWLO5dAgAoi1D-jzn3qa8hma-E-f-6UawBZcwyHHjrQfphW28plCuBTajOzRXwheEjjU3NR14V4hyCUCQxpq28x12GvpmrO2Hs91fZAXamUDdyvDVK73YCXlo0OKAo7VOnhSP1klgtq0s6_mtucWGra24L4UDtOTN3v8EiBBHOsglTIEQLolmoIMj9_jNf_SZUnpMjbUOEN1nBeOqNsHQBWaDWfcxb5r9g"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 pt-24 px-4 md:px-container-margin pb-container-margin overflow-y-auto">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+<div>
+<h2 class="text-headline-md font-headline-md text-primary">A/B Testing Lab</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Compare agent performance and optimize conversation flows.</p>
+</div>
+<button class="flex items-center gap-2 bg-primary-container text-on-primary py-2.5 px-5 rounded-lg hover:bg-primary-container/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="text-label-md font-label-md font-semibold">Create New Experiment</span>
+</button>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Active Experiment Spotlight (Spans 8 cols) -->
+<div class="lg:col-span-8 glass-card rounded-xl p-card-padding ai-gradient-border">
+<div class="flex justify-between items-start mb-6">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h3 class="text-title-lg font-title-lg text-primary">EXP-402: Professional vs Enthusiastic</h3>
+<span class="bg-[#e6f4ea] text-[#137333] px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase">Running</span>
+</div>
+<p class="text-label-md font-label-md text-on-surface-variant">Testing tone variations in initial outreach sequence.</p>
+</div>
+<button class="text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Comparison Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+<!-- Agent A -->
+<div class="bg-surface-container-low rounded-lg p-5 border border-outline-variant/20 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-surface-variant rounded-full blur-2xl -mr-10 -mt-10 opacity-50"></div>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center">
+<span class="text-title-lg font-title-lg">A</span>
+</div>
+<div>
+<h4 class="text-label-md font-label-md font-semibold text-primary">Control</h4>
+<p class="text-[11px] text-on-surface-variant">Professional Tone</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant">person</span>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-[12px] mb-1">
+<span class="text-on-surface-variant">Conversion Rate</span>
+<span class="font-semibold text-primary">12.4%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-outline-variant w-[60%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[12px] mb-1">
+<span class="text-on-surface-variant">Avg. Engagement</span>
+<span class="font-semibold text-primary">2m 14s</span>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[12px] mb-1">
+<span class="text-on-surface-variant">Lead Quality Score</span>
+<span class="font-semibold text-primary">78/100</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Agent B -->
+<div class="bg-primary-fixed/30 rounded-lg p-5 border border-secondary-fixed relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary rounded-full blur-3xl -mr-10 -mt-10 opacity-10"></div>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-[0_0_15px_rgba(0,88,190,0.4)]">
+<span class="text-title-lg font-title-lg">B</span>
+</div>
+<div>
+<h4 class="text-label-md font-label-md font-semibold text-primary">Variant</h4>
+<p class="text-[11px] text-secondary">Enthusiastic Tone</p>
+</div>
+</div>
+<div class="bg-[#e6f4ea] text-[#137333] px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">trending_up</span>
+                                    WINNER
+                                </div>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-[12px] mb-1">
+<span class="text-on-surface-variant">Conversion Rate</span>
+<span class="font-semibold text-secondary">18.7% <span class="text-[#137333] text-[10px] ml-1">(+50.8%)</span></span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[85%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[12px] mb-1">
+<span class="text-on-surface-variant">Avg. Engagement</span>
+<span class="font-semibold text-primary">3m 45s</span>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[12px] mb-1">
+<span class="text-on-surface-variant">Lead Quality Score</span>
+<span class="font-semibold text-primary">82/100</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Chart Area Placeholder -->
+<div>
+<h4 class="text-label-md font-label-md font-semibold text-primary mb-4">Performance Over Time (Conversion %)</h4>
+<div class="h-48 w-full bg-surface-container-low rounded border border-outline-variant/20 flex items-end relative overflow-hidden pb-6 px-4">
+<!-- Abstract Chart Representation -->
+<svg class="absolute bottom-6 left-4 right-4 w-[calc(100%-32px)] h-32" preserveaspectratio="none" viewbox="0 0 100 100">
+<!-- Grid lines -->
+<line stroke="#e0e3e5" stroke-dasharray="2,2" stroke-width="0.5" x1="0" x2="100" y1="25" y2="25"></line>
+<line stroke="#e0e3e5" stroke-dasharray="2,2" stroke-width="0.5" x1="0" x2="100" y1="50" y2="50"></line>
+<line stroke="#e0e3e5" stroke-dasharray="2,2" stroke-width="0.5" x1="0" x2="100" y1="75" y2="75"></line>
+<!-- Agent A Line -->
+<path class="sparkline stroke-outline-variant opacity-70" d="M0,80 Q20,75 40,78 T80,65 T100,60"></path>
+<!-- Agent B Line -->
+<path class="sparkline stroke-secondary" d="M0,85 Q20,70 40,60 T80,30 T100,20"></path>
+<!-- Fill under B -->
+<path d="M0,100 L0,85 Q20,70 40,60 T80,30 T100,20 L100,100 Z" fill="url(#b-grad)" opacity="0.1"></path>
+<defs>
+<lineargradient id="b-grad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#0058be"></stop>
+<stop offset="100%" stop-color="transparent"></stop>
+</lineargradient>
+</defs>
+</svg>
+<!-- X Axis Labels -->
+<div class="absolute bottom-1 left-4 text-[10px] text-outline">Day 1</div>
+<div class="absolute bottom-1 right-4 text-[10px] text-outline">Day 14</div>
+</div>
+</div>
+</div>
+<!-- Right Column (Spans 4 cols) -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Stats Card -->
+<div class="glass-card rounded-xl p-card-padding">
+<h3 class="text-label-md font-label-md font-semibold text-on-surface-variant uppercase tracking-wider mb-4">Total Traffic Split</h3>
+<div class="flex items-end gap-4 mb-2">
+<span class="text-display-lg font-display-lg text-primary">12.5k</span>
+<span class="text-body-md font-body-md text-on-surface-variant mb-2">sessions</span>
+</div>
+<div class="flex h-3 rounded-full overflow-hidden mt-4">
+<div class="bg-primary-container w-[50%]" title="Agent A: 50%"></div>
+<div class="bg-secondary w-[50%]" title="Agent B: 50%"></div>
+</div>
+<div class="flex justify-between mt-2 text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-primary-container"></div>50% A</div>
+<div class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-secondary"></div>50% B</div>
+</div>
+</div>
+<!-- Active Experiments List -->
+<div class="glass-card rounded-xl p-card-padding flex-1">
+<div class="flex justify-between items-center mb-5">
+<h3 class="text-title-lg font-title-lg text-primary">Active Experiments</h3>
+<button class="text-label-md font-label-md text-secondary hover:underline">View All</button>
+</div>
+<div class="space-y-4">
+<!-- List Item 1 -->
+<div class="p-3 rounded-lg border border-outline-variant/30 hover:bg-surface-container-low transition-colors cursor-pointer bg-surface-container-low">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[12px] font-semibold text-primary">EXP-402</span>
+<span class="bg-[#e6f4ea] text-[#137333] px-1.5 py-0.5 rounded text-[9px] font-bold uppercase">Running</span>
+</div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-2 truncate">Professional vs Enthusiastic</p>
+<div class="flex justify-between text-[11px] text-outline">
+<span>Started: Oct 12</span>
+<span class="text-secondary font-medium">B Winning (92% conf.)</span>
+</div>
+</div>
+<!-- List Item 2 -->
+<div class="p-3 rounded-lg border border-outline-variant/30 hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[12px] font-semibold text-primary">EXP-401</span>
+<span class="bg-[#fef7e0] text-[#b06000] px-1.5 py-0.5 rounded text-[9px] font-bold uppercase">Gathering Data</span>
+</div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-2 truncate">Direct Ask vs Value Build</p>
+<div class="flex justify-between text-[11px] text-outline">
+<span>Started: Oct 15</span>
+<span>Too early to call</span>
+</div>
+</div>
+<!-- List Item 3 -->
+<div class="p-3 rounded-lg border border-outline-variant/30 hover:bg-surface-container-low transition-colors cursor-pointer opacity-70">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[12px] font-semibold text-primary">EXP-398</span>
+<span class="bg-surface-variant text-on-surface-variant px-1.5 py-0.5 rounded text-[9px] font-bold uppercase">Completed</span>
+</div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-2 truncate">Short Intro vs Long Intro</p>
+<div class="flex justify-between text-[11px] text-outline">
+<span>Ended: Oct 10</span>
+<span class="text-primary font-medium">Variant A Won</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

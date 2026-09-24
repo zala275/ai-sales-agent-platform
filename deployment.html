@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SalesAI Pro - JavaScript Integration & Deployment</title>
+    <meta name="description" content="Embed your autonomous AI Sales Agent onto your website with a single line of JavaScript."/>
+    <!-- Clean, sharp Inter typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    colors: {
+                        "primary-container": "#0f172a",
+                        "on-primary-container": "#94a3b8",
+                        "secondary-container": "#2563eb",
+                        "secondary": "#1d4ed8",
+                        "secondary-fixed": "#dbeafe",
+                        "surface": "#f8fafc",
+                        "surface-container": "#f1f5f9",
+                        "surface-container-low": "#ffffff",
+                        "on-surface": "#0f172a",
+                        "on-surface-variant": "#475569",
+                        "outline-variant": "#cbd5e1",
+                        "outline": "#64748b"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .clean-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+        }
+        .top-gradient-border {
+            position: relative;
+        }
+        .top-gradient-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #2563eb 0%, #7c3aed 100%);
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+        .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-[#f8fafc] font-sans text-slate-900 flex min-h-screen" data-page="deployment">
+
+    <!-- Unified Master Sidebar -->
+    <div id="main-sidebar-container"></div>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 ml-0 md:ml-[280px] min-h-screen flex flex-col">
+        <!-- Top Navigation Bar (Crisp, High Contrast, No Blurriness) -->
+        <header class="h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] bg-white border-b border-slate-200 flex justify-between items-center px-6 z-40">
+            <!-- Breadcrumbs -->
+            <div class="flex items-center gap-2 text-sm">
+                <span class="text-slate-500 font-medium">Settings</span>
+                <span class="material-symbols-outlined text-slate-400 text-sm">chevron_right</span>
+                <span class="text-slate-900 font-semibold">Deployment &amp; Integration</span>
+            </div>
+
+            <!-- Header Action Items -->
+            <div class="flex items-center gap-3">
+                <a href="visitor-demo.html" class="flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors">
+                    <span class="material-symbols-outlined text-[16px]">play_circle</span>
+                    <span>Test on Live Site</span>
+                </a>
+                <div class="h-5 w-px bg-slate-200"></div>
+                <button onclick="AppState.showToast('Documentation', 'Opening deployment developer guide...')" class="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors" title="Help Guide">
+                    <span class="material-symbols-outlined text-[20px]">help_outline</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Page Body -->
+        <div class="p-6 md:p-8 mt-16 max-w-7xl w-full mx-auto space-y-6">
+            
+            <!-- Page Title Section -->
+            <div class="space-y-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold">
+                    <span class="material-symbols-outlined text-sm">rocket_launch</span>
+                    Phase 4: Deployment &amp; Live Integration
+                </div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">JavaScript Integration</h1>
+                <p class="text-sm text-slate-600 max-w-3xl leading-relaxed">
+                    Embed your trained autonomous AI Sales Agent onto your website or web application to start capturing, qualifying, and synchronizing leads 24/7.
+                </p>
+            </div>
+
+            <!-- Bento Grid: Main Code Area (Left) + Connection Status (Right) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- Col 1 & 2: Embed Code & Security -->
+                <div class="lg:col-span-2 space-y-6">
+
+                    <!-- Card 1: Widget Snippet -->
+                    <div class="clean-card top-gradient-border p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 text-blue-600 font-bold text-base">
+                                <span class="material-symbols-outlined text-xl">code</span>
+                                <h2 class="text-slate-900 font-bold text-lg">Widget Snippet</h2>
+                            </div>
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold">
+                                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                                Ready to Embed
+                            </span>
+                        </div>
+
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Place this script tag just before the closing <code class="bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded font-mono font-semibold text-[11px]">&lt;/body&gt;</code> tag on all pages where you want the sales agent to appear.
+                        </p>
+
+                        <!-- High-Contrast, Crystal-Clear Code Block (No blurry overlays or moving dots) -->
+                        <div class="relative bg-slate-950 rounded-xl p-5 border border-slate-800 shadow-inner group">
+                            <pre class="font-mono text-xs text-blue-200 overflow-x-auto custom-scrollbar leading-relaxed selection:bg-blue-600 selection:text-white"><code id="code-snippet">&lt;!-- SalesAI Pro Agent Widget --&gt;
+&lt;script 
+    src="widget/sales-widget.js" 
+    data-agent-key="agt_live_9a8b7c6d"
+    data-primary-color="#2170e4"
+    data-position="bottom-right"
+    defer&gt;
+&lt;/script&gt;</code></pre>
+                            
+                            <button onclick="copySnippet()" id="btn-copy-code" class="absolute top-4 right-4 bg-slate-800 hover:bg-slate-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-700 transition-colors flex items-center gap-1.5 shadow-sm">
+                                <span class="material-symbols-outlined text-sm">content_copy</span>
+                                <span>Copy Code</span>
+                            </button>
+                        </div>
+
+                        <!-- Action Bar Below Code -->
+                        <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
+                            <div class="flex items-center gap-3">
+                                <button onclick="copySnippet()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-xl shadow-sm transition-colors flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                                    <span>Copy to Clipboard</span>
+                                </button>
+                                
+                                <button onclick="toggleAdvancedOptions()" class="px-4 py-2.5 text-slate-600 hover:text-slate-900 font-semibold text-xs transition-colors flex items-center gap-1">
+                                    <span>Advanced Parameters</span>
+                                    <span class="material-symbols-outlined text-[18px]" id="advanced-toggle-icon">expand_more</span>
+                                </button>
+                            </div>
+
+                            <div class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                                <span class="material-symbols-outlined text-emerald-600 text-base">verified</span>
+                                <span>Non-blocking async load (&lt;12ms impact)</span>
+                            </div>
+                        </div>
+
+                        <!-- Collapsible Advanced Parameters -->
+                        <div id="advanced-options-panel" class="hidden p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3 text-xs">
+                            <h4 class="font-bold text-slate-800">Widget Customization Attributes</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-slate-700 font-mono text-[11px]">
+                                <div class="p-2.5 bg-white rounded-lg border border-slate-200">
+                                    <strong class="text-blue-700 font-sans block mb-1">data-position</strong>
+                                    <code>"bottom-right"</code> or <code>"bottom-left"</code>
+                                </div>
+                                <div class="p-2.5 bg-white rounded-lg border border-slate-200">
+                                    <strong class="text-blue-700 font-sans block mb-1">data-primary-color</strong>
+                                    Any HEX value (e.g., <code>"#2170e4"</code>)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Security & Whitelisting -->
+                    <div class="clean-card p-6 space-y-4">
+                        <div class="flex items-center gap-2 text-slate-900 font-bold text-base">
+                            <span class="material-symbols-outlined text-blue-600 text-xl">security</span>
+                            <h2 class="font-bold text-slate-900 text-lg">Security &amp; Whitelisting</h2>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Authorize specific domains permitted to execute this agent widget. Inbound API requests from non-whitelisted origins will be blocked by our security gateway.
+                        </p>
+
+                        <!-- Add Domain Input -->
+                        <div class="flex gap-2">
+                            <div class="relative flex-1">
+                                <input type="text" id="domain-input" placeholder="e.g., acmecorp.com or sub.domain.io" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-xs font-mono text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all"/>
+                            </div>
+                            <button onclick="addDomain()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 rounded-xl text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-sm">
+                                <span class="material-symbols-outlined text-base">add</span>
+                                <span>Add Domain</span>
+                            </button>
+                        </div>
+
+                        <!-- Domain List Table -->
+                        <div class="rounded-xl border border-slate-200 overflow-hidden bg-white">
+                            <ul class="divide-y divide-slate-100" id="domain-list">
+                                <li class="flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-blue-600 text-[20px]">public</span>
+                                        <span class="font-mono text-xs text-slate-800 font-semibold">www.acmecorp.com</span>
+                                        <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-[10px] font-bold">Primary Domain</span>
+                                    </div>
+                                    <button onclick="removeDomain(this, 'www.acmecorp.com')" class="text-slate-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition-colors" title="Remove domain">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                                    </button>
+                                </li>
+                                <li class="flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-blue-600 text-[20px]">public</span>
+                                        <span class="font-mono text-xs text-slate-800 font-semibold">app.acmecorp.com</span>
+                                        <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-medium">SaaS App</span>
+                                    </div>
+                                    <button onclick="removeDomain(this, 'app.acmecorp.com')" class="text-slate-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition-colors" title="Remove domain">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                                    </button>
+                                </li>
+                                <li class="flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-blue-600 text-[20px]">public</span>
+                                        <span class="font-mono text-xs text-slate-800 font-semibold">localhost:3000</span>
+                                        <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 text-[10px] font-medium">Local Dev</span>
+                                    </div>
+                                    <button onclick="removeDomain(this, 'localhost:3000')" class="text-slate-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition-colors" title="Remove domain">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Platform Quick-Install Guides -->
+                    <div class="clean-card p-6 space-y-4">
+                        <h3 class="font-bold text-sm text-slate-900">Supported CMS &amp; Frameworks</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                            <div onclick="AppState.showToast('WordPress Guide', 'Insert snippet into header.php or using WPCode.')" class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-500 hover:bg-white transition-all cursor-pointer group">
+                                <span class="material-symbols-outlined text-2xl text-blue-600 mb-1 group-hover:scale-110 transition-transform">integration_instructions</span>
+                                <p class="font-bold text-xs text-slate-800">WordPress</p>
+                                <span class="text-[10px] text-slate-500">2 min install</span>
+                            </div>
+                            <div onclick="AppState.showToast('Shopify Guide', 'Paste snippet into theme.liquid before closing body tag.')" class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-emerald-500 hover:bg-white transition-all cursor-pointer group">
+                                <span class="material-symbols-outlined text-2xl text-emerald-600 mb-1 group-hover:scale-110 transition-transform">shopping_bag</span>
+                                <p class="font-bold text-xs text-slate-800">Shopify</p>
+                                <span class="text-[10px] text-slate-500">Liquid theme</span>
+                            </div>
+                            <div onclick="AppState.showToast('Webflow Guide', 'Paste into Project Settings > Custom Code > Footer Code.')" class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-purple-500 hover:bg-white transition-all cursor-pointer group">
+                                <span class="material-symbols-outlined text-2xl text-purple-600 mb-1 group-hover:scale-110 transition-transform">dashboard_customize</span>
+                                <p class="font-bold text-xs text-slate-800">Webflow</p>
+                                <span class="text-[10px] text-slate-500">Custom code</span>
+                            </div>
+                            <div onclick="AppState.showToast('React / Next Guide', 'Include script via Next.js Script tag or useEffect hook.')" class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-cyan-500 hover:bg-white transition-all cursor-pointer group">
+                                <span class="material-symbols-outlined text-2xl text-cyan-600 mb-1 group-hover:scale-110 transition-transform">code_blocks</span>
+                                <p class="font-bold text-xs text-slate-800">React / Next</p>
+                                <span class="text-[10px] text-slate-500">SPA ready</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Col 3: Connection Status & Gateway Telemetry (Right Column) -->
+                <div class="space-y-6">
+
+                    <!-- Connection Status Card (Clear, Stable, Crisp - NO moving/pinging dots) -->
+                    <div class="clean-card p-6 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-base text-slate-900">Connection Status</h3>
+                            <button onclick="refreshStatus()" class="text-slate-400 hover:text-slate-800 p-1 rounded-lg hover:bg-slate-100 transition-colors" title="Refresh Status">
+                                <span class="material-symbols-outlined text-[20px]" id="refresh-icon">refresh</span>
+                            </button>
+                        </div>
+
+                        <!-- Solid, Clear, Clean Status Indicator (Crisp, Stable, No Distracting Blurry Pings) -->
+                        <div class="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                            <!-- Clean Blue Circle with Sharp Checkmark (NO animate-ping) -->
+                            <div class="w-16 h-16 rounded-full bg-blue-100 border-2 border-blue-500 flex items-center justify-center mb-3.5 shadow-sm">
+                                <span class="material-symbols-outlined text-blue-600 text-3xl font-bold">check_circle</span>
+                            </div>
+
+                            <h4 class="font-bold text-base text-slate-900">Widget Detected</h4>
+                            <p class="text-xs text-slate-600 text-center mt-1">
+                                Receiving active heartbeat from <strong class="text-slate-800">www.acmecorp.com</strong>
+                            </p>
+                        </div>
+
+                        <!-- Status Details List -->
+                        <div class="space-y-3 text-xs">
+                            <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
+                                <span class="text-slate-500 font-medium">Gateway Health</span>
+                                <span class="inline-flex items-center gap-1.5 font-semibold text-emerald-700">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                    Operational (200 OK)
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
+                                <span class="text-slate-500 font-medium">Last Ping</span>
+                                <span class="font-semibold text-slate-800" id="last-ping-text">Just now (18ms)</span>
+                            </div>
+                            <div class="flex justify-between items-center py-1.5 border-b border-slate-100">
+                                <span class="text-slate-500 font-medium">Agent Version</span>
+                                <span class="font-semibold text-slate-800">v2.4.1 (Latest)</span>
+                            </div>
+                            <div class="flex justify-between items-center py-1.5">
+                                <span class="text-slate-500 font-medium">Active API Key</span>
+                                <span class="font-mono text-[11px] font-semibold text-blue-600">agt_live_9a...7c6d</span>
+                            </div>
+                        </div>
+
+                        <!-- Test on Live Site Button -->
+                        <div class="pt-2">
+                            <a href="visitor-demo.html" class="w-full py-2.5 px-4 bg-white text-blue-600 border border-blue-300 hover:bg-blue-50 hover:border-blue-500 font-semibold text-xs rounded-xl shadow-sm transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+                                <span>Test on Live Demo Site</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Direct Integration Card -->
+                    <div class="clean-card p-6 bg-slate-900 text-white space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500 text-white font-mono font-bold uppercase">Showcase Active</span>
+                            <span class="material-symbols-outlined text-blue-400 text-lg">bolt</span>
+                        </div>
+                        <h4 class="font-bold text-sm text-white">Need Customized Webhooks?</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Forward captured leads to your internal API, Zapier, or custom CRM automatically with bi-directional syncing.
+                        </p>
+                        <a href="integrations.html" class="inline-flex items-center gap-1.5 text-xs text-blue-300 hover:text-white font-semibold transition-colors pt-1">
+                            <span>Configure CRM Integrations</span>
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Master App State Script -->
+    <script src="js/app-state.js"></script>
+
+    <!-- Interactive Scripts -->
+    <script>
+        function copySnippet() {
+            const codeEl = document.getElementById("code-snippet");
+            const snippet = codeEl ? codeEl.textContent.trim() : ('<' + 'script src="widget/sales-widget.js" data-agent-key="agt_live_9a8b7c6d" data-primary-color="#2170e4" data-position="bottom-right" defer><' + '/script>');
+            navigator.clipboard.writeText(snippet).then(() => {
+                const btn = document.getElementById("btn-copy-code");
+                btn.innerHTML = `<span class="material-symbols-outlined text-sm text-emerald-400">check</span> <span>Copied!</span>`;
+                btn.classList.add("bg-emerald-800", "border-emerald-600");
+                setTimeout(() => {
+                    btn.innerHTML = `<span class="material-symbols-outlined text-sm">content_copy</span> <span>Copy Code</span>`;
+                    btn.classList.remove("bg-emerald-800", "border-emerald-600");
+                }, 2000);
+                AppState.showToast("Copied to Clipboard!", "Embed snippet ready to paste into your website HTML.");
+            }).catch(() => {
+                AppState.showToast("Copied!", "Embed snippet copied.");
+            });
+        }
+
+        function toggleAdvancedOptions() {
+            const panel = document.getElementById("advanced-options-panel");
+            const icon = document.getElementById("advanced-toggle-icon");
+            if (panel.classList.contains("hidden")) {
+                panel.classList.remove("hidden");
+                icon.textContent = "expand_less";
+            } else {
+                panel.classList.add("hidden");
+                icon.textContent = "expand_more";
+            }
+        }
+
+        function addDomain() {
+            const input = document.getElementById("domain-input");
+            const domain = (input.value || "").trim().toLowerCase();
+            if (!domain) {
+                AppState.showToast("Domain Required", "Please enter a valid domain name.", "error");
+                return;
+            }
+
+            const list = document.getElementById("domain-list");
+            const li = document.createElement("li");
+            li.className = "flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors";
+            li.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-blue-600 text-[20px]">public</span>
+                    <span class="font-mono text-xs text-slate-800 font-semibold">${domain}</span>
+                    <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 text-[10px] font-medium">Added</span>
+                </div>
+                <button onclick="removeDomain(this, '${domain}')" class="text-slate-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition-colors" title="Remove domain">
+                    <span class="material-symbols-outlined text-[18px]">delete</span>
+                </button>
+            `;
+            list.appendChild(li);
+            input.value = "";
+            AppState.showToast("Domain Whitelisted", `${domain} is now authorized to load the sales agent.`);
+        }
+
+        function removeDomain(button, domain) {
+            const li = button.closest("li");
+            if (li) {
+                li.remove();
+                AppState.showToast("Domain Removed", `${domain} was removed from the whitelist.`);
+            }
+        }
+
+        function refreshStatus() {
+            const icon = document.getElementById("refresh-icon");
+            icon.classList.add("animate-spin");
+            setTimeout(() => {
+                icon.classList.remove("animate-spin");
+                document.getElementById("last-ping-text").textContent = "Just now (" + Math.floor(12 + Math.random() * 10) + "ms)";
+                AppState.showToast("Connection Active", "Receiving healthy telemetry heartbeat (HTTP 200 OK).");
+            }, 600);
+        }
+    </script>
+</body>
+</html>

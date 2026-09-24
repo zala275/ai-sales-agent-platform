@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SalesAI Pro - AI Agents Studio</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#131b2e",
+                        "on-primary-container": "#9aa4be",
+                        "secondary-container": "#2170e4",
+                        "secondary": "#0058be",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-container": "#23005c",
+                        "surface": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "outline-variant": "#c6c6cd",
+                        "outline": "#76777d"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(19, 27, 46, 0.08);
+            box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
+        }
+        .ai-gradient-border {
+            border-top: 3px solid transparent;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), linear-gradient(90deg, #2170e4, #9466ff);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="agents">
+
+    <!-- Unified Master Sidebar -->
+    <div id="main-sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 ml-0 md:ml-[280px] min-h-screen flex flex-col">
+        <!-- TopNavBar -->
+        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-6 z-40 transition-all">
+            <div class="flex items-center gap-3">
+                <span class="text-xs px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 font-semibold uppercase tracking-wider">Agent Engineering</span>
+                <span class="text-xs text-outline hidden sm:inline">Configure persona, tone & sales objectives</span>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="openAgentModal()" class="flex items-center gap-1.5 px-3 py-1.5 bg-primary-container hover:bg-black text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
+                    <span class="material-symbols-outlined text-[16px]">add</span>
+                    <span>New Agent</span>
+                </button>
+                <a href="visitor-demo.html" class="flex items-center gap-1.5 px-3 py-1.5 bg-secondary-container hover:bg-secondary text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
+                    <span class="material-symbols-outlined text-[16px]">play_circle</span>
+                    <span>Test in Sandbox</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Page Body -->
+        <div class="p-6 md:p-8 mt-16 max-w-7xl w-full mx-auto space-y-6">
+            <!-- Header -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-on-surface">AI Sales Agents Studio</h2>
+                    <p class="text-sm text-on-surface-variant mt-1">Build, fine-tune, and monitor your autonomous sales representatives.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="AppState.showToast('Agents Filtered', 'Showing live deployed agents.')" class="px-3 py-2 border border-outline-variant/40 hover:bg-surface-container rounded-xl text-xs font-medium text-on-surface transition-colors flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base">filter_list</span> All Agents (4)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Summary -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <div class="glass-card rounded-2xl p-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-outline uppercase tracking-wider">Total Active Agents</p>
+                        <h3 class="text-2xl font-extrabold text-on-surface mt-1">4 Live</h3>
+                        <p class="text-[11px] text-emerald-600 font-semibold mt-1">100% capacity ready</p>
+                    </div>
+                    <div class="w-11 h-11 rounded-xl bg-blue-100 text-secondary flex items-center justify-center">
+                        <span class="material-symbols-outlined text-2xl">smart_toy</span>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-outline uppercase tracking-wider">Monthly Visitor Chats</p>
+                        <h3 class="text-2xl font-extrabold text-on-surface mt-1">14,290</h3>
+                        <p class="text-[11px] text-secondary font-semibold mt-1">+24% vs last month</p>
+                    </div>
+                    <div class="w-11 h-11 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-2xl">forum</span>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-medium text-outline uppercase tracking-wider">Avg Lead Conversion Rate</p>
+                        <h3 class="text-2xl font-extrabold text-on-surface mt-1">32.8%</h3>
+                        <p class="text-[11px] text-emerald-600 font-semibold mt-1">High Intent Qualifying</p>
+                    </div>
+                    <div class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-2xl">trophy</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agents Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="agents-cards-container">
+                <!-- Agent 1: Live SDR Alpha -->
+                <div class="glass-card rounded-2xl p-6 ai-gradient-border flex flex-col justify-between hover:shadow-lg transition-all">
+                    <div>
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=128&q=80" class="w-12 h-12 rounded-xl object-cover border border-outline-variant/30 shadow-sm" alt="Avatar"/>
+                                <div>
+                                    <h3 class="font-bold text-base text-on-surface">Apex Closer Pro</h3>
+                                    <p class="text-xs text-secondary font-semibold">Consultative Sales • High Urgency</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                Live on Website
+                            </span>
+                        </div>
+
+                        <div class="p-3 bg-surface-container-low/70 rounded-xl border border-outline-variant/20 mb-4 text-xs">
+                            <p class="text-outline font-semibold mb-1">Greeting Hook:</p>
+                            <p class="text-on-surface italic">"Hello! Welcome to ApexCloud. Are you looking to scale your infrastructure or explore our Enterprise pricing today?"</p>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3 mb-4 text-center">
+                            <div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/10">
+                                <span class="text-[10px] text-outline uppercase font-semibold">Chats Today</span>
+                                <p class="text-base font-bold text-on-surface mt-0.5">342</p>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/10">
+                                <span class="text-[10px] text-outline uppercase font-semibold">Leads Captured</span>
+                                <p class="text-base font-bold text-secondary mt-0.5">48</p>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/10">
+                                <span class="text-[10px] text-outline uppercase font-semibold">RAG Accuracy</span>
+                                <p class="text-base font-bold text-emerald-600 mt-0.5">99.2%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 pt-4 border-t border-outline-variant/15">
+                        <button onclick="openAgentModal('Apex Closer Pro', 'consultative')" class="flex-1 py-2 px-3 border border-outline-variant/40 hover:bg-surface-container rounded-xl text-xs font-semibold text-on-surface transition-colors flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px]">tune</span> Configure
+                        </button>
+                        <a href="visitor-demo.html" class="flex-1 py-2 px-3 bg-secondary-container hover:bg-secondary text-white rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 shadow-sm">
+                            <span class="material-symbols-outlined text-[16px]">chat</span> Chat Test
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Agent 2: Inbound Growth Specialist -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between hover:shadow-lg transition-all">
+                    <div>
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=128&q=80" class="w-12 h-12 rounded-xl object-cover border border-outline-variant/30 shadow-sm" alt="Avatar"/>
+                                <div>
+                                    <h3 class="font-bold text-base text-on-surface">Stitch Inbound AI</h3>
+                                    <p class="text-xs text-purple-700 font-semibold">Persuasive Pitching • Tier Upgrader</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                Active
+                            </span>
+                        </div>
+
+                        <div class="p-3 bg-surface-container-low/70 rounded-xl border border-outline-variant/20 mb-4 text-xs">
+                            <p class="text-outline font-semibold mb-1">Greeting Hook:</p>
+                            <p class="text-on-surface italic">"Hey there! Looking to automate your sales pipeline? Let me show you how our clients achieve 3.4x higher conversion."</p>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3 mb-4 text-center">
+                            <div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/10">
+                                <span class="text-[10px] text-outline uppercase font-semibold">Chats Today</span>
+                                <p class="text-base font-bold text-on-surface mt-0.5">218</p>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/10">
+                                <span class="text-[10px] text-outline uppercase font-semibold">Leads Captured</span>
+                                <p class="text-base font-bold text-secondary mt-0.5">31</p>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/10">
+                                <span class="text-[10px] text-outline uppercase font-semibold">RAG Accuracy</span>
+                                <p class="text-base font-bold text-emerald-600 mt-0.5">98.5%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 pt-4 border-t border-outline-variant/15">
+                        <button onclick="openAgentModal('Stitch Inbound AI', 'persuasive')" class="flex-1 py-2 px-3 border border-outline-variant/40 hover:bg-surface-container rounded-xl text-xs font-semibold text-on-surface transition-colors flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px]">tune</span> Configure
+                        </button>
+                        <a href="deployment.html" class="flex-1 py-2 px-3 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px]">code</span> Get Snippet
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Agent 3: Technical Product Specialist -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between hover:shadow-lg transition-all">
+                    <div>
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-xl bg-cyan-100 text-cyan-800 flex items-center justify-center border border-outline-variant/20 font-bold">
+                                    <span class="material-symbols-outlined text-2xl">memory</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-base text-on-surface">Tech Support & Demo Bot</h3>
+                                    <p class="text-xs text-outline font-semibold">Technical Deep Dives • API Answers</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-semibold flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[14px] animate-spin">sync</span>
+                                RAG Syncing (84%)
+                            </span>
+                        </div>
+
+                        <div class="p-3 bg-surface-container-low/70 rounded-xl border border-outline-variant/20 mb-4 text-xs">
+                            <p class="text-outline font-semibold mb-1">Knowledge Scope:</p>
+                            <p class="text-on-surface">Trained on 42 PDF Whitepapers and API Documentation endpoints.</p>
+                        </div>
+
+                        <div class="w-full bg-surface-container rounded-full h-2 mb-4 overflow-hidden">
+                            <div class="bg-cyan-600 h-2 rounded-full" style="width: 84%"></div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 pt-4 border-t border-outline-variant/15">
+                        <a href="knowledge-base.html" class="flex-1 py-2 px-3 border border-outline-variant/40 hover:bg-surface-container rounded-xl text-xs font-semibold text-on-surface transition-colors flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px]">menu_book</span> Edit Knowledge
+                        </a>
+                        <button onclick="AppState.showToast('Agent Deployed', 'Tech Support Bot synced with live snippet.')" class="flex-1 py-2 px-3 bg-primary-container text-white rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 shadow-sm">
+                            <span class="material-symbols-outlined text-[16px]">rocket_launch</span> Ready
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Agent 4: Fast Meeting Scheduler -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between hover:shadow-lg transition-all border border-dashed border-outline-variant/60">
+                    <div>
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center border border-outline-variant/20 font-bold">
+                                    <span class="material-symbols-outlined text-2xl">calendar_month</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-base text-on-surface">Calendar & Demo Booker</h3>
+                                    <p class="text-xs text-outline font-semibold">Calendly / Google Calendar Sync</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-semibold">
+                                Ready to Link
+                            </span>
+                        </div>
+
+                        <div class="p-3 bg-surface-container-low/70 rounded-xl border border-outline-variant/20 mb-4 text-xs">
+                            <p class="text-outline font-semibold mb-1">Core Objective:</p>
+                            <p class="text-on-surface">Detects visitor purchase readiness and immediately prompts for 15-minute demo slots with your sales executives.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 pt-4 border-t border-outline-variant/15">
+                        <button onclick="AppState.showToast('Calendar Connected', 'Synced with team Google Workspace.')" class="w-full py-2 px-3 bg-secondary-container hover:bg-secondary text-white rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 shadow-sm">
+                            <span class="material-symbols-outlined text-[16px]">add_link</span> Connect Calendar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Agent Config Modal -->
+    <div id="agent-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-surface-container-lowest max-w-lg w-full rounded-2xl shadow-2xl border border-outline-variant/30 overflow-hidden text-on-surface">
+            <div class="p-6 border-b border-outline-variant/15 flex items-center justify-between bg-primary-container text-white">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary-fixed">smart_toy</span>
+                    <h3 class="font-bold text-base" id="modal-agent-title">Configure AI Sales Agent</h3>
+                </div>
+                <button onclick="closeAgentModal()" class="text-white/60 hover:text-white text-xl leading-none">&times;</button>
+            </div>
+
+            <div class="p-6 space-y-4 max-h-[75vh] overflow-y-auto custom-scrollbar">
+                <div>
+                    <label class="block text-xs font-semibold text-outline mb-1">Agent Name</label>
+                    <input type="text" id="input-agent-name" value="Apex Closer Pro" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-sm text-on-surface focus:ring-1 focus:ring-secondary-container"/>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-outline mb-1">Sales Persona & Tone</label>
+                    <select id="select-agent-tone" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-sm text-on-surface focus:ring-1 focus:ring-secondary-container">
+                        <option value="consultative">Consultative & Helpful (Recommended for High-Ticket B2B)</option>
+                        <option value="persuasive">Persuasive & Urgent (High-Conversion Offers)</option>
+                        <option value="friendly">Warm, Friendly & Welcoming (E-commerce / Retail)</option>
+                        <option value="technical">Technical & Detail-Oriented (Dev Tools / SaaS)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-outline mb-1">Initial Greeting Message</label>
+                    <textarea id="input-agent-greeting" rows="2" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-sm text-on-surface focus:ring-1 focus:ring-secondary-container">Hello! Welcome to ApexCloud. Are you looking to scale your infrastructure or explore our Enterprise pricing today?</textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-outline mb-1">System Sales Instructions</label>
+                    <textarea rows="3" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-xs text-on-surface focus:ring-1 focus:ring-secondary-container font-mono">You are an autonomous sales executive. Answer questions based on uploaded knowledge docs. Whenever high purchase intent is detected, ask for the visitor's business email and phone number.</textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-outline mb-1">Lead Capture Trigger</label>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <label class="flex items-center gap-2 p-2.5 rounded-lg border border-outline-variant/30 bg-surface-container-low cursor-pointer">
+                            <input type="radio" name="lead-trigger" checked class="text-secondary-container focus:ring-0"/>
+                            <span>On High Intent Query</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2.5 rounded-lg border border-outline-variant/30 bg-surface-container-low cursor-pointer">
+                            <input type="radio" name="lead-trigger" class="text-secondary-container focus:ring-0"/>
+                            <span>After 2nd Message</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-outline-variant/15 flex justify-end gap-2 bg-surface-container-low/50">
+                <button onclick="closeAgentModal()" class="px-4 py-2 text-xs font-semibold text-outline hover:text-on-surface">Cancel</button>
+                <button onclick="saveAgentChanges()" class="px-5 py-2 bg-secondary-container hover:bg-secondary text-white rounded-xl text-xs font-semibold shadow-md transition-colors">Save & Update Agent</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app-state.js"></script>
+    <script>
+        function openAgentModal(name = "New Sales Agent", tone = "consultative") {
+            document.getElementById("modal-agent-title").textContent = name === "New Sales Agent" ? "Create New AI Sales Agent" : "Configure " + name;
+            document.getElementById("input-agent-name").value = name;
+            document.getElementById("select-agent-tone").value = tone;
+            const modal = document.getElementById("agent-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function closeAgentModal() {
+            const modal = document.getElementById("agent-modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        }
+
+        function saveAgentChanges() {
+            const name = document.getElementById("input-agent-name").value;
+            closeAgentModal();
+            AppState.showToast("Agent Saved!", `${name} configured and deployed to live widget.`);
+        }
+    </script>
+</body>
+</html>

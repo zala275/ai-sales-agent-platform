@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SalesAI Pro - Knowledge Audit & Semantic Explorer</title>
+    <meta name="description" content="Audit, explore, and test your AI knowledge base vectors and semantic retrieval."/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#131b2e",
+                        "on-primary-container": "#9aa4be",
+                        "secondary-container": "#2170e4",
+                        "secondary": "#0058be",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-container": "#23005c",
+                        "surface": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "outline-variant": "#c6c6cd",
+                        "outline": "#76777d"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(19,27,46,0.08);
+            box-shadow: 0 4px 20px rgba(15,23,42,0.05);
+        }
+        .ai-gradient { background: linear-gradient(135deg, #2170e4 0%, #9466ff 100%); }
+        .ai-gradient-text {
+            background: linear-gradient(135deg, #2170e4 0%, #9466ff 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .ai-gradient-border-top {
+            border-top: 3px solid transparent;
+            background-image: linear-gradient(rgba(255,255,255,0.92),rgba(255,255,255,0.92)), linear-gradient(90deg,#2170e4,#9466ff);
+            background-origin: border-box; background-clip: padding-box, border-box;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+        .score-bar { transition: width 0.6s ease; }
+        tr:hover .row-actions { opacity: 1; }
+        .row-actions { opacity: 0; transition: opacity 0.15s; }
+        @keyframes spin-slow { to { transform: rotate(360deg); } }
+        .spin-slow { animation: spin-slow 2s linear infinite; }
+    </style>
+</head>
+<body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="knowledge-audit">
+
+    <div id="main-sidebar-container"></div>
+
+    <main class="flex-1 ml-0 md:ml-[280px] min-h-screen flex flex-col">
+        <!-- Top Nav -->
+        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-6 z-40">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-purple-600 text-[22px]" style="font-variation-settings:'FILL' 1">memory</span>
+                <div>
+                    <h1 class="text-sm font-bold text-on-surface">Knowledge Audit & Semantic Explorer</h1>
+                    <p class="text-xs text-outline hidden sm:block">RAG Vector Store · 45,201 Indexed Chunks</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="openAddSourceModal()" class="flex items-center gap-1.5 px-3 py-1.5 ai-gradient text-white text-xs font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-sm">
+                    <span class="material-symbols-outlined text-[15px]">add</span>
+                    Add Source
+                </button>
+                <button onclick="AppState.showToast('Re-indexing', 'Full knowledge base re-index triggered.')" class="flex items-center gap-1.5 px-3 py-1.5 bg-surface-container border border-outline-variant/30 text-on-surface text-xs font-semibold rounded-lg hover:bg-outline-variant/20 transition-colors">
+                    <span class="material-symbols-outlined text-[15px]">sync</span>
+                    Re-index All
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 pt-16 p-6 space-y-6">
+
+            <!-- Stats Row -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-card rounded-xl p-4">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="material-symbols-outlined text-secondary-container text-[18px]">database</span>
+                        <span class="text-xs text-outline font-medium">Total Vectors</span>
+                    </div>
+                    <p class="text-2xl font-extrabold text-on-surface">45,201</p>
+                    <p class="text-xs text-green-600 mt-1 font-semibold">↑ +1,240 this week</p>
+                </div>
+                <div class="glass-card rounded-xl p-4">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="material-symbols-outlined text-emerald-600 text-[18px]">description</span>
+                        <span class="text-xs text-outline font-medium">Active Sources</span>
+                    </div>
+                    <p class="text-2xl font-extrabold text-on-surface">128</p>
+                    <p class="text-xs text-green-600 mt-1 font-semibold">↑ 3 added this week</p>
+                </div>
+                <div class="glass-card rounded-xl p-4">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="material-symbols-outlined text-amber-500 text-[18px]">query_stats</span>
+                        <span class="text-xs text-outline font-medium">Avg Query Score</span>
+                    </div>
+                    <p class="text-2xl font-extrabold text-on-surface">0.89</p>
+                    <p class="text-xs text-green-600 mt-1 font-semibold">↑ Excellent accuracy</p>
+                </div>
+                <div class="glass-card rounded-xl p-4">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="material-symbols-outlined text-red-500 text-[18px]">warning</span>
+                        <span class="text-xs text-outline font-medium">Outdated Sources</span>
+                    </div>
+                    <p class="text-2xl font-extrabold text-red-500">3</p>
+                    <p class="text-xs text-red-500 mt-1 font-semibold">Need re-sync</p>
+                </div>
+            </div>
+
+            <!-- Main Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- Left: Source Table -->
+                <div class="lg:col-span-2 space-y-5">
+
+                    <!-- Filter Bar -->
+                    <div class="glass-card rounded-xl p-3 flex flex-wrap gap-3 items-center justify-between">
+                        <div class="flex items-center gap-2 flex-1 min-w-[180px]">
+                            <span class="material-symbols-outlined text-outline text-[18px]">search</span>
+                            <input id="source-search" type="text" placeholder="Search sources..." oninput="filterSources(this.value)"
+                                class="text-sm bg-transparent border-none outline-none text-on-surface flex-1 placeholder:text-outline"/>
+                        </div>
+                        <div class="flex gap-2 flex-wrap">
+                            <select id="type-filter" onchange="filterSources()" class="text-xs border border-outline-variant rounded-lg px-3 py-1.5 bg-surface-container-lowest outline-none focus:border-secondary">
+                                <option value="">All Types</option>
+                                <option value="Website">Website URL</option>
+                                <option value="PDF">PDF Document</option>
+                                <option value="Manual">Manual Entry</option>
+                                <option value="Google Docs">Google Docs</option>
+                            </select>
+                            <select id="status-filter" onchange="filterSources()" class="text-xs border border-outline-variant rounded-lg px-3 py-1.5 bg-surface-container-lowest outline-none focus:border-secondary">
+                                <option value="">All Status</option>
+                                <option value="Synced">Synced</option>
+                                <option value="Syncing">Syncing</option>
+                                <option value="Error">Error</option>
+                                <option value="Outdated">Outdated</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Source Table -->
+                    <div class="glass-card rounded-xl overflow-hidden">
+                        <div class="p-4 border-b border-outline-variant/20 flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-on-surface">Indexed Sources</h3>
+                            <span class="text-xs text-outline" id="source-count">128 sources</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr class="border-b border-outline-variant/20 text-outline text-xs font-semibold bg-surface-container-low/50">
+                                        <th class="px-4 py-3 font-semibold">Source Name & Type</th>
+                                        <th class="px-4 py-3 font-semibold">Sync Status</th>
+                                        <th class="px-4 py-3 font-semibold hidden md:table-cell">Vectors</th>
+                                        <th class="px-4 py-3 font-semibold hidden md:table-cell">Last Crawled</th>
+                                        <th class="px-4 py-3 font-semibold text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="source-table-body">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="p-3 border-t border-outline-variant/20 flex justify-between items-center">
+                            <span class="text-xs text-outline">Showing <span id="visible-count">8</span> of 128 sources</span>
+                            <button onclick="AppState.showToast('Sources','Loading all 128 sources...')" class="text-xs font-semibold text-secondary-container hover:text-secondary transition-colors">
+                                View All Sources →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Vector Health Chart -->
+                    <div class="glass-card rounded-xl p-5 ai-gradient-border-top">
+                        <h3 class="text-sm font-bold text-on-surface mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-purple-600 text-[18px]">bar_chart</span>
+                            Knowledge Coverage by Topic
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-on-surface-variant w-28 flex-shrink-0">Pricing & Plans</span>
+                                <div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+                                    <div class="h-full ai-gradient score-bar rounded-full" style="width:92%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-on-surface w-8 text-right">92%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-on-surface-variant w-28 flex-shrink-0">Product Features</span>
+                                <div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+                                    <div class="h-full bg-emerald-500 score-bar rounded-full" style="width:87%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-on-surface w-8 text-right">87%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-on-surface-variant w-28 flex-shrink-0">Objection Handling</span>
+                                <div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+                                    <div class="h-full bg-amber-500 score-bar rounded-full" style="width:74%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-on-surface w-8 text-right">74%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-on-surface-variant w-28 flex-shrink-0">Integrations</span>
+                                <div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+                                    <div class="h-full bg-blue-500 score-bar rounded-full" style="width:68%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-on-surface w-8 text-right">68%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-on-surface-variant w-28 flex-shrink-0">Technical Support</span>
+                                <div class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden">
+                                    <div class="h-full bg-red-400 score-bar rounded-full" style="width:41%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-red-500 w-8 text-right">41%</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-outline mt-3">
+                            <span class="material-symbols-outlined text-amber-500 text-[14px] align-middle">lightbulb</span>
+                            AI Recommendation: <strong>Technical Support</strong> coverage is low. Upload your API docs and troubleshooting guides.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right: Semantic Search Test Panel -->
+                <div class="lg:col-span-1">
+                    <div class="sticky top-24 space-y-4">
+                        <!-- Semantic Test -->
+                        <div class="glass-card rounded-xl p-5 ai-gradient-border-top">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="material-symbols-outlined text-purple-600 text-[20px]">memory</span>
+                                <h3 class="text-sm font-bold text-on-surface">Semantic Search Test</h3>
+                            </div>
+                            <p class="text-xs text-on-surface-variant mb-3">Test what context chunks your AI retrieves for any query in real-time.</p>
+                            <div class="relative mb-3">
+                                <textarea id="semantic-query" rows="3" placeholder="e.g., 'How do we handle enterprise pricing objections?'"
+                                    class="w-full rounded-xl border border-outline-variant bg-surface-container-lowest p-3 text-xs focus:border-secondary focus:ring-1 focus:ring-secondary outline-none resize-none text-on-surface placeholder:text-outline"></textarea>
+                                <button onclick="runSemanticSearch()" class="absolute bottom-2.5 right-2.5 w-7 h-7 ai-gradient text-white rounded-lg flex items-center justify-center hover:opacity-90 transition-opacity shadow-sm">
+                                    <span class="material-symbols-outlined text-[14px]" style="font-variation-settings:'FILL' 1">arrow_forward</span>
+                                </button>
+                            </div>
+
+                            <!-- Quick test queries -->
+                            <div class="flex flex-wrap gap-1.5 mb-4">
+                                <button onclick="quickTest('pricing objections enterprise')" class="px-2 py-1 text-[10px] border border-secondary-container/30 text-secondary-container rounded-full hover:bg-secondary-container hover:text-white transition-colors">Pricing objections</button>
+                                <button onclick="quickTest('widget installation javascript')" class="px-2 py-1 text-[10px] border border-secondary-container/30 text-secondary-container rounded-full hover:bg-secondary-container hover:text-white transition-colors">Widget install</button>
+                                <button onclick="quickTest('Salesforce CRM integration steps')" class="px-2 py-1 text-[10px] border border-secondary-container/30 text-secondary-container rounded-full hover:bg-secondary-container hover:text-white transition-colors">CRM sync</button>
+                            </div>
+
+                            <!-- Retrieval Results -->
+                            <div id="retrieval-results" class="space-y-2.5">
+                                <h4 class="text-[10px] font-bold text-outline uppercase tracking-wider">Top Retrievals</h4>
+                                <div class="retrieval-item p-3 rounded-xl bg-surface-container border border-outline-variant/30 hover:border-secondary-container/40 transition-colors cursor-pointer">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-purple-100 text-purple-700">Score: 0.92</span>
+                                        <span class="text-[10px] text-outline">Sales Playbook</span>
+                                    </div>
+                                    <p class="text-[11px] text-on-surface-variant leading-relaxed line-clamp-3">"...For enterprise tiers, emphasize the total cost of ownership. If they object to the initial setup fee, remind them our dedicated onboarding team reduces internal resource strain by 40%..."</p>
+                                </div>
+                                <div class="retrieval-item p-3 rounded-xl bg-surface-container border border-outline-variant/30 hover:border-secondary-container/40 transition-colors cursor-pointer">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-purple-100 text-purple-700">Score: 0.85</span>
+                                        <span class="text-[10px] text-outline">Objection FAQs</span>
+                                    </div>
+                                    <p class="text-[11px] text-on-surface-variant leading-relaxed line-clamp-3">"Q: It's too expensive. A: Focus on our vector-sync technology which guarantees 99% retrieval accuracy. Competitors lack this, leading to much higher ROI for enterprise customers..."</p>
+                                </div>
+                                <div class="retrieval-item p-3 rounded-xl bg-surface-container border border-outline-variant/30 hover:border-secondary-container/40 transition-colors cursor-pointer">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-700">Score: 0.71</span>
+                                        <span class="text-[10px] text-outline">Pricing Page</span>
+                                    </div>
+                                    <p class="text-[11px] text-on-surface-variant leading-relaxed line-clamp-3">"Enterprise plan pricing is custom and based on usage volume, number of agents, and required integrations. Contact sales for a personalized quote and live demo..."</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="glass-card rounded-xl p-4">
+                            <h3 class="text-sm font-bold text-on-surface mb-3 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[18px] text-secondary-container">history</span>
+                                Recent Activity
+                            </h3>
+                            <div class="space-y-2.5">
+                                <div class="flex gap-2.5 items-start">
+                                    <span class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="material-symbols-outlined text-green-600 text-[12px]" style="font-variation-settings:'FILL' 1">check_circle</span>
+                                    </span>
+                                    <div>
+                                        <p class="text-xs font-semibold text-on-surface">Sales Playbook synced</p>
+                                        <p class="text-[10px] text-outline">1,200 vectors indexed · 2 hrs ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2.5 items-start">
+                                    <span class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="material-symbols-outlined text-blue-600 text-[12px] spin-slow">autorenew</span>
+                                    </span>
+                                    <div>
+                                        <p class="text-xs font-semibold text-on-surface">Product_Specs_Q3.pdf</p>
+                                        <p class="text-[10px] text-outline">Processing… extracting chunks</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2.5 items-start">
+                                    <span class="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="material-symbols-outlined text-amber-600 text-[12px]" style="font-variation-settings:'FILL' 1">schedule</span>
+                                    </span>
+                                    <div>
+                                        <p class="text-xs font-semibold text-on-surface">Competitor Analysis</p>
+                                        <p class="text-[10px] text-outline">Outdated — last sync Oct 12</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Source Modal -->
+    <div id="add-source-modal" class="hidden fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+            <div class="p-5 border-b border-outline-variant/10 flex items-center justify-between bg-primary-container text-white">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary-fixed">add_circle</span>
+                    <h3 class="font-bold">Add Knowledge Source</h3>
+                </div>
+                <button onclick="document.getElementById('add-source-modal').classList.add('hidden')" class="text-white/60 hover:text-white text-xl leading-none">&times;</button>
+            </div>
+            <div class="p-5 space-y-4">
+                <div class="grid grid-cols-4 gap-2">
+                    <button onclick="selectSourceType(this,'Website URL','language')" class="source-type-btn flex flex-col items-center gap-1 p-3 border-2 border-secondary-container rounded-xl text-secondary-container bg-secondary-container/5">
+                        <span class="material-symbols-outlined text-[22px]">language</span>
+                        <span class="text-[10px] font-semibold">Website</span>
+                    </button>
+                    <button onclick="selectSourceType(this,'PDF Document','picture_as_pdf')" class="source-type-btn flex flex-col items-center gap-1 p-3 border border-outline-variant rounded-xl text-outline hover:border-secondary-container hover:text-secondary-container transition-colors">
+                        <span class="material-symbols-outlined text-[22px]">picture_as_pdf</span>
+                        <span class="text-[10px] font-semibold">PDF</span>
+                    </button>
+                    <button onclick="selectSourceType(this,'Google Docs','article')" class="source-type-btn flex flex-col items-center gap-1 p-3 border border-outline-variant rounded-xl text-outline hover:border-secondary-container hover:text-secondary-container transition-colors">
+                        <span class="material-symbols-outlined text-[22px]">article</span>
+                        <span class="text-[10px] font-semibold">Docs</span>
+                    </button>
+                    <button onclick="selectSourceType(this,'Manual Entry','edit_note')" class="source-type-btn flex flex-col items-center gap-1 p-3 border border-outline-variant rounded-xl text-outline hover:border-secondary-container hover:text-secondary-container transition-colors">
+                        <span class="material-symbols-outlined text-[22px]">edit_note</span>
+                        <span class="text-[10px] font-semibold">Manual</span>
+                    </button>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-outline mb-1 block">Source Name</label>
+                    <input id="new-source-name" type="text" placeholder="e.g., Q4 Sales Playbook" class="w-full border border-outline-variant rounded-xl px-3 py-2.5 text-sm bg-surface focus:outline-none focus:ring-1 focus:ring-secondary-container focus:border-secondary-container"/>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-outline mb-1 block">URL / Content</label>
+                    <input id="new-source-url" type="text" placeholder="https://... or paste content" class="w-full border border-outline-variant rounded-xl px-3 py-2.5 text-sm bg-surface focus:outline-none focus:ring-1 focus:ring-secondary-container focus:border-secondary-container"/>
+                </div>
+                <button onclick="addNewSource()" class="w-full py-2.5 ai-gradient text-white font-semibold rounded-xl hover:opacity-90 transition-opacity text-sm flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[16px]">upload</span>
+                    Index Source
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app-state.js"></script>
+    <script>
+        const SOURCES = [
+            { name: "Sales Playbook 2024", type: "Website", url: "https://internal.acme.com/playbook", status: "Synced", vectors: 1200, crawled: "2 hours ago", agent: "Apex Closer" },
+            { name: "Product_Specs_Q3.pdf", type: "PDF", url: "PDF Document · 4.2 MB", status: "Syncing", vectors: null, crawled: "Just now", agent: "All Agents" },
+            { name: "Objection Handling FAQs", type: "Manual", url: "Manual Entry · 45 QA Pairs", status: "Synced", vectors: 890, crawled: "Oct 12, 2023", agent: "Stitch Inbound" },
+            { name: "Competitor Analysis Q4", type: "Google Docs", url: "docs.google.com/competitor-q4", status: "Outdated", vectors: 340, crawled: "Oct 12, 2023", agent: "Apex Closer" },
+            { name: "Pricing Page Scrape", type: "Website", url: "https://salesai.pro/pricing", status: "Synced", vectors: 210, crawled: "1 day ago", agent: "All Agents" },
+            { name: "Integration_Guide_v2.pdf", type: "PDF", url: "PDF Document · 2.1 MB", status: "Synced", vectors: 650, crawled: "3 days ago", agent: "Tech Support Bot" },
+            { name: "Customer Success Stories", type: "Website", url: "https://salesai.pro/case-studies", status: "Synced", vectors: 480, crawled: "5 days ago", agent: "Stitch Inbound" },
+            { name: "API Documentation", type: "Website", url: "https://docs.salesai.pro/api", status: "Error", vectors: null, crawled: "Failed", agent: "Tech Support Bot" },
+        ];
+
+        const STATUS_STYLES = {
+            "Synced": "bg-green-100 text-green-700",
+            "Syncing": "bg-blue-100 text-blue-700",
+            "Outdated": "bg-amber-100 text-amber-700",
+            "Error": "bg-red-100 text-red-700"
+        };
+        const TYPE_ICONS = { "Website": "language", "PDF": "picture_as_pdf", "Manual": "edit_note", "Google Docs": "article" };
+        const TYPE_COLORS = { "Website": "text-secondary-container", "PDF": "text-purple-600", "Manual": "text-emerald-600", "Google Docs": "text-amber-600" };
+
+        function renderSources(sources) {
+            const tbody = document.getElementById('source-table-body');
+            tbody.innerHTML = sources.map(s => `
+                <tr class="border-b border-outline-variant/10 hover:bg-surface-container-low/50 transition-colors cursor-pointer" onclick="AppState.showToast('${s.name}','${s.vectors ? s.vectors + ' vectors indexed' : 'Processing...'}')">
+                    <td class="px-4 py-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined text-[16px] ${TYPE_COLORS[s.type]}">${TYPE_ICONS[s.type]}</span>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-on-surface">${s.name}</p>
+                                <p class="text-[10px] text-outline font-mono truncate max-w-[180px]">${s.url}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3">
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${STATUS_STYLES[s.status]}">
+                            ${s.status === 'Syncing' ? '<span class="material-symbols-outlined text-[10px] spin-slow">autorenew</span>' : ''}
+                            ${s.status}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3 hidden md:table-cell text-xs text-on-surface-variant font-mono">${s.vectors ? s.vectors.toLocaleString() : '—'}</td>
+                    <td class="px-4 py-3 hidden md:table-cell text-xs text-on-surface-variant">${s.crawled}</td>
+                    <td class="px-4 py-3 text-right">
+                        <div class="row-actions flex justify-end gap-1">
+                            <button onclick="event.stopPropagation(); AppState.showToast('Re-syncing','Re-indexing ${s.name}...')" class="p-1.5 text-outline hover:text-secondary-container hover:bg-surface-container rounded-lg transition-colors" title="Re-sync">
+                                <span class="material-symbols-outlined text-[16px]">sync</span>
+                            </button>
+                            <button onclick="event.stopPropagation(); AppState.showToast('Edit','Opening source editor...')" class="p-1.5 text-outline hover:text-secondary-container hover:bg-surface-container rounded-lg transition-colors" title="Edit">
+                                <span class="material-symbols-outlined text-[16px]">edit</span>
+                            </button>
+                            <button onclick="event.stopPropagation(); AppState.showToast('Deleted','Source removed from knowledge base')" class="p-1.5 text-outline hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Delete">
+                                <span class="material-symbols-outlined text-[16px]">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            document.getElementById('visible-count').textContent = sources.length;
+        }
+
+        function filterSources(query) {
+            const q = (query || document.getElementById('source-search').value).toLowerCase();
+            const type = document.getElementById('type-filter').value;
+            const status = document.getElementById('status-filter').value;
+            const filtered = SOURCES.filter(s =>
+                (!q || s.name.toLowerCase().includes(q) || s.url.toLowerCase().includes(q)) &&
+                (!type || s.type === type) &&
+                (!status || s.status === status)
+            );
+            renderSources(filtered);
+        }
+
+        function openAddSourceModal() {
+            document.getElementById('add-source-modal').classList.remove('hidden');
+        }
+
+        let selectedSourceType = 'Website URL';
+        function selectSourceType(btn, type, icon) {
+            document.querySelectorAll('.source-type-btn').forEach(b => {
+                b.classList.remove('border-2', 'border-secondary-container', 'text-secondary-container', 'bg-secondary-container/5');
+                b.classList.add('border', 'border-outline-variant', 'text-outline');
+            });
+            btn.classList.remove('border', 'border-outline-variant', 'text-outline');
+            btn.classList.add('border-2', 'border-secondary-container', 'text-secondary-container', 'bg-secondary-container/5');
+            selectedSourceType = type;
+        }
+
+        function addNewSource() {
+            const name = document.getElementById('new-source-name').value.trim();
+            const url = document.getElementById('new-source-url').value.trim();
+            if (!name || !url) { AppState.showToast('Error', 'Please fill in all fields.', 'error'); return; }
+            SOURCES.unshift({ name, type: selectedSourceType.split(' ')[0], url, status: 'Syncing', vectors: null, crawled: 'Just now', agent: 'All Agents' });
+            renderSources(SOURCES);
+            document.getElementById('add-source-modal').classList.add('hidden');
+            document.getElementById('new-source-name').value = '';
+            document.getElementById('new-source-url').value = '';
+            AppState.showToast('Source Added!', `"${name}" is now being indexed. Vectors will be ready shortly.`);
+        }
+
+        const SEMANTIC_RESPONSES = {
+            'pricing': [
+                { score: '0.95', source: 'Sales Playbook', text: '"For enterprise tiers, emphasize total cost of ownership. If they object to setup fees, remind them our onboarding team reduces internal resource strain by 40%..."' },
+                { score: '0.88', source: 'Objection FAQs', text: '"Q: Too expensive vs competitors? A: Our vector-sync technology guarantees 99% retrieval accuracy — a feature no competitor offers, delivering measurably higher ROI..."' },
+                { score: '0.72', source: 'Pricing Page', text: '"Enterprise plan is custom-priced based on agent count, usage volume, and integration requirements. Contact sales for personalized quote..."' }
+            ],
+            'widget': [
+                { score: '0.94', source: 'Integration Guide', text: '"Paste the JavaScript snippet before </body>. The widget initializes automatically within 2 seconds. No server-side changes required. Works with React, Vue, and plain HTML..."' },
+                { score: '0.81', source: 'API Documentation', text: '"Widget config options: position (bottom-right|bottom-left), primaryColor, agentName, agentAvatar, greetingMessage, leadCaptureFields..."' },
+            ],
+            'crm': [
+                { score: '0.91', source: 'Integration Guide', text: '"Salesforce: Go to Settings → Integrations → Connect Salesforce. Complete OAuth. Leads sync every 5 minutes via REST API. Custom field mapping is available..."' },
+                { score: '0.79', source: 'Product Specs', text: '"Supported CRMs: Salesforce, HubSpot, Pipedrive, Zoho, Microsoft Dynamics. Bi-directional sync. Custom webhook support for any CRM..."' },
+            ]
+        };
+
+        function runSemanticSearch() {
+            const q = document.getElementById('semantic-query').value.trim().toLowerCase();
+            if (!q) return;
+            const key = Object.keys(SEMANTIC_RESPONSES).find(k => q.includes(k)) || 'pricing';
+            const results = SEMANTIC_RESPONSES[key];
+            const container = document.getElementById('retrieval-results');
+            container.innerHTML = `<h4 class="text-[10px] font-bold text-outline uppercase tracking-wider">Top Retrievals for: "${q.substring(0,30)}..."</h4>` +
+                results.map(r => `
+                    <div class="p-3 rounded-xl bg-surface-container border border-outline-variant/30 hover:border-secondary-container/40 transition-colors cursor-pointer">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-purple-100 text-purple-700">Score: ${r.score}</span>
+                            <span class="text-[10px] text-outline">${r.source}</span>
+                        </div>
+                        <p class="text-[11px] text-on-surface-variant leading-relaxed">${r.text}</p>
+                    </div>
+                `).join('');
+        }
+
+        function quickTest(q) {
+            document.getElementById('semantic-query').value = q;
+            runSemanticSearch();
+        }
+
+        renderSources(SOURCES);
+    </script>
+</body>
+</html>

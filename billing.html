@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SalesAI Pro - Billing &amp; SaaS Plans</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#131b2e",
+                        "on-primary-container": "#9aa4be",
+                        "secondary-container": "#2170e4",
+                        "secondary": "#0058be",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-container": "#23005c",
+                        "surface": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "outline-variant": "#c6c6cd",
+                        "outline": "#76777d"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(19, 27, 46, 0.08);
+            box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
+        }
+        .ai-gradient-border {
+            border-top: 3px solid transparent;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), linear-gradient(90deg, #2170e4, #9466ff);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="billing">
+
+    <!-- Unified Master Sidebar -->
+    <div id="main-sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 ml-0 md:ml-[280px] min-h-screen flex flex-col">
+        <!-- TopNavBar -->
+        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-6 z-40 transition-all">
+            <div class="flex items-center gap-3">
+                <span class="text-xs px-2.5 py-1 rounded-full bg-blue-100 text-secondary font-semibold uppercase tracking-wider">Subscription &amp; Payments</span>
+                <span class="text-xs text-outline hidden sm:inline">Showcase payment simulator &amp; tier provisioning</span>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low border border-outline-variant/20 text-xs">
+                    <span class="text-outline">Active Tier:</span>
+                    <strong class="text-secondary current-plan-badge">Loading...</strong>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Body -->
+        <div class="p-6 md:p-8 mt-16 max-w-7xl w-full mx-auto space-y-8">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-secondary border border-blue-200 text-xs font-semibold">
+                    <span class="material-symbols-outlined text-sm">bolt</span>
+                    Interactive Showcase Demo
+                </div>
+                <h2 class="text-3xl font-extrabold tracking-tight text-on-surface">Predictable Pricing for High-Growth Sales</h2>
+                <p class="text-sm text-on-surface-variant">Click any tier below to simulate a bank-grade checkout, instant invoice generation, and real-time account upgrade.</p>
+            </div>
+
+            <!-- Pricing Cards (3 Tiers) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Tier 1: Starter -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between hover:shadow-xl transition-all">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-bold text-lg text-on-surface">Starter Tier</h3>
+                            <span class="text-xs text-outline px-2 py-0.5 rounded bg-surface-container">Small Teams</span>
+                        </div>
+                        <div class="flex items-baseline gap-1 mb-3">
+                            <span class="text-4xl font-extrabold text-on-surface">$29</span>
+                            <span class="text-xs text-outline">/month</span>
+                        </div>
+                        <p class="text-xs text-on-surface-variant mb-6">Perfect for early startups looking to capture inbound website leads 24/7.</p>
+
+                        <ul class="space-y-3 text-xs mb-8">
+                            <li class="flex items-center gap-2 text-on-surface">
+                                <span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+                                <span>1 Autonomous Sales Agent</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-on-surface">
+                                <span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+                                <span>150 Captured Leads / month</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-on-surface">
+                                <span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+                                <span>5 Knowledge Base Documents</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-outline">
+                                <span class="material-symbols-outlined text-outline text-base">remove</span>
+                                <span class="line-through">HubSpot &amp; CRM Sync</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="AppState.openPaymentSimulator('starter', 'Starter Tier', 29)" class="w-full py-2.5 rounded-xl border border-outline-variant/40 hover:bg-surface-container font-semibold text-xs text-on-surface transition-colors shadow-sm">
+                        Select Starter ($29/mo)
+                    </button>
+                </div>
+
+                <!-- Tier 2: Professional (Highlighted) -->
+                <div class="glass-card rounded-2xl p-6 ai-gradient-border flex flex-col justify-between shadow-lg relative bg-white transform md:-translate-y-2">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-secondary text-white text-[11px] font-bold rounded-full shadow">
+                        ★ Most Popular
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-3 mt-1">
+                            <h3 class="font-bold text-lg text-secondary">Professional</h3>
+                            <span class="text-xs text-secondary font-semibold px-2 py-0.5 rounded bg-blue-50">Scaling SaaS</span>
+                        </div>
+                        <div class="flex items-baseline gap-1 mb-3">
+                            <span class="text-4xl font-extrabold text-on-surface">$79</span>
+                            <span class="text-xs text-outline">/month</span>
+                        </div>
+                        <p class="text-xs text-on-surface-variant mb-6">Autonomous qualification, objection handling, and CRM synchronization.</p>
+
+                        <ul class="space-y-3 text-xs mb-8">
+                            <li class="flex items-center gap-2 text-on-surface font-semibold">
+                                <span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+                                <span>5 Autonomous Sales Agents</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-on-surface font-semibold">
+                                <span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+                                <span>1,000 Captured Leads / month</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-on-surface">
+                                <span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+                                <span>25 Knowledge Base Documents (PDF/URL)</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-on-surface">
+                                <span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+                                <span>HubSpot &amp; Salesforce Bi-directional Sync</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-on-surface">
+                                <span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+                                <span>Custom Widget Branding &amp; Colors</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="AppState.openPaymentSimulator('professional', 'Professional Tier', 79)" class="w-full py-3 rounded-xl bg-secondary-container hover:bg-secondary text-white font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2">
+                        <span>Subscribe to Pro ($79/mo)</span>
+                        <span class="material-symbols-outlined text-base">arrow_forward</span>
+                    </button>
+                </div>
+
+                <!-- Tier 3: Enterprise -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between hover:shadow-xl transition-all">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-bold text-lg text-on-surface">Enterprise Tier</h3>
+                            <span class="text-xs text-purple-700 font-semibold px-2 py-0.5 rounded bg-purple-50">Unlimited</span>
+                        </div>
+                        <div class="flex items-baseline gap-1 mb-3">
+                            <span class="text-4xl font-extrabold text-on-surface">$199</span>
+                            <span class="text-xs text-outline">/month</span>
+                        </div>
+                        <p class="text-xs text-on-surface-variant mb-6">Unlimited agents, dedicated vector namespace, SLA support, and white-labeling.</p>
+
+                        <ul class="space-y-3 text-xs mb-8">
+                            <li class="flex items-center gap-2 text-on-surface">
+                                <span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+                                <span>20+ Sales Agents (Multi-lingual)</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-on-surface">
+                                <span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+                                <span>10,000+ Leads &amp; Transcripts</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-on-surface">
+                                <span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+                                <span>A/B Testing Experiments Lab</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-on-surface">
+                                <span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+                                <span>White-label Widget (Remove SalesAI badge)</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-on-surface">
+                                <span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+                                <span>Dedicated Solutions Engineer</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="AppState.openPaymentSimulator('enterprise', 'Enterprise Tier', 199)" class="w-full py-2.5 rounded-xl border border-secondary text-secondary hover:bg-blue-50 font-bold text-xs transition-colors shadow-sm">
+                        Upgrade to Enterprise ($199/mo)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Billing History & Receipts Table -->
+            <div class="glass-card rounded-2xl p-6 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-base text-on-surface">Billing History &amp; Tax Invoices</h3>
+                        <p class="text-xs text-outline">All processed transactions and simulated PDF receipts</p>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold">Stripe / Gateway Simulation Active</span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-outline-variant/20 text-outline font-semibold uppercase tracking-wider bg-surface-container-low/40">
+                                <th class="p-3.5">Invoice ID</th>
+                                <th class="p-3.5">Plan Description</th>
+                                <th class="p-3.5">Amount</th>
+                                <th class="p-3.5">Payment Method</th>
+                                <th class="p-3.5">Date</th>
+                                <th class="p-3.5">Status</th>
+                                <th class="p-3.5 text-right">Receipt</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant/10 text-on-surface font-medium" id="billing-history-rows">
+                            <!-- Rendered dynamically from AppState -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app-state.js"></script>
+    <script>
+        function renderBillingHistory() {
+            const state = AppState.getState();
+            const txs = state.transactions || [];
+            const tbody = document.getElementById("billing-history-rows");
+
+            tbody.innerHTML = txs.map(tx => `
+                <tr class="hover:bg-surface-container-low/60 transition-colors">
+                    <td class="p-3.5 font-mono text-secondary font-bold">${tx.id}</td>
+                    <td class="p-3.5 font-semibold text-on-surface">${tx.plan}</td>
+                    <td class="p-3.5 font-bold font-mono text-on-surface">$${tx.amount}.00</td>
+                    <td class="p-3.5 text-outline">${tx.card || 'Visa •••• 4242'}</td>
+                    <td class="p-3.5 text-outline">${tx.date}</td>
+                    <td class="p-3.5">
+                        <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-semibold">${tx.status}</span>
+                    </td>
+                    <td class="p-3.5 text-right">
+                        <button onclick="AppState.showToast('Invoice Downloaded', 'PDF receipt for ${tx.id} generated.')" class="text-secondary hover:underline font-semibold flex items-center gap-1 justify-end ml-auto">
+                            <span class="material-symbols-outlined text-sm">receipt</span>
+                            <span>PDF</span>
+                        </button>
+                    </td>
+                </tr>
+            `).join("");
+
+            const planBadges = document.querySelectorAll(".current-plan-badge");
+            planBadges.forEach(b => b.textContent = state.user.plan);
+        }
+
+        document.addEventListener("DOMContentLoaded", renderBillingHistory);
+        window.addEventListener("salesai:state-updated", renderBillingHistory);
+    </script>
+</body>
+</html>

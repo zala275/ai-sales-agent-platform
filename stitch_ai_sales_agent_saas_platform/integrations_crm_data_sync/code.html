@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SalesAI - CRM Integration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#76777d",
+                      "on-secondary-container": "#fefcff",
+                      "inverse-surface": "#2d3133",
+                      "on-surface": "#191c1e",
+                      "tertiary-fixed-dim": "#d0bcff",
+                      "secondary-fixed": "#d8e2ff",
+                      "surface-bright": "#f7f9fb",
+                      "surface-variant": "#e0e3e5",
+                      "background": "#f7f9fb",
+                      "error-container": "#ffdad6",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed-dim": "#adc6ff",
+                      "on-tertiary-fixed-variant": "#5516be",
+                      "primary-fixed": "#dae2fd",
+                      "on-tertiary-fixed": "#23005c",
+                      "surface-container": "#eceef0",
+                      "on-primary": "#ffffff",
+                      "tertiary": "#000000",
+                      "on-secondary-fixed": "#001a42",
+                      "primary": "#000000",
+                      "surface-container-high": "#e6e8ea",
+                      "surface-dim": "#d8dadc",
+                      "surface-container-highest": "#e0e3e5",
+                      "on-surface-variant": "#45464d",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed": "#e9ddff",
+                      "secondary-container": "#2170e4",
+                      "secondary": "#0058be",
+                      "inverse-on-surface": "#eff1f3",
+                      "surface": "#f7f9fb",
+                      "outline-variant": "#c6c6cd",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "on-tertiary-container": "#9466ff",
+                      "on-background": "#191c1e",
+                      "on-secondary-fixed-variant": "#004395",
+                      "on-secondary": "#ffffff",
+                      "on-primary-container": "#7c839b",
+                      "inverse-primary": "#bec6e0",
+                      "on-error": "#ffffff",
+                      "tertiary-container": "#23005c",
+                      "surface-tint": "#565e74",
+                      "primary-container": "#131b2e",
+                      "primary-fixed-dim": "#bec6e0",
+                      "on-primary-fixed": "#131b2e",
+                      "surface-container-low": "#f2f4f6",
+                      "error": "#ba1a1a",
+                      "surface-container-lowest": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sidebar-width": "280px",
+                      "container-margin": "32px",
+                      "unit": "4px",
+                      "gutter": "24px",
+                      "card-padding": "24px"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "title-lg": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "headline-md": ["Inter"]
+              },
+              "fontSize": {
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "title-lg": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Glassmorphism Utilities */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(19, 27, 46, 0.08);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        .ai-gradient-border {
+            position: relative;
+        }
+        .ai-gradient-border::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #0058be 0%, #9466ff 100%);
+            border-top-left-radius: inherit;
+            border-top-right-radius: inherit;
+        }
+        .ambient-shadow {
+            box-shadow: 0px 20px 40px rgba(15, 23, 42, 0.1);
+        }
+        
+        /* Stepper Styles */
+        .step-active .step-icon {
+            background-color: theme('colors.secondary');
+            color: theme('colors.on-secondary');
+            border-color: theme('colors.secondary');
+        }
+        .step-completed .step-icon {
+            background-color: theme('colors.primary-container');
+            color: theme('colors.on-primary');
+            border-color: theme('colors.primary-container');
+        }
+        .step-line-active {
+            background-color: theme('colors.secondary');
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen antialiased flex">
+<!-- Sidebar (Shared Component) -->
+<nav class="hidden md:flex w-sidebar-width h-screen fixed left-0 top-0 flex-col py-gutter bg-primary-container dark:bg-primary-container shadow-sm z-50">
+<!-- Brand/Header -->
+<div class="px-gutter mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary" data-icon="hub">hub</span>
+</div>
+<div>
+<h1 class="text-title-lg font-title-lg font-bold text-on-primary dark:text-on-primary">SalesAI</h1>
+<p class="text-label-md font-label-md text-on-primary-container">Precision Intelligence</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<ul class="flex-1 px-unit flex flex-col gap-1 overflow-y-auto">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary-container/70 font-medium hover:text-on-primary-container hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-body-md font-body-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary-container/70 font-medium hover:text-on-primary-container hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="text-body-md font-body-md">AI Agents</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary-container/70 font-medium hover:text-on-primary-container hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+<span class="text-body-md font-body-md">Knowledge Base</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary-container/70 font-medium hover:text-on-primary-container hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-body-md font-body-md">Leads</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary-container/70 font-medium hover:text-on-primary-container hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="text-body-md font-body-md">Analytics</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-primary-container/70 font-medium hover:text-on-primary-container hover:bg-white/5 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="text-body-md font-body-md">Billing</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-secondary font-bold border-l-4 border-secondary bg-white/10 scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-body-md font-body-md">Settings</span>
+</a>
+</li>
+</ul>
+<!-- CTA -->
+<div class="px-gutter mt-auto pt-4">
+<button class="w-full py-2 px-4 rounded-full bg-secondary text-on-secondary text-label-md font-label-md hover:bg-secondary/90 transition-colors">
+                Upgrade Plan
+            </button>
+</div>
+</nav>
+<!-- Top Navbar (Shared Component - Web) -->
+<header class="hidden md:flex h-16 fixed top-0 right-0 w-[calc(100%-theme(spacing.sidebar-width))] justify-between items-center px-container-margin z-40 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
+<!-- Search (on left as per JSON) -->
+<div class="flex-1 max-w-md relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 rounded-full border border-outline-variant/50 bg-white/50 focus:bg-white focus:border-secondary focus:ring-1 focus:ring-secondary text-body-md font-body-md transition-all placeholder:text-outline/70" placeholder="Search across workspace..." type="text"/>
+</div>
+<!-- Trailing Actions & Profile -->
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant font-medium hover:text-secondary transition-colors duration-200 relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error"></span>
+</button>
+<button class="p-2 text-on-surface-variant font-medium hover:text-secondary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/20 ml-2 cursor-pointer hover:opacity-80 transition-opacity">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate user against a clean, modern light-mode backdrop. Soft lighting, conveying trust and efficiency in an enterprise SaaS context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUQviTY2vAhS_XHdy26WqP0ROKwwWyWb1x-OWoW5O-uUf9SC_P_LIMUPmn3YQYJIFthVO-iDNrUH43AWlMMlPq5WuMxQolxPOpA-7q5bdZAZVWeT6WC0pMzS5yMFG3eKluCBkvnul4nJUltdcjyvZZGVdHgjd4fO_Y9pHbgD-zKxM6wZ2Ng3_yc9nIXGWsHgxjpn_zTaoYnxVvFkHQUWzoDJV3CI1YSf-Nx4Dacjjd4E3C5VK8OWDxaQ"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="w-full md:pl-sidebar-width pt-16 min-h-screen">
+<div class="p-container-margin max-w-6xl mx-auto flex flex-col gap-gutter">
+<!-- Page Header & Stepper -->
+<div class="flex flex-col gap-6">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-primary">Integration Wizard</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant mt-1">Connect your CRM to automate lead syncing and enrichment.</p>
+</div>
+<!-- Custom Stepper -->
+<div class="w-full max-w-3xl py-4">
+<div class="flex items-center justify-between relative">
+<!-- Connecting Lines -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-0.5 bg-outline-variant/30 -z-10"></div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-[33%] h-0.5 step-line-active -z-10 transition-all duration-500" id="stepper-progress"></div>
+<!-- Step 1: Select CRM -->
+<div class="flex flex-col items-center gap-2 step-completed z-10" id="step1-marker">
+<div class="w-8 h-8 rounded-full border-2 bg-primary-container border-primary-container text-on-primary flex items-center justify-center step-icon transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="check">check</span>
+</div>
+<span class="text-label-md font-label-md text-primary font-bold">Select CRM</span>
+</div>
+<!-- Step 2: Map Fields -->
+<div class="flex flex-col items-center gap-2 step-active z-10" id="step2-marker">
+<div class="w-8 h-8 rounded-full border-2 bg-secondary border-secondary text-on-secondary flex items-center justify-center step-icon transition-colors">
+<span class="text-label-md font-label-md">2</span>
+</div>
+<span class="text-label-md font-label-md text-secondary font-bold">Map Fields</span>
+</div>
+<!-- Step 3: Sync Settings -->
+<div class="flex flex-col items-center gap-2 z-10" id="step3-marker">
+<div class="w-8 h-8 rounded-full border-2 bg-surface border-outline-variant text-outline flex items-center justify-center step-icon transition-colors">
+<span class="text-label-md font-label-md">3</span>
+</div>
+<span class="text-label-md font-label-md text-outline">Sync Settings</span>
+</div>
+<!-- Step 4: Complete -->
+<div class="flex flex-col items-center gap-2 z-10" id="step4-marker">
+<div class="w-8 h-8 rounded-full border-2 bg-surface border-outline-variant text-outline flex items-center justify-center step-icon transition-colors">
+<span class="text-label-md font-label-md">4</span>
+</div>
+<span class="text-label-md font-label-md text-outline">Complete</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Canvas: Field Mapping Interface (Initially shown for this state) -->
+<div class="glass-card ai-gradient-border rounded-xl p-card-padding flex flex-col gap-6 ambient-shadow" id="mapping-interface">
+<div class="flex items-center justify-between pb-4 border-b border-outline-variant/20">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface border border-outline-variant/30 flex items-center justify-center p-2 shadow-sm">
+<!-- Placeholder for Salesforce Logo -->
+<img alt="Salesforce" class="w-full h-full object-contain" data-alt="The Salesforce cloud logo, rendered in a clean, modern flat design style on a white background. It represents enterprise software integration within a light-mode SaaS interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDY67fNQB-zm41x3nvELZemANwyGncBvgPkkf1rRx4_49H1uKFQcWJght8KE71OLMxaAEASe7K8loRc6yuofpX5isp16ZaGT6_Qncnl5kziyCWJviNfWgkuspFPm2X5Gt4yls1M_70kUrul4OFskvN-IpmRenT7kRi6o8zXbvcIzIokPj1f8DSqyuWmBqayOlsfUu0jUI-N9XcHj4D1B-ooxHlR9vXKh-A0Nz5mwNynAj3fr_svXHXzGA"/>
+</div>
+<div>
+<h3 class="text-title-lg font-title-lg text-primary">Map Salesforce Fields</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Match SalesAI captured data to your CRM properties.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full border border-outline-variant/20">
+<div class="w-2 h-2 rounded-full bg-secondary-container"></div>
+<span class="text-label-md font-label-md text-on-surface">Authenticated as admin@company.com</span>
+</div>
+</div>
+<!-- Mapping Grid -->
+<div class="grid grid-cols-[1fr_auto_1fr] gap-4 items-center">
+<!-- Column Headers -->
+<div class="text-label-md font-label-md text-outline uppercase tracking-wider mb-2">SalesAI Data</div>
+<div></div>
+<div class="text-label-md font-label-md text-outline uppercase tracking-wider mb-2">Salesforce Lead Object</div>
+<!-- Row 1: Name -->
+<div class="bg-surface border border-outline-variant/30 rounded-lg p-3 flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="person">person</span>
+<div>
+<div class="text-body-md font-body-md text-on-surface font-medium">Full Name</div>
+<div class="text-label-md font-label-md text-on-surface-variant">String • Required</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="arrow_forward">arrow_forward</span>
+<div>
+<select class="w-full rounded-lg border border-outline-variant/50 bg-white px-3 py-3 text-body-md font-body-md focus:border-secondary focus:ring-1 focus:ring-secondary text-on-surface outline-none appearance-none cursor-pointer">
+<option selected="" value="name">Name (Standard)</option>
+<option value="firstname">First Name</option>
+<option value="lastname">Last Name</option>
+</select>
+</div>
+<!-- Row 2: Email -->
+<div class="bg-surface border border-outline-variant/30 rounded-lg p-3 flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="mail">mail</span>
+<div>
+<div class="text-body-md font-body-md text-on-surface font-medium">Work Email</div>
+<div class="text-label-md font-label-md text-on-surface-variant">Email • Required</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="arrow_forward">arrow_forward</span>
+<div>
+<select class="w-full rounded-lg border border-outline-variant/50 bg-white px-3 py-3 text-body-md font-body-md focus:border-secondary focus:ring-1 focus:ring-secondary text-on-surface outline-none appearance-none cursor-pointer">
+<option selected="" value="email">Email (Standard)</option>
+<option value="alternate_email">Alternate Email</option>
+</select>
+</div>
+<!-- Row 3: Intent Score -->
+<div class="bg-surface-bright border border-secondary/30 rounded-lg p-3 flex items-center gap-3 relative overflow-hidden">
+<!-- AI Indicator background hint -->
+<div class="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-secondary/10 to-transparent"></div>
+<span class="material-symbols-outlined text-on-tertiary-container" data-icon="psychology">psychology</span>
+<div class="z-10">
+<div class="text-body-md font-body-md text-on-surface font-medium flex items-center gap-2">
+                                AI Intent Score
+                                <span class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide">AI Generated</span>
+</div>
+<div class="text-label-md font-label-md text-on-surface-variant">Number (0-100)</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="arrow_forward">arrow_forward</span>
+<div>
+<select class="w-full rounded-lg border border-outline-variant/50 bg-white px-3 py-3 text-body-md font-body-md focus:border-secondary focus:ring-1 focus:ring-secondary text-on-surface outline-none appearance-none cursor-pointer">
+<option value="">Select Field...</option>
+<option selected="" value="custom_intent">Custom: AI_Intent_Score__c</option>
+<option value="rating">Lead Rating</option>
+</select>
+<p class="text-[11px] text-outline mt-1 ml-1 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]" data-icon="info">info</span> Requires custom field creation in SFDC</p>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex justify-end gap-3 mt-4 pt-4 border-t border-outline-variant/20">
+<button class="px-5 py-2.5 rounded-full border border-outline-variant text-on-surface text-label-md font-label-md font-medium hover:bg-surface-container transition-colors">
+                        Back to Selection
+                    </button>
+<button class="px-5 py-2.5 rounded-full bg-primary-container text-on-primary text-label-md font-label-md font-medium hover:bg-primary-container/90 transition-colors shadow-sm flex items-center gap-2">
+                        Continue to Sync Rules
+                        <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

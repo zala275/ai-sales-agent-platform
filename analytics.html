@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SalesAI Pro - Analytics &amp; Conversion Funnels</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#131b2e",
+                        "on-primary-container": "#9aa4be",
+                        "secondary-container": "#2170e4",
+                        "secondary": "#0058be",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-container": "#23005c",
+                        "surface": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "outline-variant": "#c6c6cd",
+                        "outline": "#76777d"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(19, 27, 46, 0.08);
+            box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
+        }
+        .ai-gradient-border {
+            border-top: 3px solid transparent;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), linear-gradient(90deg, #2170e4, #9466ff);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="analytics">
+
+    <!-- Unified Master Sidebar -->
+    <div id="main-sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 ml-0 md:ml-[280px] min-h-screen flex flex-col">
+        <!-- TopNavBar -->
+        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-6 z-40 transition-all">
+            <div class="flex items-center gap-3">
+                <span class="text-xs px-2.5 py-1 rounded-full bg-blue-100 text-secondary font-semibold uppercase tracking-wider">Conversion Analytics</span>
+                <span class="text-xs text-outline hidden sm:inline">Visitor intent breakdown &amp; drop-off metrics</span>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <select class="bg-surface-container-low border border-outline-variant/30 rounded-lg text-xs font-semibold text-on-surface py-1.5 px-3">
+                    <option>Last 30 Days</option>
+                    <option>Last 7 Days</option>
+                    <option>All Time</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- Page Body -->
+        <div class="p-6 md:p-8 mt-16 max-w-7xl w-full mx-auto space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-on-surface">Funnel &amp; Conversion Analytics</h2>
+                    <p class="text-sm text-on-surface-variant mt-1">Deep insight into how website traffic translates into qualified enterprise leads.</p>
+                </div>
+            </div>
+
+            <!-- Bento Grid: Funnel + Intent Breakdown -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Funnel Progression (8 cols) -->
+                <div class="lg:col-span-8 glass-card rounded-2xl p-6 ai-gradient-border space-y-5">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-base text-on-surface flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary">filter_alt</span>
+                            Full Sales Pipeline Conversion Funnel
+                        </h3>
+                        <span class="text-xs text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Overall: 6.8% Conversion</span>
+                    </div>
+
+                    <!-- Visual Funnel Bars -->
+                    <div class="space-y-3.5 pt-2">
+                        <!-- Stage 1 -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-semibold">
+                                <span class="text-on-surface">1. Total Website Visitors</span>
+                                <span class="text-outline">125,000 (100%)</span>
+                            </div>
+                            <div class="w-full bg-surface-container-low h-7 rounded-xl overflow-hidden p-1 flex items-center">
+                                <div class="bg-secondary-container/90 h-full rounded-lg text-white font-mono text-[11px] font-bold flex items-center px-3" style="width: 100%">
+                                    125.0k Visitors
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stage 2 -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-semibold">
+                                <span class="text-on-surface">2. Interacted with AI Sales Agent</span>
+                                <span class="text-secondary font-bold">42,000 (33.6%)</span>
+                            </div>
+                            <div class="w-full bg-surface-container-low h-7 rounded-xl overflow-hidden p-1 flex items-center">
+                                <div class="bg-secondary h-full rounded-lg text-white font-mono text-[11px] font-bold flex items-center px-3" style="width: 65%">
+                                    42.0k Engaged
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stage 3 -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-semibold">
+                                <span class="text-on-surface">3. High Purchase Intent Detected</span>
+                                <span class="text-purple-700 font-bold">18,500 (14.8%)</span>
+                            </div>
+                            <div class="w-full bg-surface-container-low h-7 rounded-xl overflow-hidden p-1 flex items-center">
+                                <div class="bg-purple-600 h-full rounded-lg text-white font-mono text-[11px] font-bold flex items-center px-3" style="width: 44%">
+                                    18.5k High Intent
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stage 4 -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-semibold">
+                                <span class="text-on-surface">4. Verified Leads Captured (Email / Phone)</span>
+                                <span class="text-emerald-600 font-bold">8,500 (6.8%)</span>
+                            </div>
+                            <div class="w-full bg-surface-container-low h-7 rounded-xl overflow-hidden p-1 flex items-center">
+                                <div class="bg-emerald-600 h-full rounded-lg text-white font-mono text-[11px] font-bold flex items-center px-3 shadow" style="width: 28%">
+                                    8.5k Leads Captured
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Intent Categories (4 cols) -->
+                <div class="lg:col-span-4 glass-card rounded-2xl p-6 space-y-4">
+                    <h3 class="font-bold text-base text-on-surface flex items-center gap-2">
+                        <span class="material-symbols-outlined text-purple-700">pie_chart</span>
+                        Top Intent Topics
+                    </h3>
+                    <p class="text-xs text-outline">What questions visitors ask the AI sales agent most.</p>
+
+                    <div class="space-y-3 pt-2 text-xs">
+                        <div class="p-3 rounded-xl bg-surface-container-low flex justify-between items-center">
+                            <div>
+                                <strong class="block text-on-surface">Pricing &amp; Discounts</strong>
+                                <span class="text-[11px] text-outline">Cost inquiries &amp; enterprise tiers</span>
+                            </div>
+                            <span class="font-bold font-mono text-secondary">48%</span>
+                        </div>
+
+                        <div class="p-3 rounded-xl bg-surface-container-low flex justify-between items-center">
+                            <div>
+                                <strong class="block text-on-surface">Product Demo Booking</strong>
+                                <span class="text-[11px] text-outline">Meeting scheduling requests</span>
+                            </div>
+                            <span class="font-bold font-mono text-purple-700">26%</span>
+                        </div>
+
+                        <div class="p-3 rounded-xl bg-surface-container-low flex justify-between items-center">
+                            <div>
+                                <strong class="block text-on-surface">CRM &amp; API Integrations</strong>
+                                <span class="text-[11px] text-outline">HubSpot / Salesforce / Webhooks</span>
+                            </div>
+                            <span class="font-bold font-mono text-emerald-600">16%</span>
+                        </div>
+
+                        <div class="p-3 rounded-xl bg-surface-container-low flex justify-between items-center">
+                            <div>
+                                <strong class="block text-on-surface">Security &amp; Compliance</strong>
+                                <span class="text-[11px] text-outline">SOC2, GDPR, Data privacy</span>
+                            </div>
+                            <span class="font-bold font-mono text-amber-700">10%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app-state.js"></script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SalesAI Pro - Settings &amp; API Credentials</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#131b2e",
+                        "on-primary-container": "#9aa4be",
+                        "secondary-container": "#2170e4",
+                        "secondary": "#0058be",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-container": "#23005c",
+                        "surface": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "outline-variant": "#c6c6cd",
+                        "outline": "#76777d"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(19, 27, 46, 0.08);
+            box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
+        }
+        .ai-gradient-border {
+            border-top: 3px solid transparent;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), linear-gradient(90deg, #2170e4, #9466ff);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="settings">
+
+    <!-- Unified Master Sidebar -->
+    <div id="main-sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 ml-0 md:ml-[280px] min-h-screen flex flex-col">
+        <!-- TopNavBar -->
+        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-6 z-40 transition-all">
+            <div class="flex items-center gap-3">
+                <span class="text-xs px-2.5 py-1 rounded-full bg-blue-100 text-secondary font-semibold uppercase tracking-wider">System Settings</span>
+                <span class="text-xs text-outline hidden sm:inline">API security, webhooks &amp; widget branding</span>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="AppState.showToast('Settings Saved', 'API credentials and widget style updated.')" class="flex items-center gap-1.5 px-3 py-1.5 bg-secondary-container hover:bg-secondary text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
+                    <span class="material-symbols-outlined text-[16px]">save</span>
+                    <span>Save Changes</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Page Body -->
+        <div class="p-6 md:p-8 mt-16 max-w-7xl w-full mx-auto space-y-6">
+            <div class="mb-4">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-on-surface">Advanced Settings &amp; API</h2>
+                <p class="text-sm text-on-surface-variant mt-1">Manage API credentials, configure webhook triggers, and customize the live visitor chat widget.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left 7 cols: API & Webhooks -->
+                <div class="lg:col-span-7 space-y-6">
+                    <!-- API Credentials -->
+                    <div class="glass-card ai-gradient-border rounded-2xl p-6 space-y-4">
+                        <div class="flex items-center gap-2 text-secondary font-bold text-base">
+                            <span class="material-symbols-outlined">key</span>
+                            <h3>API Credentials</h3>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-outline mb-1">Project ID</label>
+                                <div class="flex items-center bg-surface-container-low rounded-xl border border-outline-variant/30 px-3 py-2">
+                                    <code class="font-mono text-xs text-on-surface flex-1">demo_prj_9a8b7c6d5e4f3</code>
+                                    <button onclick="navigator.clipboard.writeText('demo_prj_9a8b7c6d5e4f3'); AppState.showToast('Copied', 'Project ID copied.')" class="text-outline hover:text-secondary p-1">
+                                        <span class="material-symbols-outlined text-base">content_copy</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-outline mb-1">Live Secret API Key</label>
+                                <div class="flex items-center gap-2">
+                                    <div class="flex items-center bg-surface-container-low rounded-xl border border-outline-variant/30 px-3 py-2 flex-1">
+                                        <input type="password" id="secret-key-input" value="demo_sec_samplekey1234567890" readonly class="bg-transparent border-none p-0 focus:ring-0 font-mono text-xs text-on-surface w-full"/>
+                                        <button onclick="toggleKeyVisibility()" class="text-outline hover:text-secondary p-1 ml-2">
+                                            <span class="material-symbols-outlined text-base" id="key-vis-icon">visibility</span>
+                                        </button>
+                                    </div>
+                                    <button onclick="AppState.showToast('API Key Rolled', 'Generated new demo secret key.')" class="px-3 py-2 bg-surface-container hover:bg-surface-container-high rounded-xl text-xs font-semibold text-on-surface transition-colors flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-sm">refresh</span> Roll
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Webhook Configuration -->
+                    <div class="glass-card rounded-2xl p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 text-on-surface font-bold text-base">
+                                <span class="material-symbols-outlined text-purple-700">webhook</span>
+                                <h3>Webhooks</h3>
+                            </div>
+                            <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">Active Endpoint</span>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-outline mb-1">Target Endpoint URL</label>
+                                <input type="url" value="https://api.acmecorp.com/webhooks/salesai" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-xs font-mono text-on-surface focus:ring-1 focus:ring-secondary-container"/>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-outline mb-1">Signing Secret (HMAC-SHA256)</label>
+                                <div class="flex items-center bg-surface-container-low rounded-xl border border-outline-variant/30 px-3 py-2">
+                                    <code class="font-mono text-xs text-on-surface flex-1">whsec_x8Y2mP9qL4vN1cR5tA0jB7kF3dG6h</code>
+                                    <button onclick="navigator.clipboard.writeText('whsec_x8Y2mP9qL4vN1cR5tA0jB7kF3dG6h'); AppState.showToast('Copied', 'Webhook signing secret copied.')" class="text-outline hover:text-secondary p-1">
+                                        <span class="material-symbols-outlined text-base">content_copy</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 pt-2">
+                                <p class="text-xs font-semibold text-outline uppercase tracking-wider">Subscribed Events</p>
+                                <label class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low border border-outline-variant/20 cursor-pointer">
+                                    <div>
+                                        <p class="text-xs font-bold text-on-surface">lead.captured</p>
+                                        <p class="text-[11px] text-outline">Fires when visitor contact details and intent score are extracted</p>
+                                    </div>
+                                    <input type="checkbox" checked class="rounded text-secondary-container focus:ring-0"/>
+                                </label>
+                                <label class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low border border-outline-variant/20 cursor-pointer">
+                                    <div>
+                                        <p class="text-xs font-bold text-on-surface">agent.high_urgency</p>
+                                        <p class="text-[11px] text-outline">Fires when a visitor demands human takeover</p>
+                                    </div>
+                                    <input type="checkbox" checked class="rounded text-secondary-container focus:ring-0"/>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right 5 cols: Widget Customizer & Live Preview -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="glass-card rounded-2xl p-6 sticky top-24 space-y-5">
+                        <div class="flex items-center gap-2 text-secondary font-bold text-base">
+                            <span class="material-symbols-outlined">palette</span>
+                            <h3>Widget Appearance</h3>
+                        </div>
+
+                        <!-- Brand Color Choice -->
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-outline">Primary Theme Color</label>
+                            <div class="flex items-center gap-3">
+                                <button onclick="setWidgetColor('#2170e4')" class="w-8 h-8 rounded-full bg-[#2170e4] ring-2 ring-offset-2 ring-[#2170e4] shadow"></button>
+                                <button onclick="setWidgetColor('#9466ff')" class="w-8 h-8 rounded-full bg-[#9466ff] hover:opacity-90 shadow"></button>
+                                <button onclick="setWidgetColor('#059669')" class="w-8 h-8 rounded-full bg-[#059669] hover:opacity-90 shadow"></button>
+                                <button onclick="setWidgetColor('#131b2e')" class="w-8 h-8 rounded-full bg-[#131b2e] hover:opacity-90 shadow"></button>
+                            </div>
+                        </div>
+
+                        <!-- Widget Position -->
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-outline">Widget Screen Position</label>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <label class="flex items-center gap-2 p-2.5 rounded-xl border border-secondary-container bg-blue-50 text-secondary font-semibold cursor-pointer">
+                                    <input type="radio" name="widget-pos" checked class="text-secondary-container focus:ring-0"/>
+                                    <span>Bottom Right</span>
+                                </label>
+                                <label class="flex items-center gap-2 p-2.5 rounded-xl border border-outline-variant/30 bg-surface-container-low text-on-surface cursor-pointer">
+                                    <input type="radio" name="widget-pos" class="text-secondary-container focus:ring-0"/>
+                                    <span>Bottom Left</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Widget Live Preview Box -->
+                        <div class="p-4 rounded-xl bg-surface-container-low border border-outline-variant/20 space-y-3">
+                            <span class="text-[11px] font-bold text-outline uppercase tracking-wider block">Live Floating Launcher Preview</span>
+                            
+                            <div class="h-28 bg-white dark:bg-[#0b101e] rounded-lg border border-outline-variant/20 relative flex items-end justify-end p-3 overflow-hidden">
+                                <div class="absolute inset-0 bg-slate-100 dark:bg-slate-900 opacity-20" style="background-image: radial-gradient(#6b7280 1px, transparent 1px); background-size: 10px 10px;"></div>
+                                
+                                <!-- Floating Widget Bubble -->
+                                <div id="preview-widget-bubble" class="relative z-10 flex items-center gap-2 px-3 py-2 rounded-full text-white font-semibold text-xs shadow-xl transition-all cursor-pointer bg-[#2170e4]">
+                                    <span class="material-symbols-outlined text-base">chat</span>
+                                    <span>Chat with Sales</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="visitor-demo.html" class="block w-full py-2.5 bg-primary-container hover:bg-black text-white text-center rounded-xl text-xs font-semibold transition-colors shadow">
+                            Open Full Interactive Demo ↗
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app-state.js"></script>
+    <script>
+        function toggleKeyVisibility() {
+            const input = document.getElementById("secret-key-input");
+            const icon = document.getElementById("key-vis-icon");
+            if (input.type === "password") {
+                input.type = "text";
+                icon.textContent = "visibility_off";
+            } else {
+                input.type = "password";
+                icon.textContent = "visibility";
+            }
+        }
+
+        function setWidgetColor(color) {
+            const bubble = document.getElementById("preview-widget-bubble");
+            bubble.style.backgroundColor = color;
+            AppState.showToast("Widget Color Updated", `Branding color set to ${color}`);
+        }
+    </script>
+</body>
+</html>

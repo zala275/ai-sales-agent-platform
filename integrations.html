@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SalesAI Pro - CRM Data Sync &amp; Integrations</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#131b2e",
+                        "on-primary-container": "#9aa4be",
+                        "secondary-container": "#2170e4",
+                        "secondary": "#0058be",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-container": "#23005c",
+                        "surface": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "outline-variant": "#c6c6cd",
+                        "outline": "#76777d"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(19, 27, 46, 0.08);
+            box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
+        }
+        .ai-gradient-border {
+            border-top: 3px solid transparent;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), linear-gradient(90deg, #2170e4, #9466ff);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="integrations">
+
+    <!-- Unified Master Sidebar -->
+    <div id="main-sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 ml-0 md:ml-[280px] min-h-screen flex flex-col">
+        <!-- TopNavBar -->
+        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-6 z-40 transition-all">
+            <div class="flex items-center gap-3">
+                <span class="text-xs px-2.5 py-1 rounded-full bg-purple-100 text-purple-700 font-semibold uppercase tracking-wider">CRM Sync Engine</span>
+                <span class="text-xs text-outline hidden sm:inline">Bi-directional pipeline routing</span>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="testSyncConnection()" class="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-all" id="btn-test-sync">
+                    <span class="material-symbols-outlined text-[16px]">sync</span>
+                    <span>Test Sync Pipeline</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Page Body -->
+        <div class="p-6 md:p-8 mt-16 max-w-7xl w-full mx-auto space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-on-surface">CRM Integrations &amp; Webhooks</h2>
+                    <p class="text-sm text-on-surface-variant mt-1">Automatically send qualified leads and transcripts into your existing sales tech stack.</p>
+                </div>
+            </div>
+
+            <!-- Connected CRMs Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <!-- HubSpot -->
+                <div class="glass-card rounded-2xl p-5 border-2 border-emerald-500/40 relative space-y-4">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 font-bold flex items-center justify-center text-lg">
+                                🍊
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-sm text-on-surface">HubSpot CRM</h3>
+                                <p class="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Connected &amp; Synced
+                                </p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">Default</span>
+                    </div>
+
+                    <p class="text-xs text-outline">Pushes every captured contact, deal estimate, and transcript link directly into Contacts &amp; Deals.</p>
+
+                    <div class="pt-2 border-t border-outline-variant/15 flex items-center justify-between text-xs">
+                        <span class="text-outline">Sync Status: <strong class="text-on-surface">Real-time</strong></span>
+                        <button onclick="AppState.showToast('HubSpot Settings', 'Syncing 100% of captured leads.')" class="text-secondary font-semibold hover:underline">Configure</button>
+                    </div>
+                </div>
+
+                <!-- Salesforce -->
+                <div class="glass-card rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-lg">
+                                ☁
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-sm text-on-surface">Salesforce</h3>
+                                <p class="text-[11px] text-outline">Lead Object Mapping</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-surface-container text-outline font-bold">Ready</span>
+                    </div>
+
+                    <p class="text-xs text-outline">Route enterprise leads directly to Salesforce Sales Cloud with custom owner routing rules.</p>
+
+                    <div class="pt-2 border-t border-outline-variant/15 flex items-center justify-between text-xs">
+                        <span class="text-outline">OAuth 2.0</span>
+                        <button onclick="AppState.showToast('Salesforce Connect', 'Authorizing via Salesforce OAuth...')" class="text-secondary font-semibold hover:underline">Connect</button>
+                    </div>
+                </div>
+
+                <!-- Webhooks -->
+                <div class="glass-card rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 font-bold flex items-center justify-center text-lg">
+                                ⚡
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-sm text-on-surface">Custom Webhook</h3>
+                                <p class="text-[11px] text-purple-700 font-semibold">Zapier / Make / API</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-purple-100 text-purple-700 font-bold">Active</span>
+                    </div>
+
+                    <p class="text-xs text-outline">Sends a raw JSON POST payload with visitor contact details to any custom endpoint or automation.</p>
+
+                    <div class="pt-2 border-t border-outline-variant/15 flex items-center justify-between text-xs">
+                        <span class="text-outline font-mono">https://api.site...</span>
+                        <button onclick="AppState.showToast('Webhook Test', 'Payload delivered with HTTP 200.')" class="text-secondary font-semibold hover:underline">Test POST</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Field Mapping Matrix -->
+            <div class="glass-card rounded-2xl p-6 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-base text-on-surface">Lead Field Mapping</h3>
+                        <p class="text-xs text-outline">How captured AI chat parameters match your CRM fields</p>
+                    </div>
+                    <button onclick="AppState.showToast('Mappings Saved', 'Field transformations updated successfully.')" class="px-4 py-2 bg-secondary-container hover:bg-secondary text-white rounded-xl text-xs font-semibold shadow transition-colors">
+                        Save Mappings
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-outline-variant/20 text-outline font-semibold uppercase tracking-wider bg-surface-container-low/40">
+                                <th class="p-3.5">AI Agent Parameter</th>
+                                <th class="p-3.5">Transformation</th>
+                                <th class="p-3.5">Target CRM Property</th>
+                                <th class="p-3.5">Required</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant/10 text-on-surface font-medium">
+                            <tr>
+                                <td class="p-3.5 font-mono text-secondary font-bold">visitor.name</td>
+                                <td class="p-3.5 text-outline">Direct string</td>
+                                <td class="p-3.5 font-bold">contact.firstname &amp; lastname</td>
+                                <td class="p-3.5 text-emerald-600">Yes</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 font-mono text-secondary font-bold">visitor.email</td>
+                                <td class="p-3.5 text-outline">Email validation</td>
+                                <td class="p-3.5 font-bold">contact.email</td>
+                                <td class="p-3.5 text-emerald-600">Yes</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 font-mono text-secondary font-bold">visitor.phone</td>
+                                <td class="p-3.5 text-outline">E.164 international format</td>
+                                <td class="p-3.5 font-bold">contact.phone</td>
+                                <td class="p-3.5 text-outline">Optional</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 font-mono text-secondary font-bold">conversation.intent_score</td>
+                                <td class="p-3.5 text-outline">Float (0.0 - 1.0) &rarr; Tag</td>
+                                <td class="p-3.5 font-bold">deal.lead_rating (Hot/Warm)</td>
+                                <td class="p-3.5 text-emerald-600">Yes</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 font-mono text-secondary font-bold">conversation.transcript_url</td>
+                                <td class="p-3.5 text-outline">Secure SaaS Link</td>
+                                <td class="p-3.5 font-bold">contact.notes_timeline</td>
+                                <td class="p-3.5 text-emerald-600">Yes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app-state.js"></script>
+    <script>
+        function testSyncConnection() {
+            const btn = document.getElementById("btn-test-sync");
+            btn.innerHTML = `<span class="inline-block animate-spin mr-1">⚙</span> Syncing Test Contact...`;
+            setTimeout(() => {
+                btn.innerHTML = `<span class="material-symbols-outlined text-[16px]">check_circle</span> Sync Verified`;
+                AppState.showToast("CRM Sync Successful!", "Test lead 'David Miller' verified in HubSpot sandbox.");
+            }, 1200);
+        }
+    </script>
+</body>
+</html>

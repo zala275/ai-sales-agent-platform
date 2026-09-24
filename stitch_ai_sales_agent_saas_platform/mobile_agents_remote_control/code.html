@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>AI Agent Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-fixed": "#23005c",
+                        "inverse-primary": "#bec6e0",
+                        "surface-tint": "#565e74",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#fefcff",
+                        "tertiary-container": "#23005c",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#2d3133",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#2170e4",
+                        "surface-bright": "#f7f9fb",
+                        "surface": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e6e8ea",
+                        "outline-variant": "#c6c6cd",
+                        "on-primary-container": "#7c839b",
+                        "on-surface": "#191c1e",
+                        "tertiary": "#000000",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-background": "#191c1e",
+                        "on-tertiary-fixed-variant": "#5516be",
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#eceef0",
+                        "tertiary-fixed-dim": "#d0bcff",
+                        "on-primary-fixed": "#131b2e",
+                        "primary-fixed": "#dae2fd",
+                        "secondary": "#0058be",
+                        "outline": "#76777d",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-fixed": "#001a42",
+                        "primary": "#000000",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "background": "#f7f9fb",
+                        "tertiary-fixed": "#e9ddff",
+                        "on-surface-variant": "#45464d",
+                        "primary-container": "#131b2e",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary-container": "#9466ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "card-padding": "24px",
+                        "container-margin": "32px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "sidebar-width": "280px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "title-lg": ["18px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(13, 27, 46, 0.08);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+        }
+        .ai-gradient-border {
+            position: relative;
+        }
+        .ai-gradient-border::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, theme('colors.secondary'), theme('colors.on-tertiary-container'));
+            border-top-left-radius: inherit;
+            border-top-right-radius: inherit;
+        }
+        
+        /* Toggle Switch */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: theme('colors.secondary');
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: theme('colors.secondary');
+        }
+        .toggle-checkbox:checked + .toggle-label:after {
+            transform: translateX(100%);
+            border-color: white;
+        }
+        .toggle-label {
+            width: 44px;
+            height: 24px;
+            background-color: theme('colors.surface-variant');
+            border-radius: 9999px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .toggle-label:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Sparkline Simple CSS */
+        .sparkline-svg {
+            width: 60px;
+            height: 20px;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .spark-up { stroke: theme('colors.secondary'); }
+        .spark-flat { stroke: theme('colors.outline'); }
+        
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col pt-16 pb-28 md:hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 h-16 bg-surface/80 dark:bg-surface-container-low/80 backdrop-blur-xl border-b border-outline-variant/10 shadow-sm transition-all duration-200">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A professional headshot of a corporate user in a modern office setting. High key lighting, clean background, sharp focus, capturing a confident expression in a bright tech environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2j-M9G6Dxp1XC-4uu7A7bhyoeswzngbqtCiaj82fxR54dvS7APdFkant40okkXY5nV70IAoVbUWDtpiPSe-pSUeqS0bN7DmzUmNB1GHJWZ9Bzb0oHj3c7XDQim9y5CoWYIRCvsxkDo6IzQ_XySm0XKKN76uZ9Kfzxy3UhkCBgSyCPzG2jTMKV4kqLq_zoMfqNfB_-7mpsUAlB8DUWGG_7cwNC7JEG1nW0klBpm9C7-j16kU-4UHxclw"/>
+<h1 class="font-headline-md-mobile text-headline-md-mobile font-bold text-primary dark:text-primary-fixed tracking-tight">SalesIntelligence</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-primary dark:text-primary-fixed hover:bg-surface-variant/50 dark:hover:bg-surface-container-high/50 active:scale-95 transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-4 py-6 flex flex-col gap-4">
+<div class="flex justify-between items-end mb-2">
+<div>
+<h2 class="font-title-lg text-title-lg text-on-surface">Active Agents</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Managing 3 deployed AI units.</p>
+</div>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-4 py-2 rounded-lg flex items-center gap-1 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[16px]">add</span> New
+            </button>
+</div>
+<!-- Agent Card 1: Live -->
+<article class="glass-card ai-gradient-border rounded-xl p-4 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">smart_toy</span>
+</div>
+<div>
+<h3 class="font-title-lg text-[16px] font-semibold text-on-surface">Nexus Lead Gen</h3>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-md text-label-md text-secondary">Live</span>
+</div>
+</div>
+</div>
+<!-- Toggle -->
+<div class="flex items-center">
+<input checked="" class="hidden toggle-checkbox" id="toggle1" type="checkbox"/>
+<label class="toggle-label" for="toggle1"></label>
+</div>
+</div>
+<div class="flex items-center justify-between mt-2 pt-3 border-t border-outline-variant/10">
+<div class="flex flex-col">
+<span class="font-label-md text-[10px] text-on-surface-variant uppercase tracking-wider">Today's Engagements</span>
+<span class="font-title-lg text-[16px] font-semibold text-on-surface">243</span>
+</div>
+<div class="flex items-center gap-2">
+<svg class="sparkline-svg spark-up" viewbox="0 0 60 20">
+<path d="M0,15 L10,12 L20,18 L30,8 L40,10 L50,2 L60,5"></path>
+</svg>
+<span class="font-label-md text-label-md text-secondary">+12%</span>
+</div>
+</div>
+</article>
+<!-- Agent Card 2: Training -->
+<article class="glass-card rounded-xl p-4 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-tertiary-container/10 flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined">model_training</span>
+</div>
+<div>
+<h3 class="font-title-lg text-[16px] font-semibold text-on-surface">Apollo Nurture</h3>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="font-label-md text-label-md text-tertiary-container">Training (82%)</span>
+</div>
+</div>
+</div>
+<!-- Toggle (Disabled visual state) -->
+<div class="flex items-center opacity-50 pointer-events-none">
+<input class="hidden toggle-checkbox" id="toggle2" type="checkbox"/>
+<label class="toggle-label" for="toggle2"></label>
+</div>
+</div>
+<div class="flex items-center justify-between mt-2 pt-3 border-t border-outline-variant/10">
+<div class="flex flex-col w-full">
+<span class="font-label-md text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Epoch Progress</span>
+<div class="w-full h-1.5 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container rounded-full w-[82%]"></div>
+</div>
+</div>
+</div>
+</article>
+<!-- Agent Card 3: Paused -->
+<article class="glass-card rounded-xl p-4 flex flex-col gap-3 opacity-80">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-variant flex items-center justify-center text-outline">
+<span class="material-symbols-outlined">pause_circle</span>
+</div>
+<div>
+<h3 class="font-title-lg text-[16px] font-semibold text-on-surface">Echo Support</h3>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span class="font-label-md text-label-md text-outline">Paused</span>
+</div>
+</div>
+</div>
+<!-- Toggle -->
+<div class="flex items-center">
+<input class="hidden toggle-checkbox" id="toggle3" type="checkbox"/>
+<label class="toggle-label" for="toggle3"></label>
+</div>
+</div>
+<div class="flex items-center justify-between mt-2 pt-3 border-t border-outline-variant/10">
+<div class="flex flex-col">
+<span class="font-label-md text-[10px] text-on-surface-variant uppercase tracking-wider">Today's Engagements</span>
+<span class="font-title-lg text-[16px] font-semibold text-on-surface">45</span>
+</div>
+<div class="flex items-center gap-2">
+<svg class="sparkline-svg spark-flat" viewbox="0 0 60 20">
+<path d="M0,15 L10,14 L20,15 L30,14 L40,15 L50,14 L60,15"></path>
+</svg>
+<span class="font-label-md text-label-md text-outline">0%</span>
+</div>
+</div>
+</article>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pb-safe h-20 bg-surface/90 dark:bg-surface-container/90 backdrop-blur-xl border-t border-outline-variant/10 shadow-[0_-4px_12px_rgba(15,23,42,0.05)] md:hidden">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant/70 hover:bg-surface-variant/30 dark:hover:bg-surface-container-highest/30 transition-transform duration-200 active:scale-90 w-16 h-14 rounded-xl">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant/70 hover:bg-surface-variant/30 dark:hover:bg-surface-container-highest/30 transition-transform duration-200 active:scale-90 w-16 h-14 rounded-xl">
+<span class="material-symbols-outlined mb-1">person_search</span>
+<span class="font-label-md text-label-md">Leads</span>
+</button>
+<!-- Active Tab: Agents -->
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim bg-secondary-container/30 dark:bg-secondary-container/20 rounded-xl px-3 py-1 transition-transform duration-200 active:scale-90 w-16 h-14">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="font-label-md text-label-md">Agents</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant/70 hover:bg-surface-variant/30 dark:hover:bg-surface-container-highest/30 transition-transform duration-200 active:scale-90 w-16 h-14 rounded-xl">
+<span class="material-symbols-outlined mb-1">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</button>
+</nav>
+<script>
+        // Simple toggle interactivity script
+        document.querySelectorAll('.toggle-checkbox').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const card = this.closest('article');
+                if(!card) return;
+                
+                const statusDot = card.querySelector('span.w-2.h-2.rounded-full');
+                const statusText = card.querySelector('.font-label-md.text-label-md:not(.uppercase)');
+                const sparkline = card.querySelector('.sparkline-svg');
+                
+                if(this.checked) {
+                    card.classList.remove('opacity-80');
+                    if(statusDot) {
+                        statusDot.className = 'w-2 h-2 rounded-full bg-secondary';
+                    }
+                    if(statusText) {
+                        statusText.textContent = 'Live';
+                        statusText.className = 'font-label-md text-label-md text-secondary';
+                    }
+                    if(sparkline) {
+                        sparkline.classList.remove('spark-flat');
+                        sparkline.classList.add('spark-up');
+                    }
+                } else {
+                    card.classList.add('opacity-80');
+                    if(statusDot) {
+                        statusDot.className = 'w-2 h-2 rounded-full bg-outline';
+                    }
+                    if(statusText) {
+                        statusText.textContent = 'Paused';
+                        statusText.className = 'font-label-md text-label-md text-outline';
+                    }
+                    if(sparkline) {
+                        sparkline.classList.remove('spark-up');
+                        sparkline.classList.add('spark-flat');
+                    }
+                }
+            });
+        });
+    </script>
+</body></html>

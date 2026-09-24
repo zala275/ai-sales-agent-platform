@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SalesAI Pro - Deployment &amp; Integration</title>
+<!-- Google Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with custom config -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-container": "#131b2e",
+                        "background": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "on-surface": "#191c1e",
+                        "secondary": "#0058be",
+                        "tertiary-container": "#23005c",
+                        "primary": "#000000",
+                        "outline": "#76777d",
+                        "surface-container-low": "#f2f4f6",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#bec6e0",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#23005c",
+                        "tertiary": "#000000",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#d0bcff",
+                        "on-primary-fixed": "#131b2e",
+                        "surface-dim": "#d8dadc",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#45464d",
+                        "primary-fixed": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#5516be",
+                        "surface-container": "#eceef0",
+                        "on-secondary-container": "#fefcff",
+                        "surface": "#f7f9fb",
+                        "surface-tint": "#565e74",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed": "#001a42",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary-fixed": "#e9ddff",
+                        "on-primary-container": "#7c839b",
+                        "on-tertiary-container": "#9466ff",
+                        "on-background": "#191c1e",
+                        "inverse-surface": "#2d3133",
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-container-highest": "#e0e3e5",
+                        "primary-fixed-dim": "#bec6e0",
+                        "secondary-container": "#2170e4",
+                        "outline-variant": "#c6c6cd",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#adc6ff"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "sidebar-width": "280px",
+                        "container-margin": "32px",
+                        "card-padding": "24px",
+                        "gutter": "24px",
+                        "unit": "4px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    fontSize: {
+                        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.01em", fontWeight: "500" }],
+                        "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "headline-lg-mobile": ["28px", { lineHeight: "36px", fontWeight: "600" }],
+                        "title-lg": ["18px", { lineHeight: "28px", fontWeight: "600" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }]
+                    }
+                }
+            }
+        };
+    </script>
+<style>
+        /* Shared Style Rules */
+        .glass-card {
+            background-color: rgba(255, 255, 255, 1);
+            border: 1px solid rgba(19, 27, 46, 0.08);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border-radius: theme('borderRadius.xl');
+        }
+        
+        .ai-gradient-border {
+            position: relative;
+        }
+        .ai-gradient-border::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0058be 0%, #9466ff 100%);
+            border-top-left-radius: inherit;
+            border-top-right-radius: inherit;
+        }
+
+        .code-block {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex overflow-x-hidden">
+<!-- JSON Component: SideNavBar -->
+<nav class="hidden md:flex flex-col w-[280px] h-screen fixed left-0 top-0 bg-primary-container shadow-md border-r border-outline-variant/10 z-50">
+<!-- Header -->
+<div class="px-6 py-8 border-b border-white/5">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-gradient-to-br from-secondary to-tertiary-container flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">bubble_chart</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">SalesAI Pro</h1>
+<p class="font-label-md text-label-md text-on-primary-container">Enterprise Tier</p>
+</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto py-6 px-3 flex flex-col gap-1">
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 rounded-lg hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 rounded-lg hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span>AI Agents</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 rounded-lg hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span>Knowledge Base</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 rounded-lg hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span>Leads</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 rounded-lg hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 rounded-lg hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span>Billing</span>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-3 bg-white/10 text-secondary-fixed border-l-4 border-secondary-fixed px-4 py-3 rounded-r-lg font-label-md text-label-md active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span>Settings</span>
+</a>
+</div>
+<!-- User Profile Stub -->
+<div class="mt-auto p-4 border-t border-white/5">
+<div class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer">
+<img alt="User Profile" class="w-8 h-8 rounded-full object-cover" data-alt="A small, professional headshot photo of a business user, minimalist lighting, corporate SaaS environment, soft neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANbkVvPEPIGrlsV2dqYp5xjWyCNmwkNLaN2HtUJSBkv4AkbwEtTN1rCkYAgWTk-SO8oqzCLg-3j38SAIhuInkHCxgq81tGQ7TMgbwGrjufkSXsYwxOTaErZQxlF7dtudhCiWVgslMdRxRkVRLHwbRhOpT2nON_vvpEfVq0Zpz14YDAkC1gHlVSkVbfnJIHk4vTOkXjzU5kbr3nk8ymk4-uM7K17GTJ4Fd79dhsq__auqn7UXkHD-MBow"/>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-primary truncate">Admin User</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-[280px] flex flex-col min-h-screen">
+<!-- JSON Component: TopNavBar -->
+<header class="h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] bg-surface/80 backdrop-blur-md border-b border-outline-variant/20 flex justify-between items-center px-gutter py-unit z-40">
+<!-- Mobile Menu Trigger -->
+<div class="md:hidden flex items-center">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-primary ml-2">SalesAI Pro</span>
+</div>
+<!-- Page Title (Desktop) -->
+<div class="hidden md:flex items-center gap-4">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="font-body-md text-body-md cursor-pointer hover:text-primary transition-colors">Settings</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="font-body-md text-body-md font-medium text-primary">Deployment &amp; Integration</span>
+</div>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors active:opacity-80">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full ml-2 border border-outline-variant/30 overflow-hidden cursor-pointer hover:ring-2 ring-secondary ring-offset-2 transition-all">
+<img alt="John Doe" class="w-full h-full object-cover" data-alt="A small circular avatar of a professional individual, high quality, well lit." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLTDd6i15Q2xrEgkxrQ3_NS0GzYZN9IZ6aEECUDUKeY3Xjzq8vy89OdQFwFG38bxUv73WQ6iutLG_DxTn2osXQ7CN36q4C5ie6p9vkfOKrbkSjeDREqlv6p4Xidlsac9WmMY0y3dVep7o21wVkejQ_Fc8cyZXIX0GLL0ihcWlQuz0q7bciibJEXszg94xJmrMCd6yY3VjgOKqYyTVvFDv1DdLDKc32ZIpGQGdGFFpCbgT8vEZDxfPkEQ"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 mt-16 p-6 md:p-container-margin max-w-7xl mx-auto w-full">
+<div class="mb-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-md text-label-md mb-4 border border-outline-variant/20">
+<span class="material-symbols-outlined text-[16px] text-secondary">rocket_launch</span>
+                    Phase 4: Deployment
+                </div>
+<h2 class="font-display-lg text-display-lg text-primary mb-2">JavaScript Integration</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl">Embed your trained AI Sales Agent onto your website or web application to start capturing and qualifying leads autonomously.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Main Snippet Section (Col Span 2) -->
+<div class="lg:col-span-2 space-y-6">
+<div class="glass-card ai-gradient-border p-card-padding">
+<div class="flex items-start justify-between mb-6">
+<div>
+<h3 class="font-title-lg text-title-lg text-primary flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-secondary">code</span>
+                                    Widget Snippet
+                                </h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Place this script tag just before the closing <code>&lt;/body&gt;</code> tag on all pages where you want the agent to appear.</p>
+</div>
+</div>
+<div class="relative bg-primary-container rounded-lg p-6 overflow-hidden border border-outline-variant/20 group">
+<pre class="code-block text-sm text-secondary-fixed overflow-x-auto relative z-10 font-mono"><code>&lt;!-- SalesAI Pro Agent Widget --&gt;
+&lt;script 
+    src='https://ai-sales-agent.com/widget.js' 
+    data-agent-key='AGENT-8XF92A-44B'
+    defer&gt;
+&lt;/script&gt;</code></pre>
+<button class="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white p-2 rounded-md transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 z-20 backdrop-blur-sm" id="copyBtn" onclick="this.innerHTML='&lt;span class=\'material-symbols-outlined text-sm\'&gt;check&lt;/span&gt;'; setTimeout(()=&gt;this.innerHTML='&lt;span class=\'material-symbols-outlined text-sm\'&gt;content_copy&lt;/span&gt;', 2000)">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+<div class="mt-6 flex items-center gap-4">
+<button class="bg-secondary text-white font-label-md text-label-md px-6 py-2.5 rounded-lg hover:bg-secondary/90 transition-colors flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+                                Copy to Clipboard
+                            </button>
+<button class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors flex items-center gap-1">
+                                View Advanced Options
+                                <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+</div>
+<div class="glass-card p-card-padding">
+<h3 class="font-title-lg text-title-lg text-primary flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-secondary">security</span>
+                            Security &amp; Whitelisting
+                        </h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Authorize domains where this widget is permitted to execute. Requests from non-whitelisted domains will be rejected.</p>
+<div class="space-y-4">
+<div class="flex gap-2">
+<input class="flex-1 bg-surface border border-outline-variant/30 rounded-lg px-4 py-2 font-body-md text-body-md text-primary focus:ring-2 focus:ring-secondary focus:border-secondary outline-none transition-all placeholder:text-outline-variant" placeholder="e.g., acme.corp" type="text"/>
+<button class="bg-surface-container-high text-on-surface hover:bg-surface-variant transition-colors px-4 py-2 rounded-lg font-label-md text-label-md border border-outline-variant/20 flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                    Add Domain
+                                </button>
+</div>
+<div class="bg-surface-container-low rounded-lg border border-outline-variant/20 overflow-hidden">
+<ul class="divide-y divide-outline-variant/10">
+<li class="flex items-center justify-between px-4 py-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">public</span>
+<span class="font-body-md text-body-md">www.acmecorp.com</span>
+</div>
+<button class="text-error/70 hover:text-error transition-colors p-1 rounded-md hover:bg-error-container/50">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</li>
+<li class="flex items-center justify-between px-4 py-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px]">public</span>
+<span class="font-body-md text-body-md">app.acmecorp.com</span>
+</div>
+<button class="text-error/70 hover:text-error transition-colors p-1 rounded-md hover:bg-error-container/50">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Panel (Col Span 1) -->
+<div class="space-y-6">
+<!-- Connection Status Card -->
+<div class="glass-card p-card-padding">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-title-lg text-title-lg text-primary">Connection Status</h3>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+</button>
+</div>
+<div class="flex flex-col items-center justify-center p-6 bg-surface-container-low rounded-xl border border-outline-variant/20 relative overflow-hidden mb-4">
+<!-- Success State Example -->
+<div class="absolute inset-0 bg-secondary/5 z-0"></div>
+<div class="w-16 h-16 rounded-full bg-blue-100 border-2 border-secondary flex items-center justify-center mb-4 z-10 relative">
+<span class="material-symbols-outlined text-secondary text-[32px]">check_circle</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-primary z-10">Widget Detected</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-center mt-1 z-10">Receiving heartbeat from <strong>www.acmecorp.com</strong></p>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant font-body-md">Last Ping</span>
+<span class="font-medium text-primary">Just now</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant font-body-md">Agent Version</span>
+<span class="font-medium text-primary">v2.4.1 (Latest)</span>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant/10">
+<button class="w-full bg-surface text-secondary border border-secondary/30 hover:bg-secondary/5 hover:border-secondary transition-colors font-label-md text-label-md py-2.5 rounded-lg flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+                                Test on Live Site
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

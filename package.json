@@ -1,0 +1,19 @@
+{
+  "name": "ai-sales-agent-saas",
+  "version": "1.0.0",
+  "description": "Autonomous AI Sales Agent Multi-Tenant SaaS Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "ai-sales-agent",
+    "saas",
+    "rag",
+    "leads-pipeline",
+    "chatbot"
+  ],
+  "author": "Ghanshyam Zala",
+  "license": "MIT"
+}

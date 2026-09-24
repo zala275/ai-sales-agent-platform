@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lead Transcript - SalesAI Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#2170e4",
+                        "on-secondary-container": "#fefcff",
+                        "primary-container": "#131b2e",
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-container-high": "#e6e8ea",
+                        "background": "#f7f9fb",
+                        "outline-variant": "#c6c6cd",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary-fixed": "#e9ddff",
+                        "secondary": "#0058be",
+                        "tertiary-container": "#23005c",
+                        "inverse-primary": "#bec6e0",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary-fixed": "#001a42",
+                        "tertiary-fixed-dim": "#d0bcff",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#000000",
+                        "on-background": "#191c1e",
+                        "tertiary": "#000000",
+                        "outline": "#76777d",
+                        "on-primary-container": "#7c839b",
+                        "surface-tint": "#565e74",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#23005c",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d8dadc",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#dae2fd",
+                        "on-surface-variant": "#45464d",
+                        "surface-bright": "#f7f9fb",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-surface": "#191c1e",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#9466ff",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#eceef0",
+                        "surface": "#f7f9fb",
+                        "on-primary-fixed": "#131b2e",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-tertiary-fixed-variant": "#5516be"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "container-margin": "32px",
+                        "card-padding": "24px",
+                        "gutter": "24px",
+                        "sidebar-width": "280px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["18px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-card {
+            background-color: #FFFFFF;
+            border: 1px solid rgba(13, 27, 46, 0.08);
+            backdrop-filter: blur(4px);
+        }
+        .ai-gradient-border {
+            border-top: 2px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(90deg, #2170e4 0%, #d8e2ff 100%);
+        }
+        .message-ai {
+            background: linear-gradient(135deg, rgba(216, 226, 255, 0.3) 0%, rgba(216, 226, 255, 0.1) 100%);
+            border: 1px solid rgba(33, 112, 228, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="w-sidebar h-full fixed left-0 top-0 bg-primary-container border-r border-outline-variant/10 shadow-md flex flex-col w-[280px] h-screen hidden md:flex z-50">
+<div class="p-6 pb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-fixed text-3xl">hub</span>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">SalesAI Pro</h1>
+<p class="font-label-md text-label-md text-on-primary-container">Enterprise Tier</p>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-4">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-label-md text-label-md">AI Agents</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-md text-label-md">Knowledge Base</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 bg-white/10 text-secondary-fixed border-l-4 border-secondary-fixed px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-label-md text-label-md font-bold">Leads</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="mt-auto py-4 border-t border-white/5">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-md text-label-md">Billing</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 md:ml-[280px] flex flex-col min-h-screen relative">
+<!-- TopNavBar -->
+<header class="h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] bg-surface/80 backdrop-blur-md border-b border-outline-variant/20 flex justify-between items-center px-gutter py-unit z-40">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface-variant p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="hidden md:flex items-center gap-2 text-on-surface-variant">
+<span class="font-label-md text-label-md hover:text-secondary cursor-pointer transition-colors">Leads</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Transcript: John Smith</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+<input class="pl-9 pr-4 py-1.5 rounded-full bg-surface-container-low border border-outline-variant/30 text-body-md focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all w-64" placeholder="Search transcript..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors active:opacity-80">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-2 border border-outline-variant/20 cursor-pointer">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close-up, professional corporate headshot of a business executive against a solid light grey studio background. Clean, modern lighting, high resolution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXjtSePh8VZU_y8SwPQ-Y6WPDfjdy1wjP5dhm6ahIKhGvGaCueS67KJbbZ_2al3v6HagQ5C15y4t9NbZyEsKeFbFC7JGWnCPfM5ntusLCpU-msUBFrdLpd_1Pvi4JbDssXNk8zzuf3Ala3U08roKMCNT5qlY6wR_gg9ZeA4ADsMd_dtHqO9ejvqntxElvkTpMItlm0GB-zj_gjBTBGFSOQyg7hsZoahmYWg-YDAhT7PW3FAEIVx4I8Lw"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 flex flex-col lg:flex-row mt-16 p-4 md:p-gutter gap-gutter bg-surface">
+<!-- Chat Transcript Area -->
+<section class="flex-1 flex flex-col glass-card rounded-xl overflow-hidden h-[calc(100vh-120px)] shadow-sm">
+<!-- Header -->
+<div class="p-4 border-b border-outline-variant/20 bg-surface-container-lowest flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-title-lg">
+                            JS
+                        </div>
+<div>
+<h2 class="font-title-lg text-title-lg text-on-surface">John Smith</h2>
+<p class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-green-500"></span> Online now
+                            </p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-low font-label-md transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">download</span> Export
+                        </button>
+<button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary hover:bg-primary/90 font-label-md transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">handshake</span> Takeover
+                        </button>
+</div>
+</div>
+<!-- Timeline -->
+<div class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 bg-surface-bright">
+<!-- Session Start -->
+<div class="flex justify-center">
+<span class="font-label-md text-label-md text-on-surface-variant bg-surface-container-low px-3 py-1 rounded-full">Session started at 10:42 AM</span>
+</div>
+<!-- AI Greeting -->
+<div class="flex gap-4 max-w-3xl">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">smart_toy</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface font-semibold">SalesAI Agent</span>
+<span class="font-label-md text-label-md text-outline">10:42 AM</span>
+</div>
+<div class="message-ai p-4 rounded-2xl rounded-tl-sm text-body-md text-on-surface">
+                                Hello! Welcome to Acme Corp. I'm your AI assistant. How can I help you accelerate your sales process today?
+                            </div>
+</div>
+</div>
+<!-- Visitor Message -->
+<div class="flex gap-4 max-w-3xl ml-auto flex-row-reverse">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface flex-shrink-0 flex items-center justify-center font-label-md">
+                            V
+                        </div>
+<div class="flex flex-col gap-1 items-end">
+<div class="flex items-center gap-2 flex-row-reverse">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Visitor</span>
+<span class="font-label-md text-label-md text-outline">10:43 AM</span>
+</div>
+<div class="bg-surface-container p-4 rounded-2xl rounded-tr-sm text-body-md text-on-surface">
+                                Hi, I'm looking for information on your Enterprise pricing plans. We have about 50 sales reps.
+                            </div>
+</div>
+</div>
+<!-- AI Response -->
+<div class="flex gap-4 max-w-3xl">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">smart_toy</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface font-semibold">SalesAI Agent</span>
+<span class="font-label-md text-label-md text-outline">10:43 AM</span>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] px-1.5 py-0.5 rounded font-medium flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px]">bolt</span> High Confidence</span>
+</div>
+<div class="message-ai p-4 rounded-2xl rounded-tl-sm text-body-md text-on-surface">
+                                For a team of 50 sales reps, our Enterprise tier is definitely the best fit. It includes advanced AI analytics, dedicated success management, and custom integrations. 
+                                <br/><br/>
+                                Pricing for Enterprise is customized based on your specific integration needs, but typically starts around $99/user/month for teams of your size. Would you like me to connect you with an account executive to get a precise quote?
+                            </div>
+<div class="mt-1 flex gap-2">
+<button class="text-xs text-secondary hover:underline flex items-center gap-1 font-label-md"><span class="material-symbols-outlined text-[14px]">visibility</span> View source document</button>
+</div>
+</div>
+</div>
+<!-- Visitor Message -->
+<div class="flex gap-4 max-w-3xl ml-auto flex-row-reverse">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex-shrink-0 flex items-center justify-center font-label-md">
+                            JS
+                        </div>
+<div class="flex flex-col gap-1 items-end">
+<div class="flex items-center gap-2 flex-row-reverse">
+<span class="font-label-md text-label-md text-on-surface font-semibold">John Smith</span>
+<span class="font-label-md text-label-md text-outline">10:45 AM</span>
+</div>
+<div class="bg-surface-container p-4 rounded-2xl rounded-tr-sm text-body-md text-on-surface">
+                                Yes, that would be great. My email is john.smith@example.com.
+                            </div>
+</div>
+</div>
+<!-- Lead Capture Event -->
+<div class="flex justify-center my-4">
+<div class="bg-primary-fixed-dim/30 border border-primary-fixed rounded-lg px-4 py-2 flex items-center gap-3">
+<span class="material-symbols-outlined text-on-primary-fixed-variant text-lg">person_add</span>
+<div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Lead Captured</span>
+<span class="font-body-md text-body-md text-on-surface-variant block">john.smith@example.com</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Context Sidebar -->
+<aside class="w-full lg:w-80 flex flex-col gap-4 overflow-y-auto h-[calc(100vh-120px)] custom-scrollbar">
+<!-- Lead Info Card -->
+<div class="glass-card rounded-xl p-5 ai-gradient-border shadow-sm">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">contact_mail</span> Lead Info
+                    </h3>
+<div class="space-y-3">
+<div>
+<span class="font-label-md text-label-md text-outline block mb-0.5">Name</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">John Smith</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-outline block mb-0.5">Email</span>
+<a class="font-body-md text-body-md text-secondary hover:underline break-all" href="mailto:john.smith@example.com">john.smith@example.com</a>
+</div>
+<div>
+<span class="font-label-md text-label-md text-outline block mb-0.5">Status</span>
+<span class="inline-block bg-tertiary-fixed text-on-tertiary-fixed text-xs px-2 py-1 rounded font-medium mt-1">Qualified Lead</span>
+</div>
+</div>
+</div>
+<!-- AI Reasoning Card -->
+<div class="glass-card rounded-xl p-5 shadow-sm">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-container">psychology</span> AI Reasoning
+                    </h3>
+<div class="space-y-4">
+<div class="bg-surface-container-low p-3 rounded-lg border border-outline-variant/20">
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-sm">database</span> Knowledge Base Hit
+                            </span>
+<p class="font-body-md text-body-md text-on-surface text-sm">Matched query "Enterprise pricing plans 50 reps" against Document ID: PRICING-2023-V2.</p>
+</div>
+<div>
+<span class="font-label-md text-label-md text-outline block mb-1">Intent Detected</span>
+<div class="flex gap-2">
+<span class="bg-surface-container border border-outline-variant/30 text-on-surface text-xs px-2 py-1 rounded">Pricing Inquiry</span>
+<span class="bg-surface-container border border-outline-variant/30 text-on-surface text-xs px-2 py-1 rounded">High Intent</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Visitor Metadata -->
+<div class="glass-card rounded-xl p-5 shadow-sm">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant">info</span> Visitor Metadata
+                    </h3>
+<div class="grid grid-cols-2 gap-y-3 gap-x-2">
+<div class="col-span-2">
+<span class="font-label-md text-label-md text-outline block">Location</span>
+<span class="font-body-md text-body-md text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span> New York, USA
+                            </span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-outline block">IP Address</span>
+<span class="font-body-md text-body-md text-on-surface text-sm font-mono">192.168.1.42</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-outline block">Browser</span>
+<span class="font-body-md text-body-md text-on-surface text-sm">Chrome / MacOS</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-outline block">Duration</span>
+<span class="font-body-md text-body-md text-on-surface text-sm">04:12 mins</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-outline block">Pages Visited</span>
+<span class="font-body-md text-body-md text-on-surface text-sm">3 pages</span>
+</div>
+</div>
+</div>
+<!-- Add Note -->
+<div class="glass-card rounded-xl p-5 shadow-sm mt-auto">
+<h3 class="font-title-lg text-title-lg text-on-surface mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant">edit_note</span> Team Notes
+                    </h3>
+<textarea class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg p-3 text-body-md text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all resize-none h-24 mb-3" placeholder="Add a note for the sales team..."></textarea>
+<button class="w-full bg-secondary text-on-secondary py-2 rounded-lg font-label-md hover:bg-secondary/90 transition-colors">Save Note</button>
+</div>
+</aside>
+</main>
+</div>
+</body></html>

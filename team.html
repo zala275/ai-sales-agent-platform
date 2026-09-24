@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SalesAI Pro - Team &amp; Permissions</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#131b2e",
+                        "on-primary-container": "#9aa4be",
+                        "secondary-container": "#2170e4",
+                        "secondary": "#0058be",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-container": "#23005c",
+                        "surface": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "outline-variant": "#c6c6cd",
+                        "outline": "#76777d"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(19, 27, 46, 0.08);
+            box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
+        }
+        .ai-gradient-border {
+            border-top: 3px solid transparent;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), linear-gradient(90deg, #2170e4, #9466ff);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="team">
+
+    <!-- Unified Master Sidebar -->
+    <div id="main-sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 ml-0 md:ml-[280px] min-h-screen flex flex-col">
+        <!-- TopNavBar -->
+        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-6 z-40 transition-all">
+            <div class="flex items-center gap-3">
+                <span class="text-xs px-2.5 py-1 rounded-full bg-blue-100 text-secondary font-semibold uppercase tracking-wider">Access Control</span>
+                <span class="text-xs text-outline hidden sm:inline">Role-based security &amp; team workspaces</span>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="openInviteModal()" class="flex items-center gap-1.5 px-3 py-1.5 bg-secondary-container hover:bg-secondary text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
+                    <span class="material-symbols-outlined text-[16px]">person_add</span>
+                    <span>Invite Teammate</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Page Body -->
+        <div class="p-6 md:p-8 mt-16 max-w-7xl w-full mx-auto space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-on-surface">Team Roles &amp; Permissions</h2>
+                    <p class="text-sm text-on-surface-variant mt-1">Manage team member access to AI agent prompts, lead records, and subscription billing.</p>
+                </div>
+            </div>
+
+            <!-- Members Table -->
+            <div class="glass-card rounded-2xl overflow-hidden flex flex-col">
+                <div class="p-5 border-b border-outline-variant/20 flex items-center justify-between bg-surface-container-low/30">
+                    <h3 class="font-bold text-base text-on-surface">Active Team Members (4)</h3>
+                    <span class="text-xs text-outline">Enterprise Tier Seats: 4 / 20 Used</span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-outline-variant/20 text-outline font-semibold uppercase tracking-wider bg-surface-container-low/40">
+                                <th class="p-4">Member</th>
+                                <th class="p-4">Role</th>
+                                <th class="p-4">Status</th>
+                                <th class="p-4">Assigned Agents</th>
+                                <th class="p-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant/10 text-on-surface font-medium">
+                            <tr class="hover:bg-surface-container-low/60 transition-colors">
+                                <td class="p-4 flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-primary-container text-white font-bold flex items-center justify-center text-xs">
+                                        GZ
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-sm text-on-surface">Ghanshyam Zala</p>
+                                        <p class="text-[11px] text-outline">admin@salesai.pro</p>
+                                    </div>
+                                </td>
+                                <td class="p-4">
+                                    <span class="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-700 font-bold text-[11px]">Super Admin</span>
+                                </td>
+                                <td class="p-4">
+                                    <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-semibold">Active</span>
+                                </td>
+                                <td class="p-4 text-outline">All Agents (Global)</td>
+                                <td class="p-4 text-right text-outline">Owner</td>
+                            </tr>
+
+                            <tr class="hover:bg-surface-container-low/60 transition-colors">
+                                <td class="p-4 flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-blue-100 text-secondary font-bold flex items-center justify-center text-xs">
+                                        SJ
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-sm text-on-surface">Sarah Jenkins</p>
+                                        <p class="text-[11px] text-outline">sarah.j@company.com</p>
+                                    </div>
+                                </td>
+                                <td class="p-4">
+                                    <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-secondary font-bold text-[11px]">Team Manager</span>
+                                </td>
+                                <td class="p-4">
+                                    <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-semibold">Active</span>
+                                </td>
+                                <td class="p-4">Apex Closer Pro</td>
+                                <td class="p-4 text-right">
+                                    <button onclick="AppState.showToast('Edit Permissions', 'Permissions opened for Sarah Jenkins.')" class="text-secondary hover:underline font-semibold">Edit</button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-surface-container-low/60 transition-colors">
+                                <td class="p-4 flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-xs">
+                                        AR
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-sm text-on-surface">Alex Rivera</p>
+                                        <p class="text-[11px] text-outline">alex@company.com</p>
+                                    </div>
+                                </td>
+                                <td class="p-4">
+                                    <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold text-[11px]">Agent Trainer</span>
+                                </td>
+                                <td class="p-4">
+                                    <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-semibold">Active</span>
+                                </td>
+                                <td class="p-4">Knowledge Base Only</td>
+                                <td class="p-4 text-right">
+                                    <button onclick="AppState.showToast('Edit Permissions', 'Permissions opened for Alex Rivera.')" class="text-secondary hover:underline font-semibold">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Permission Matrix -->
+            <div class="glass-card rounded-2xl p-6 space-y-4">
+                <h3 class="font-bold text-base text-on-surface">Role-Based Permission Matrix (RBAC)</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-outline-variant/20 text-outline font-semibold uppercase tracking-wider bg-surface-container-low/40">
+                                <th class="p-3">Capability</th>
+                                <th class="p-3 text-center">Super Admin</th>
+                                <th class="p-3 text-center">Team Manager</th>
+                                <th class="p-3 text-center">Agent Trainer</th>
+                                <th class="p-3 text-center">Viewer</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant/10 text-on-surface font-medium">
+                            <tr>
+                                <td class="p-3 font-semibold">Create &amp; Deploy AI Agents</td>
+                                <td class="p-3 text-center text-emerald-600 font-bold">✔ Full</td>
+                                <td class="p-3 text-center text-emerald-600 font-bold">✔ Full</td>
+                                <td class="p-3 text-center text-amber-700 font-semibold">Edit Prompts Only</td>
+                                <td class="p-3 text-center text-outline">✖</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">Ingest &amp; Vectorize Documents (RAG)</td>
+                                <td class="p-3 text-center text-emerald-600 font-bold">✔ Full</td>
+                                <td class="p-3 text-center text-emerald-600 font-bold">✔ Full</td>
+                                <td class="p-3 text-center text-emerald-600 font-bold">✔ Full</td>
+                                <td class="p-3 text-center text-outline">✖</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">Export Lead CSV &amp; Transcripts</td>
+                                <td class="p-3 text-center text-emerald-600 font-bold">✔ Full</td>
+                                <td class="p-3 text-center text-emerald-600 font-bold">✔ Full</td>
+                                <td class="p-3 text-center text-outline">✖</td>
+                                <td class="p-3 text-center text-emerald-600 font-bold">✔ View Only</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">Manage Billing &amp; Subscriptions</td>
+                                <td class="p-3 text-center text-emerald-600 font-bold">✔ Full</td>
+                                <td class="p-3 text-center text-outline">✖</td>
+                                <td class="p-3 text-center text-outline">✖</td>
+                                <td class="p-3 text-center text-outline">✖</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Invite Member Modal -->
+    <div id="invite-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-surface-container-lowest max-w-md w-full rounded-2xl shadow-2xl border border-outline-variant/30 overflow-hidden text-on-surface">
+            <div class="p-6 border-b border-outline-variant/15 flex items-center justify-between bg-primary-container text-white">
+                <h3 class="font-bold text-base">Invite Team Member</h3>
+                <button onclick="closeInviteModal()" class="text-white/60 hover:text-white text-xl leading-none">&times;</button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-outline mb-1">Email Address</label>
+                    <input type="email" id="invite-email" placeholder="colleague@company.com" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-xs text-on-surface focus:ring-1 focus:ring-secondary-container"/>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-outline mb-1">Assign Role</label>
+                    <select class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-xs text-on-surface focus:ring-1 focus:ring-secondary-container">
+                        <option>Team Manager</option>
+                        <option>Agent Trainer</option>
+                        <option>Viewer</option>
+                    </select>
+                </div>
+                <button onclick="sendInvite()" class="w-full py-2.5 bg-secondary-container hover:bg-secondary text-white rounded-xl text-xs font-semibold shadow transition-colors">Send Invitation</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app-state.js"></script>
+    <script>
+        function openInviteModal() {
+            const m = document.getElementById("invite-modal");
+            m.classList.remove("hidden");
+            m.classList.add("flex");
+        }
+        function closeInviteModal() {
+            const m = document.getElementById("invite-modal");
+            m.classList.add("hidden");
+            m.classList.remove("flex");
+        }
+        function sendInvite() {
+            const email = document.getElementById("invite-email").value || "colleague@company.com";
+            closeInviteModal();
+            AppState.showToast("Invitation Sent!", `Sent team access email to ${email}`);
+        }
+    </script>
+</body>
+</html>

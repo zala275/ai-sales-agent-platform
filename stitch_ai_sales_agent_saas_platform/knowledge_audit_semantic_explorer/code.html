@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Knowledge Base Explorer - SalesAI Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#2170e4",
+                      "on-secondary-container": "#fefcff",
+                      "primary-container": "#131b2e",
+                      "on-secondary-fixed-variant": "#004395",
+                      "surface-container-high": "#e6e8ea",
+                      "background": "#f7f9fb",
+                      "outline-variant": "#c6c6cd",
+                      "surface-variant": "#e0e3e5",
+                      "tertiary-fixed": "#e9ddff",
+                      "secondary": "#0058be",
+                      "tertiary-container": "#23005c",
+                      "inverse-primary": "#bec6e0",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#2d3133",
+                      "secondary-fixed-dim": "#adc6ff",
+                      "inverse-on-surface": "#eff1f3",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "surface-container-low": "#f2f4f6",
+                      "surface-container-highest": "#e0e3e5",
+                      "on-secondary-fixed": "#001a42",
+                      "tertiary-fixed-dim": "#d0bcff",
+                      "error-container": "#ffdad6",
+                      "surface-container-lowest": "#ffffff",
+                      "primary": "#000000",
+                      "on-background": "#191c1e",
+                      "tertiary": "#000000",
+                      "outline": "#76777d",
+                      "on-primary-container": "#7c839b",
+                      "surface-tint": "#565e74",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-fixed": "#23005c",
+                      "error": "#ba1a1a",
+                      "surface-dim": "#d8dadc",
+                      "on-primary": "#ffffff",
+                      "primary-fixed": "#dae2fd",
+                      "on-surface-variant": "#45464d",
+                      "surface-bright": "#f7f9fb",
+                      "secondary-fixed": "#d8e2ff",
+                      "on-surface": "#191c1e",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-container": "#9466ff",
+                      "on-error-container": "#93000a",
+                      "surface-container": "#eceef0",
+                      "surface": "#f7f9fb",
+                      "on-primary-fixed": "#131b2e",
+                      "primary-fixed-dim": "#bec6e0",
+                      "on-tertiary-fixed-variant": "#5516be"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "container-margin": "32px",
+                      "card-padding": "24px",
+                      "gutter": "24px",
+                      "sidebar-width": "280px"
+              },
+              "fontFamily": {
+                      "title-lg": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "title-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(13, 27, 46, 0.08);
+            box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
+        }
+        .ai-gradient-border {
+            position: relative;
+        }
+        .ai-gradient-border::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #2170e4, #9466ff);
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+        .ai-glow {
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex font-body-md text-body-md">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col w-sidebar h-full fixed left-0 top-0 bg-primary-container border-r border-outline-variant/10 shadow-md z-50">
+<div class="p-gutter pb-4">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">SalesAI Pro</h1>
+<p class="font-label-md text-label-md text-on-primary-container mt-1">Enterprise Tier</p>
+</div>
+<ul class="flex-1 overflow-y-auto mt-4">
+<li><a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="dashboard">dashboard</span> <span class="font-label-md text-label-md">Dashboard</span></a></li>
+<li><a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span> <span class="font-label-md text-label-md">AI Agents</span></a></li>
+<li><a class="flex items-center gap-3 bg-white/10 text-secondary-fixed border-l-4 border-secondary-fixed px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="menu_book" data-weight="fill" style="font-variation-settings: 'FILL' 1;">menu_book</span> <span class="font-label-md text-label-md">Knowledge Base</span></a></li>
+<li><a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="person_search">person_search</span> <span class="font-label-md text-label-md">Leads</span></a></li>
+<li><a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="analytics">analytics</span> <span class="font-label-md text-label-md">Analytics</span></a></li>
+<li><a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="payments">payments</span> <span class="font-label-md text-label-md">Billing</span></a></li>
+<li><a class="flex items-center gap-3 text-on-primary-container/70 hover:text-on-primary-container px-4 py-3 hover:bg-white/5 transition-colors duration-200 active:scale-95 transition-transform" href="#"><span class="material-symbols-outlined" data-icon="settings">settings</span> <span class="font-label-md text-label-md">Settings</span></a></li>
+</ul>
+<div class="p-4 border-t border-white/10 mt-auto flex items-center gap-3">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A small, professional headshot of a corporate user, brightly lit against a neutral grey background, high resolution, soft lighting, modern corporate style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMycZTWswhXWOKv1bDoRXydwx4a8V0glVVrMBgGFYGU15e2Ith2dzlXJ92dtUUXpNnFUiycGT7N9LDb2FBneit2H8wz42umfhtxHxiTX1EbUPQIHiew8_v381tZgiKYI16PqN8LR3Rkr1PcN3BfoxYh5VMyiRWjUkJDTk5g0OyQeLlsjPBp6ytXTS35MG7nuNDlZkOQKCEEJroEOQQj2liN0GDFhbE4q8IF0cq1a-Evu1vlpwFfc9qbg"/>
+<div>
+<p class="font-label-md text-label-md text-on-primary">John Doe</p>
+<p class="font-label-md text-label-md text-on-primary-container/70 text-[10px]">Admin</p>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 md:ml-sidebar-width flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] bg-surface/80 backdrop-blur-md border-b border-outline-variant/20 z-40 flex justify-between items-center px-gutter py-unit">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface p-2"><span class="material-symbols-outlined">menu</span></button>
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 w-64 rounded-full border border-outline-variant bg-surface-container-lowest focus:border-secondary focus:ring-1 focus:ring-secondary text-sm outline-none transition-all" placeholder="Search Knowledge Base..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full"><span class="material-symbols-outlined" data-icon="help_outline">help_outline</span></button>
+<img class="w-8 h-8 rounded-full object-cover md:hidden ml-2 border border-outline-variant" data-alt="A small, professional headshot of a corporate user, brightly lit against a neutral grey background, high resolution, soft lighting, modern corporate style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuIn-S0w1Lr47y5MZ3DlCnJ-Xv2P9VOVa7soRjDK8gA3jMw-pr6vg4W4-i8UTci6ZJ80__M30Dflp79hKNDY0aD7dxgjSi7g2glx9XUeYifZeGIqpEIzQ6yuNXaImGzAZG-djVJyX2Vq3oMAnrqhR4YEeeZfJPtcP-0OS3ViweOSDh9GpaOPYUFZhgnOEdtb9AWWjHdorO-3bcLrNaIOWfdl0DtX59a6VCOzN2b2eM4z6sgELTh_o1Tg"/>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 mt-16 p-gutter md:p-container-margin overflow-y-auto">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background">Knowledge Base Explorer</h2>
+<p class="text-on-surface-variant mt-1">Audit and manage the structured data powering your AI Agents.</p>
+</div>
+<button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span> Add Source
+                </button>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Main List Area -->
+<div class="lg:col-span-2 flex flex-col gap-6">
+<!-- Filters/Stats Bar -->
+<div class="glass-card rounded-xl p-4 flex flex-wrap gap-4 items-center justify-between">
+<div class="flex gap-4">
+<div class="flex items-center gap-2 border-r border-outline-variant/30 pr-4">
+<span class="material-symbols-outlined text-secondary text-[20px]">database</span>
+<div>
+<p class="font-label-md text-label-md text-outline">Total Vectors</p>
+<p class="font-title-lg text-title-lg text-on-surface">45,201</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">description</span>
+<div>
+<p class="font-label-md text-label-md text-outline">Active Sources</p>
+<p class="font-title-lg text-title-lg text-on-surface">128</p>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<select class="border border-outline-variant rounded-lg px-3 py-1.5 text-sm bg-surface-container-lowest outline-none focus:border-secondary focus:ring-1 focus:ring-secondary">
+<option>All Types</option>
+<option>Website URL</option>
+<option>PDF Document</option>
+<option>Manual Entry</option>
+</select>
+<select class="border border-outline-variant rounded-lg px-3 py-1.5 text-sm bg-surface-container-lowest outline-none focus:border-secondary focus:ring-1 focus:ring-secondary">
+<option>Status: All</option>
+<option>Synced</option>
+<option>Syncing</option>
+<option>Error</option>
+</select>
+</div>
+</div>
+<!-- Source List -->
+<div class="glass-card rounded-xl overflow-hidden flex flex-col">
+<div class="p-4 border-b border-outline-variant/20 bg-surface/50">
+<h3 class="font-title-lg text-title-lg">Indexed Sources</h3>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/20 text-outline font-label-md text-label-md">
+<th class="p-4 font-medium">Source Name &amp; Type</th>
+<th class="p-4 font-medium">Sync Status</th>
+<th class="p-4 font-medium">Last Crawled</th>
+<th class="p-4 font-medium text-right">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">language</span>
+</div>
+<div>
+<p class="font-medium text-on-surface">Sales Playbook 2024</p>
+<p class="text-xs text-outline font-mono">https://internal.acme.com/playbook</p>
+</div>
+</div>
+</td>
+<td class="p-4">
+<div class="flex flex-col gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-[#e6f4ea] text-[#137333] w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-[#137333]"></span> Synced
+                                                </span>
+<p class="text-xs text-outline">1,200 Vectors</p>
+</div>
+</td>
+<td class="p-4 text-sm text-on-surface-variant">2 hours ago</td>
+<td class="p-4 text-right">
+<button class="text-outline hover:text-secondary p-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="text-outline hover:text-secondary p-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[20px]">sync</span></button>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-tertiary-container/10 flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+</div>
+<div>
+<p class="font-medium text-on-surface">Product_Specs_Q3.pdf</p>
+<p class="text-xs text-outline">PDF Document • 4.2 MB</p>
+</div>
+</div>
+</td>
+<td class="p-4">
+<div class="flex flex-col gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-[#e8f0fe] text-[#1967d2] w-fit">
+<span class="material-symbols-outlined text-[12px] animate-spin">autorenew</span> Syncing...
+                                                </span>
+<p class="text-xs text-outline">Extracting...</p>
+</div>
+</td>
+<td class="p-4 text-sm text-on-surface-variant">Just now</td>
+<td class="p-4 text-right">
+<button class="text-outline hover:text-secondary p-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-tint/10 flex items-center justify-center text-surface-tint">
+<span class="material-symbols-outlined text-[18px]">article</span>
+</div>
+<div>
+<p class="font-medium text-on-surface">Objection Handling FAQs</p>
+<p class="text-xs text-outline">Manual Entry • 45 QA Pairs</p>
+</div>
+</div>
+</td>
+<td class="p-4">
+<div class="flex flex-col gap-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-[#e6f4ea] text-[#137333] w-fit">
+<span class="w-1.5 h-1.5 rounded-full bg-[#137333]"></span> Synced
+                                                </span>
+<p class="text-xs text-outline">890 Vectors</p>
+</div>
+</td>
+<td class="p-4 text-sm text-on-surface-variant">Oct 12, 2023</td>
+<td class="p-4 text-right">
+<button class="text-outline hover:text-secondary p-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="text-outline hover:text-secondary p-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-[20px]">sync</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-3 border-t border-outline-variant/20 flex justify-center">
+<button class="text-sm font-medium text-secondary hover:text-secondary-container transition-colors">View All Sources</button>
+</div>
+</div>
+</div>
+<!-- Right Sidebar / Test Area -->
+<div class="lg:col-span-1">
+<div class="glass-card ai-gradient-border ai-glow rounded-xl p-5 flex flex-col sticky top-24">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-secondary">memory</span>
+<h3 class="font-title-lg text-title-lg">Semantic Search Test</h3>
+</div>
+<p class="text-sm text-on-surface-variant mb-4">Type a query to see which document chunks the AI retrieves in real-time.</p>
+<div class="relative mb-6">
+<textarea class="w-full rounded-lg border border-outline-variant bg-surface-container-lowest p-3 text-sm focus:border-secondary focus:ring-1 focus:ring-secondary outline-none resize-none" placeholder="e.g., 'How do we handle pricing objections for enterprise?'" rows="3"></textarea>
+<button class="absolute bottom-3 right-3 bg-secondary text-on-secondary p-1.5 rounded-md hover:bg-secondary-container transition-colors shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<div class="flex-1 flex flex-col gap-3">
+<h4 class="font-label-md text-label-md text-outline uppercase tracking-wider">Top Retrievals</h4>
+<!-- Retrieval Item -->
+<div class="p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 hover:border-secondary/30 transition-colors">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-mono text-tertiary-container bg-tertiary-container/10 px-2 py-0.5 rounded">Score: 0.92</span>
+<span class="text-[10px] text-outline">Sales Playbook</span>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-3 leading-relaxed">
+                                    "...For enterprise tiers, emphasize the total cost of ownership. If they object to the initial setup fee, remind them that our dedicated onboarding team reduces their internal resource strain by 40%..."
+                                </p>
+</div>
+<!-- Retrieval Item -->
+<div class="p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 hover:border-secondary/30 transition-colors">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-mono text-tertiary-container bg-tertiary-container/10 px-2 py-0.5 rounded">Score: 0.85</span>
+<span class="text-[10px] text-outline">Objection Handling FAQs</span>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-3 leading-relaxed">
+                                    "Q: It's too expensive compared to competitors. A: Focus on our unique vector-sync technology which guarantees 99% accuracy in retrieval, a feature competitors lack, leading to higher ROI."
+                                </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

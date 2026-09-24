@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>SalesAI Pro - Cognitive Intelligence System</title>
+    <meta name="description" content="Monitor AI reasoning, confidence scoring, and cognitive intelligence in real-time."/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode:"class",
+            theme: { extend: { colors: {
+                "primary-container":"#131b2e","on-primary-container":"#9aa4be",
+                "secondary-container":"#2170e4","secondary":"#0058be","secondary-fixed":"#d8e2ff",
+                "tertiary-container":"#23005c","surface":"#f7f9fb","surface-container":"#eceef0",
+                "surface-container-low":"#f2f4f6","surface-container-lowest":"#ffffff",
+                "on-surface":"#191c1e","on-surface-variant":"#45464d","outline-variant":"#c6c6cd","outline":"#76777d"
+            }}}
+        }
+    </script>
+    <style>
+        body { font-family:'Inter',sans-serif; }
+        .glass-card { background:rgba(255,255,255,0.85); backdrop-filter:blur(12px); border:1px solid rgba(19,27,46,0.08); box-shadow:0 4px 20px rgba(15,23,42,0.05); }
+        .ai-gradient { background:linear-gradient(135deg,#2170e4 0%,#9466ff 100%); }
+        .ai-gradient-text { background:linear-gradient(135deg,#2170e4,#9466ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .ai-gradient-border-top { border-top:3px solid transparent; background-image:linear-gradient(rgba(255,255,255,0.92),rgba(255,255,255,0.92)),linear-gradient(90deg,#2170e4,#9466ff); background-origin:border-box; background-clip:padding-box,border-box; }
+        .custom-scrollbar::-webkit-scrollbar { width:5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.15); border-radius:4px; }
+        @keyframes pulse-glow { 0%,100% { box-shadow:0 0 0 0 rgba(33,112,228,0.3); } 50% { box-shadow:0 0 0 8px rgba(33,112,228,0); } }
+        .pulse-glow { animation:pulse-glow 2.5s infinite; }
+        @keyframes thinking { 0%,100% { opacity:0.4; } 50% { opacity:1; } }
+        .thinking-dot { animation:thinking 1.4s ease-in-out infinite; }
+        .thinking-dot:nth-child(2) { animation-delay:0.2s; }
+        .thinking-dot:nth-child(3) { animation-delay:0.4s; }
+        .score-ring { stroke-dasharray:251; stroke-dashoffset:calc(251 - (251 * var(--pct)) / 100); transition:stroke-dashoffset 1s ease; stroke-linecap:round; transform:rotate(-90deg); transform-origin:center; }
+        @keyframes fade-in { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+        .fade-in { animation:fade-in 0.3s ease forwards; }
+    </style>
+</head>
+<body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="cognitive">
+
+    <div id="main-sidebar-container"></div>
+
+    <main class="flex-1 ml-0 md:ml-[280px] min-h-screen flex flex-col">
+        <!-- Top Nav -->
+        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-6 z-40">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 ai-gradient rounded-lg flex items-center justify-center shadow-sm pulse-glow">
+                    <span class="material-symbols-outlined text-white text-[18px]" style="font-variation-settings:'FILL' 1">psychology</span>
+                </div>
+                <div>
+                    <h1 class="text-sm font-bold text-on-surface">Cognitive Intelligence System</h1>
+                    <p class="text-xs text-outline hidden sm:block">AI Reasoning Monitor · Real-Time Decision Analysis</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1.5 px-2.5 py-1 bg-purple-50 text-purple-700 text-xs font-semibold rounded-full border border-purple-200">
+                    <span class="w-1.5 h-1.5 bg-purple-500 rounded-full animate-pulse"></span>
+                    AI Engine Active
+                </span>
+                <button onclick="simulateReasoning()" class="flex items-center gap-1.5 px-3 py-1.5 ai-gradient text-white text-xs font-semibold rounded-lg hover:opacity-90 transition-opacity shadow-sm">
+                    <span class="material-symbols-outlined text-[15px]">play_arrow</span>
+                    Simulate Reasoning
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 pt-16 p-6 space-y-6">
+
+            <!-- Top Metrics -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-card rounded-xl p-4 ai-gradient-border-top">
+                    <p class="text-xs text-outline font-medium mb-1 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[14px] text-purple-600">psychology</span>
+                        Avg Confidence
+                    </p>
+                    <div class="flex items-end gap-2">
+                        <p class="text-3xl font-extrabold ai-gradient-text" id="avg-confidence">87</p>
+                        <p class="text-lg font-bold text-outline mb-0.5">%</p>
+                    </div>
+                    <p class="text-xs text-green-600 font-semibold mt-1">↑ +3.2% vs last week</p>
+                </div>
+                <div class="glass-card rounded-xl p-4">
+                    <p class="text-xs text-outline font-medium mb-1 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[14px] text-secondary-container">speed</span>
+                        Avg Response Time
+                    </p>
+                    <div class="flex items-end gap-2">
+                        <p class="text-3xl font-extrabold text-secondary-container" id="avg-response">1.4</p>
+                        <p class="text-sm font-bold text-outline mb-1">sec</p>
+                    </div>
+                    <p class="text-xs text-green-600 font-semibold mt-1">↓ 0.3s faster</p>
+                </div>
+                <div class="glass-card rounded-xl p-4">
+                    <p class="text-xs text-outline font-medium mb-1 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[14px] text-emerald-600">verified</span>
+                        Decisions Today
+                    </p>
+                    <p class="text-3xl font-extrabold text-on-surface" id="decisions-count">2,847</p>
+                    <p class="text-xs text-green-600 font-semibold mt-1">↑ +12% vs yesterday</p>
+                </div>
+                <div class="glass-card rounded-xl p-4">
+                    <p class="text-xs text-outline font-medium mb-1 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[14px] text-amber-500">warning</span>
+                        Low Confidence
+                    </p>
+                    <p class="text-3xl font-extrabold text-amber-500" id="low-conf-count">43</p>
+                    <p class="text-xs text-amber-600 font-semibold mt-1">Flagged for review</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- Left: Live Reasoning Log -->
+                <div class="lg:col-span-2 space-y-5">
+
+                    <!-- Live Decision Feed -->
+                    <div class="glass-card rounded-xl overflow-hidden">
+                        <div class="p-4 border-b border-outline-variant/20 flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-on-surface flex items-center gap-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                Live AI Decision Stream
+                            </h3>
+                            <div class="flex items-center gap-2">
+                                <select id="agent-filter" onchange="filterDecisions()" class="text-xs border border-outline-variant rounded-lg px-2 py-1 bg-surface outline-none focus:border-secondary">
+                                    <option value="">All Agents</option>
+                                    <option value="Apex Closer">Apex Closer</option>
+                                    <option value="Stitch Inbound">Stitch Inbound</option>
+                                </select>
+                                <button onclick="clearDecisions()" class="text-xs text-outline hover:text-on-surface transition-colors">Clear</button>
+                            </div>
+                        </div>
+                        <div id="decision-feed" class="custom-scrollbar h-72 overflow-y-auto p-3 space-y-2 bg-surface-container-low/30">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Reasoning Chain Visualizer -->
+                    <div class="glass-card rounded-xl p-5 ai-gradient-border-top">
+                        <h3 class="text-sm font-bold text-on-surface mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-purple-600 text-[18px]">account_tree</span>
+                            AI Reasoning Chain
+                            <span class="text-[10px] px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full font-mono">Last Decision</span>
+                        </h3>
+
+                        <div class="space-y-3" id="reasoning-chain">
+                            <div class="flex gap-3 fade-in">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 ai-gradient rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">1</div>
+                                    <div class="w-px flex-1 bg-outline-variant/40 mt-1"></div>
+                                </div>
+                                <div class="flex-1 pb-3">
+                                    <p class="text-xs font-semibold text-on-surface">Intent Classification</p>
+                                    <p class="text-xs text-on-surface-variant mt-0.5">Detected: <strong>pricing_inquiry</strong> · Confidence: 94%</p>
+                                    <div class="mt-1.5 h-1.5 bg-surface-container rounded-full overflow-hidden w-48"><div class="h-full ai-gradient rounded-full" style="width:94%"></div></div>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 fade-in" style="animation-delay:0.1s">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">2</div>
+                                    <div class="w-px flex-1 bg-outline-variant/40 mt-1"></div>
+                                </div>
+                                <div class="flex-1 pb-3">
+                                    <p class="text-xs font-semibold text-on-surface">RAG Retrieval</p>
+                                    <p class="text-xs text-on-surface-variant mt-0.5">Retrieved 3 context chunks from <strong>Sales Playbook</strong> · Top score: 0.92</p>
+                                    <div class="mt-1.5 flex gap-1">
+                                        <span class="text-[10px] px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded font-mono">chunk_892</span>
+                                        <span class="text-[10px] px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded font-mono">chunk_447</span>
+                                        <span class="text-[10px] px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded font-mono">chunk_103</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 fade-in" style="animation-delay:0.2s">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">3</div>
+                                    <div class="w-px flex-1 bg-outline-variant/40 mt-1"></div>
+                                </div>
+                                <div class="flex-1 pb-3">
+                                    <p class="text-xs font-semibold text-on-surface">Response Generation</p>
+                                    <p class="text-xs text-on-surface-variant mt-0.5">GPT-4 generated a 89-word response · Tone: <strong>consultative</strong></p>
+                                    <div class="mt-1.5 h-1.5 bg-surface-container rounded-full overflow-hidden w-36"><div class="h-full bg-amber-500 rounded-full" style="width:89%"></div></div>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 fade-in" style="animation-delay:0.3s">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-8 h-8 bg-secondary-container rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">4</div>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-xs font-semibold text-on-surface">Lead Score Updated</p>
+                                    <p class="text-xs text-on-surface-variant mt-0.5">Visitor score upgraded: <strong>Cold → Warm (72%)</strong> · CRM sync triggered</p>
+                                    <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-[10px] font-bold">
+                                        <span class="material-symbols-outlined text-[12px]">check_circle</span>
+                                        Decision complete · 1.4s
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="simulateReasoning()" class="mt-4 w-full py-2 border border-secondary-container/30 text-secondary-container text-xs font-semibold rounded-xl hover:bg-secondary-container hover:text-white transition-colors">
+                            Simulate New Reasoning Chain
+                        </button>
+                    </div>
+
+                    <!-- Confidence Trend Chart -->
+                    <div class="glass-card rounded-xl p-5">
+                        <h3 class="text-sm font-bold text-on-surface mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary-container text-[18px]">show_chart</span>
+                            7-Day Confidence Trend
+                        </h3>
+                        <div class="flex items-end gap-2 h-24">
+                            <div class="flex flex-col items-center gap-1 flex-1">
+                                <div class="w-full bg-secondary-container/20 rounded-t" style="height:65%"></div>
+                                <span class="text-[9px] text-outline">Mon</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-1 flex-1">
+                                <div class="w-full ai-gradient rounded-t opacity-60" style="height:72%"></div>
+                                <span class="text-[9px] text-outline">Tue</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-1 flex-1">
+                                <div class="w-full ai-gradient rounded-t opacity-70" style="height:80%"></div>
+                                <span class="text-[9px] text-outline">Wed</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-1 flex-1">
+                                <div class="w-full ai-gradient rounded-t opacity-80" style="height:75%"></div>
+                                <span class="text-[9px] text-outline">Thu</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-1 flex-1">
+                                <div class="w-full ai-gradient rounded-t opacity-85" style="height:85%"></div>
+                                <span class="text-[9px] text-outline">Fri</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-1 flex-1">
+                                <div class="w-full ai-gradient rounded-t opacity-90" style="height:90%"></div>
+                                <span class="text-[9px] text-outline">Sat</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-1 flex-1">
+                                <div class="w-full ai-gradient rounded-t" style="height:87%"></div>
+                                <span class="text-[9px] text-outline font-bold text-purple-600">Today</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between text-xs text-on-surface-variant">
+                            <span>Avg: <strong>87%</strong> this week</span>
+                            <span class="text-green-600 font-semibold">↑ +5.2% vs last week</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Agent Intelligence Panel -->
+                <div class="lg:col-span-1">
+                    <div class="sticky top-24 space-y-4">
+
+                        <!-- Agent Intelligence Scores -->
+                        <div class="glass-card rounded-xl p-5 ai-gradient-border-top">
+                            <h3 class="text-sm font-bold text-on-surface mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-purple-600 text-[18px]">smart_toy</span>
+                                Agent Intelligence
+                            </h3>
+
+                            <!-- Agent: Apex Closer -->
+                            <div class="mb-5">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-7 h-7 ai-gradient rounded-full flex items-center justify-center">
+                                            <span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">smart_toy</span>
+                                        </div>
+                                        <span class="text-xs font-bold text-on-surface">Apex Closer Pro</span>
+                                    </div>
+                                    <span class="text-[10px] px-1.5 py-0.5 bg-green-100 text-green-700 rounded-full font-bold">Live</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="p-2.5 bg-surface-container rounded-xl text-center">
+                                        <p class="text-lg font-extrabold ai-gradient-text">91%</p>
+                                        <p class="text-[10px] text-outline">Confidence</p>
+                                    </div>
+                                    <div class="p-2.5 bg-surface-container rounded-xl text-center">
+                                        <p class="text-lg font-extrabold text-secondary-container">1.2s</p>
+                                        <p class="text-[10px] text-outline">Response</p>
+                                    </div>
+                                    <div class="p-2.5 bg-surface-container rounded-xl text-center">
+                                        <p class="text-lg font-extrabold text-emerald-600">1,847</p>
+                                        <p class="text-[10px] text-outline">Decisions</p>
+                                    </div>
+                                    <div class="p-2.5 bg-surface-container rounded-xl text-center">
+                                        <p class="text-lg font-extrabold text-amber-500">2.1%</p>
+                                        <p class="text-[10px] text-outline">Fallback</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Divider -->
+                            <div class="border-t border-outline-variant/20 my-3"></div>
+
+                            <!-- Agent: Stitch Inbound -->
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-7 h-7 bg-purple-600 rounded-full flex items-center justify-center">
+                                            <span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">support_agent</span>
+                                        </div>
+                                        <span class="text-xs font-bold text-on-surface">Stitch Inbound AI</span>
+                                    </div>
+                                    <span class="text-[10px] px-1.5 py-0.5 bg-green-100 text-green-700 rounded-full font-bold">Live</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="p-2.5 bg-surface-container rounded-xl text-center">
+                                        <p class="text-lg font-extrabold ai-gradient-text">83%</p>
+                                        <p class="text-[10px] text-outline">Confidence</p>
+                                    </div>
+                                    <div class="p-2.5 bg-surface-container rounded-xl text-center">
+                                        <p class="text-lg font-extrabold text-secondary-container">1.6s</p>
+                                        <p class="text-[10px] text-outline">Response</p>
+                                    </div>
+                                    <div class="p-2.5 bg-surface-container rounded-xl text-center">
+                                        <p class="text-lg font-extrabold text-emerald-600">1,000</p>
+                                        <p class="text-[10px] text-outline">Decisions</p>
+                                    </div>
+                                    <div class="p-2.5 bg-surface-container rounded-xl text-center">
+                                        <p class="text-lg font-extrabold text-amber-500">4.8%</p>
+                                        <p class="text-[10px] text-outline">Fallback</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Intent Distribution -->
+                        <div class="glass-card rounded-xl p-4">
+                            <h3 class="text-sm font-bold text-on-surface mb-3 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[18px] text-amber-500">donut_large</span>
+                                Intent Distribution
+                            </h3>
+                            <div class="space-y-2.5">
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="text-on-surface-variant">Pricing Inquiry</span>
+                                        <span class="font-bold text-on-surface">38%</span>
+                                    </div>
+                                    <div class="h-1.5 bg-surface-container rounded-full overflow-hidden">
+                                        <div class="h-full ai-gradient rounded-full" style="width:38%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="text-on-surface-variant">Product Demo Request</span>
+                                        <span class="font-bold text-on-surface">24%</span>
+                                    </div>
+                                    <div class="h-1.5 bg-surface-container rounded-full overflow-hidden">
+                                        <div class="h-full bg-emerald-500 rounded-full" style="width:24%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="text-on-surface-variant">Technical Support</span>
+                                        <span class="font-bold text-on-surface">19%</span>
+                                    </div>
+                                    <div class="h-1.5 bg-surface-container rounded-full overflow-hidden">
+                                        <div class="h-full bg-blue-500 rounded-full" style="width:19%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="text-on-surface-variant">General Inquiry</span>
+                                        <span class="font-bold text-on-surface">12%</span>
+                                    </div>
+                                    <div class="h-1.5 bg-surface-container rounded-full overflow-hidden">
+                                        <div class="h-full bg-amber-400 rounded-full" style="width:12%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="text-on-surface-variant">Unknown / Fallback</span>
+                                        <span class="font-bold text-red-500">7%</span>
+                                    </div>
+                                    <div class="h-1.5 bg-surface-container rounded-full overflow-hidden">
+                                        <div class="h-full bg-red-400 rounded-full" style="width:7%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app-state.js"></script>
+    <script>
+        const INTENTS = ['pricing_inquiry','product_demo_request','objection_handling','technical_support','general_inquiry'];
+        const AGENTS = ['Apex Closer Pro','Stitch Inbound AI'];
+
+        const DECISIONS = [
+            { agent:'Apex Closer Pro', intent:'pricing_inquiry', confidence:94, time:'12:45:32', action:'Presented Enterprise plan', lead:'David Miller' },
+            { agent:'Stitch Inbound AI', intent:'product_demo_request', confidence:88, time:'12:44:18', action:'Booked demo call', lead:'Priya Patel' },
+            { agent:'Apex Closer Pro', intent:'objection_handling', confidence:76, time:'12:43:05', action:'Used pricing objection script', lead:'Marcus Sterling' },
+            { agent:'Stitch Inbound AI', intent:'general_inquiry', confidence:91, time:'12:42:50', action:'Explained feature set', lead:'Elena Rostova' },
+            { agent:'Apex Closer Pro', intent:'pricing_inquiry', confidence:62, time:'12:41:30', action:'Flagged for review (low confidence)', lead:'Kevin Zhou', flagged:true },
+            { agent:'Stitch Inbound AI', intent:'technical_support', confidence:83, time:'12:40:12', action:'Resolved widget installation issue', lead:'James Park' },
+        ];
+
+        let allDecisions = [...DECISIONS];
+
+        function renderDecisions(decisions) {
+            const feed = document.getElementById('decision-feed');
+            feed.innerHTML = decisions.map(d => `
+                <div class="flex gap-2 p-2.5 rounded-xl ${d.flagged ? 'bg-amber-50 border border-amber-200' : 'bg-surface-container-lowest border border-outline-variant/20'} fade-in">
+                    <div class="w-7 h-7 ${d.agent.includes('Apex') ? 'ai-gradient' : 'bg-purple-600'} rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span class="material-symbols-outlined text-white text-[12px]" style="font-variation-settings:'FILL' 1">smart_toy</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between gap-1">
+                            <p class="text-[11px] font-bold text-on-surface truncate">${d.lead}</p>
+                            <span class="text-[10px] font-mono text-outline flex-shrink-0">${d.time}</span>
+                        </div>
+                        <p class="text-[10px] text-on-surface-variant">${d.agent} · <span class="font-mono">${d.intent}</span></p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <div class="flex-1 h-1 bg-surface-container rounded-full overflow-hidden">
+                                <div class="h-full rounded-full ${d.confidence >= 80 ? 'bg-green-500' : d.confidence >= 65 ? 'bg-amber-500' : 'bg-red-400'}" style="width:${d.confidence}%"></div>
+                            </div>
+                            <span class="text-[10px] font-bold ${d.confidence >= 80 ? 'text-green-700' : d.confidence >= 65 ? 'text-amber-700' : 'text-red-600'}">${d.confidence}%</span>
+                            ${d.flagged ? '<span class="material-symbols-outlined text-[12px] text-amber-600">warning</span>' : ''}
+                        </div>
+                        <p class="text-[10px] text-on-surface-variant mt-0.5 truncate">${d.action}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterDecisions() {
+            const agent = document.getElementById('agent-filter').value;
+            const filtered = agent ? allDecisions.filter(d => d.agent === agent) : allDecisions;
+            renderDecisions(filtered);
+        }
+
+        function clearDecisions() {
+            allDecisions = [];
+            renderDecisions([]);
+            AppState.showToast('Feed Cleared', 'Decision stream cleared. New decisions will appear automatically.');
+        }
+
+        const reasoningTemplates = [
+            { intent:'technical_support', conf:88, action:'Provided widget installation guide', lead:'Sofia Alvarez', chunks:['chunk_201','chunk_305'] },
+            { intent:'pricing_inquiry', conf:96, action:'Recommended Professional plan', lead:'Ali Hassan', chunks:['chunk_892','chunk_447'] },
+            { intent:'product_demo_request', conf:79, action:'Scheduled live demo via Calendly', lead:'Yuki Tanaka', chunks:['chunk_110','chunk_220'] },
+        ];
+
+        function simulateReasoning() {
+            const template = reasoningTemplates[Math.floor(Math.random() * reasoningTemplates.length)];
+            const now = new Date();
+            const timeStr = now.toTimeString().split(' ')[0];
+            const newDecision = { agent:AGENTS[Math.floor(Math.random()*2)], intent:template.intent, confidence:template.conf, time:timeStr, action:template.action, lead:template.lead };
+            allDecisions.unshift(newDecision);
+            filterDecisions();
+
+            // Update reasoning chain
+            document.getElementById('reasoning-chain').innerHTML = `
+                <div class="flex gap-3 fade-in">
+                    <div class="flex flex-col items-center">
+                        <div class="w-8 h-8 ai-gradient rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">1</div>
+                        <div class="w-px flex-1 bg-outline-variant/40 mt-1"></div>
+                    </div>
+                    <div class="flex-1 pb-3">
+                        <p class="text-xs font-semibold text-on-surface">Intent Classification</p>
+                        <p class="text-xs text-on-surface-variant mt-0.5">Detected: <strong>${template.intent}</strong> · Confidence: ${template.conf}%</p>
+                        <div class="mt-1.5 h-1.5 bg-surface-container rounded-full overflow-hidden w-48"><div class="h-full ai-gradient rounded-full" style="width:${template.conf}%"></div></div>
+                    </div>
+                </div>
+                <div class="flex gap-3 fade-in" style="animation-delay:0.1s">
+                    <div class="flex flex-col items-center">
+                        <div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">2</div>
+                        <div class="w-px flex-1 bg-outline-variant/40 mt-1"></div>
+                    </div>
+                    <div class="flex-1 pb-3">
+                        <p class="text-xs font-semibold text-on-surface">RAG Retrieval</p>
+                        <p class="text-xs text-on-surface-variant mt-0.5">Retrieved ${template.chunks.length} context chunks · Top score: ${(0.85 + Math.random()*0.1).toFixed(2)}</p>
+                        <div class="mt-1.5 flex gap-1">${template.chunks.map(c=>`<span class="text-[10px] px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded font-mono">${c}</span>`).join('')}</div>
+                    </div>
+                </div>
+                <div class="flex gap-3 fade-in" style="animation-delay:0.2s">
+                    <div class="flex flex-col items-center">
+                        <div class="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">3</div>
+                        <div class="w-px flex-1 bg-outline-variant/40 mt-1"></div>
+                    </div>
+                    <div class="flex-1 pb-3">
+                        <p class="text-xs font-semibold text-on-surface">Response Generation</p>
+                        <p class="text-xs text-on-surface-variant mt-0.5">GPT-4 generated a ${Math.floor(70+Math.random()*40)}-word response · Tone: <strong>consultative</strong></p>
+                    </div>
+                </div>
+                <div class="flex gap-3 fade-in" style="animation-delay:0.3s">
+                    <div class="flex flex-col items-center">
+                        <div class="w-8 h-8 bg-secondary-container rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">4</div>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-xs font-semibold text-on-surface">Decision Complete</p>
+                        <p class="text-xs text-on-surface-variant mt-0.5">${template.action} for <strong>${template.lead}</strong></p>
+                        <div class="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-[10px] font-bold">
+                            <span class="material-symbols-outlined text-[12px]">check_circle</span>
+                            Done · ${(1 + Math.random()*0.8).toFixed(1)}s
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            AppState.showToast('Reasoning Simulated', `New ${template.intent} decision for ${template.lead} — ${template.conf}% confidence.`);
+        }
+
+        // Auto-simulate every 8 seconds
+        setInterval(() => {
+            if (document.visibilityState === 'visible') simulateReasoning();
+        }, 8000);
+
+        renderDecisions(allDecisions);
+    </script>
+</body>
+</html>
