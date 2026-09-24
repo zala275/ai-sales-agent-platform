@@ -107,18 +107,21 @@
         <!-- Page Content -->
         <div class="flex-1 pt-16 flex flex-col">
 
-            <!-- Intro Banner -->
-            <div class="bg-primary-container text-white px-6 py-3 flex items-center justify-between text-xs flex-wrap gap-2">
-                <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-yellow-400 text-[16px]" style="font-variation-settings:'FILL' 1">info</span>
-                    <span class="text-on-primary-container"><strong class="text-white">Demo Mode:</strong> This simulates a real customer website with a SalesAI Pro widget embedded. Interact with the widget to see AI lead capture in action.</span>
+            <!-- Intro Banner: Explicit Human Sales Executive Distinction -->
+            <div class="bg-[#0b1120] text-white px-6 py-3.5 flex items-center justify-between text-xs flex-wrap gap-3 border-b border-slate-800">
+                <div class="flex items-center gap-2.5">
+                    <span class="px-2 py-0.5 rounded bg-blue-600/30 text-blue-300 font-bold tracking-wider text-[10px] uppercase border border-blue-500/40">Not A Chatbot</span>
+                    <span class="text-slate-300">
+                        <strong class="text-white font-semibold">Autonomous Online Salesman:</strong>
+                        Tracks buyer hesitation, asks consultative sales discovery questions, handles pricing objections, and closes qualified pipeline deals 24/7.
+                    </span>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button onclick="autoPlayDemo()" class="flex items-center gap-1 px-2.5 py-1 bg-secondary-container text-white rounded-lg hover:bg-secondary transition-colors font-semibold">
-                        <span class="material-symbols-outlined text-[14px]">play_arrow</span> Auto-Play
+                    <button onclick="autoPlayDemo()" class="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-bold shadow-sm">
+                        <span class="material-symbols-outlined text-[15px]">play_arrow</span> Auto-Play Sales Pitch
                     </button>
-                    <a href="leads.html" class="flex items-center gap-1 text-secondary-fixed hover:text-white transition-colors font-semibold">
-                        View Captured Leads <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                    <a href="leads.html" class="flex items-center gap-1 text-blue-400 hover:text-white transition-colors font-semibold">
+                        View Leads Pipeline <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
                     </a>
                 </div>
             </div>
@@ -276,21 +279,24 @@
                                 </div>
                                 <div>
                                     <div class="bg-white border border-outline-variant/10 rounded-2xl rounded-tl-none p-3 shadow-sm max-w-[85%]">
-                                        <p class="text-xs text-on-surface">Hi! I'm your Tech Sales Specialist. 👋 I can help you find the perfect plan, answer product questions, or connect you with our team. What can I help you with today?</p>
+                                        <p class="text-xs text-on-surface">👋 Welcome! I'm <strong>Alex</strong>, your Senior AI Sales Representative. Rather than a passive chatbot, I act as your online human sales executive: analyzing your pipeline requirements, calculating your ROI, overcoming objections, and tailoring high-converting proposals. What's the biggest challenge in your sales pipeline right now?</p>
                                     </div>
-                                    <p class="text-[10px] text-outline mt-1 pl-1">Just now</p>
+                                    <p class="text-[10px] text-outline mt-1 pl-1">Just now · Autonomous Closer</p>
                                 </div>
                             </div>
-                            <!-- Quick reply chips -->
+                            <!-- Quick reply chips: Sales Methodology Showcase -->
                             <div class="flex flex-wrap gap-1.5 pl-10">
-                                <button onclick="sendChatMsg('What is the Enterprise plan?')" class="px-2.5 py-1 text-[11px] border border-secondary-container/40 text-secondary-container rounded-full hover:bg-secondary-container hover:text-white transition-colors">
-                                    Enterprise plan?
+                                <button onclick="sendChatMsg('Why are you not a chatbot?')" class="px-2.5 py-1 text-[11px] border border-blue-500/40 bg-blue-50/50 text-blue-700 font-semibold rounded-full hover:bg-blue-600 hover:text-white transition-colors">
+                                    ⚡ Why are you NOT a chatbot?
                                 </button>
-                                <button onclick="sendChatMsg('What integrations do you support?')" class="px-2.5 py-1 text-[11px] border border-secondary-container/40 text-secondary-container rounded-full hover:bg-secondary-container hover:text-white transition-colors">
-                                    Integrations?
+                                <button onclick="sendChatMsg('That seems too expensive for our team.')" class="px-2.5 py-1 text-[11px] border border-purple-500/40 bg-purple-50/50 text-purple-700 font-semibold rounded-full hover:bg-purple-600 hover:text-white transition-colors">
+                                    💰 That's too expensive (Handle Objection)
                                 </button>
-                                <button onclick="sendChatMsg('Can I get a free trial?')" class="px-2.5 py-1 text-[11px] border border-secondary-container/40 text-secondary-container rounded-full hover:bg-secondary-container hover:text-white transition-colors">
-                                    Free trial?
+                                <button onclick="sendChatMsg('How do you act like a human salesman?')" class="px-2.5 py-1 text-[11px] border border-slate-300 text-slate-700 font-semibold rounded-full hover:bg-slate-800 hover:text-white transition-colors">
+                                    👔 Human Salesman vs Bot?
+                                </button>
+                                <button onclick="sendChatMsg('What is the Enterprise plan?')" class="px-2.5 py-1 text-[11px] border border-secondary-container/40 text-secondary-container font-semibold rounded-full hover:bg-secondary-container hover:text-white transition-colors">
+                                    🏢 Enterprise & White-label
                                 </button>
                             </div>
                         </div>
@@ -415,43 +421,58 @@
         }
 
         // =============================================================
-        // CHAT LOGIC
+        // CHAT LOGIC - Autonomous Online Salesman & Closer
         // =============================================================
         const aiResponses = {
+            'not_a_bot': {
+                msg: "I am an <strong>Autonomous AI Sales Representative</strong> — definitely not a passive chatbot. While support bots just regurgitate help articles, I operate as your online human sales executive: I detect buyer hesitation, diagnose pipeline bottlenecks, qualify prospects using the BANT framework (Budget, Authority, Need, Timeline), calculate custom ROI, overcome pricing objections, and book high-value deals into your team's calendar 24/7. What's your average deal size?",
+                next: 'follow_up'
+            },
+            'objection_price': {
+                msg: "I completely respect budget diligence! Let's examine the mathematics: If your average deal value is $1,000, closing just <strong>one single additional lead</strong> that would have bounced after 6 PM yields an immediate <strong>1,200% ROI</strong> on our $79/mo Professional Tier. Plus, as an authorized closer, I can lock in an exclusive <strong>20% Showcase Partner Credit</strong> for you today. Shall I apply that credit to your setup?",
+                next: 'lead_capture'
+            },
+            'human_vs_bot': {
+                msg: "A traditional human SDR costs $65,000+/year, sleeps 8 hours a night, and takes an average of 42 minutes to follow up on an inbound lead — by which time 78% of buyers have moved to a competitor! As your Autonomous Online Salesman, I engage prospects in <strong>under 500 milliseconds</strong>, conduct consultative discovery in real time, and pass pre-qualified, warm deals straight to your calendar.",
+                next: 'lead_capture'
+            },
             'enterprise': {
-                msg: "Our <strong>Enterprise plan</strong> is fully custom — unlimited agents, white-label widget, dedicated account manager, and custom API integrations. Typical pricing starts at $199/mo. Would you like me to connect you with our sales team?",
+                msg: "Our <strong>Enterprise plan ($199/mo)</strong> is built for high-volume sales teams: unlimited agents, white-label widget, dedicated SLA, custom CRM webhooks, and multi-agent coordination. Would you like me to reserve an Enterprise onboarding slot for your domain?",
                 next: 'lead_capture'
             },
             'integration': {
-                msg: "We support <strong>Salesforce, HubSpot, Pipedrive, Zoho, Slack, and 20+ more</strong> via native integrations. We also offer a full REST API for custom setups. Which CRM are you currently using?",
+                msg: "We provide bi-directional sync with <strong>Salesforce, HubSpot, Pipedrive, Zoho, Slack, and Zapier</strong>. Every conversation transcript, lead score, and BANT qualification field pushes straight to your pipeline instantly. Which CRM is your team using?",
                 next: 'follow_up'
             },
             'trial': {
-                msg: "Yes! We offer a <strong>14-day free trial</strong> on all plans — no credit card required. You get full access to all features. Want me to set up a trial account for you right now?",
+                msg: "Yes! We offer a <strong>14-day fully featured pilot</strong> with zero commitments. You can deploy an autonomous agent to your site in under 3 minutes. Can I send the deployment key to your work email?",
                 next: 'lead_capture'
             },
             'price': {
-                msg: "Our plans start at <strong>$29/mo</strong> (Starter), <strong>$79/mo</strong> (Professional – most popular), and <strong>custom Enterprise</strong> pricing. Annual plans save 20%. Which tier interests you most?",
+                msg: "Our plans are structured by sales output: <strong>Starter ($29/mo)</strong> for early testing, <strong>Professional ($79/mo)</strong> for active teams with CRM sync (our most popular), and <strong>Enterprise ($199/mo)</strong> with custom API models. Annual plans include a 20% discount. Which tier matches your current monthly lead volume?",
                 next: 'follow_up'
             },
             'lead_capture': {
-                msg: "Great! To connect you with the right person, can I grab your <strong>work email</strong>? I'll have someone reach out within 1 business hour.",
+                msg: "Excellent! To tailor your custom proposal and calculate your exact pipeline ROI, what is your <strong>work email and company name</strong>? I'll send the onboarding blueprint immediately.",
                 next: 'email_input',
                 showForm: true
             },
             'default': {
-                msg: "Thanks for asking! Let me look that up for you... Based on your interest, I'd recommend our <strong>Professional plan at $79/mo</strong>. It includes 5 AI agents and full CRM integration. Shall I set up a demo call?",
+                msg: "That's a strategic priority. Based on how high-growth businesses deploy our platform, I recommend starting with our <strong>Professional Tier ($79/mo)</strong>. It gives you 5 autonomous sales agents, full CRM synchronization, and objection-handling intelligence. Shall we set up your trial key?",
                 next: 'lead_capture'
             }
         };
 
         function getAIResponse(msg) {
             const lower = msg.toLowerCase();
-            if (lower.includes('enterprise') || lower.includes('custom')) return aiResponses.enterprise;
-            if (lower.includes('integrat') || lower.includes('salesforce') || lower.includes('hubspot')) return aiResponses.integration;
+            if (lower.includes('chatbot') || lower.includes('bot') || lower.includes('not a chat') || lower.includes('why are you')) return aiResponses.not_a_bot;
+            if (lower.includes('expensive') || lower.includes('costly') || lower.includes('too much') || lower.includes('discount') || lower.includes('budget')) return aiResponses.objection_price;
+            if (lower.includes('human') || lower.includes('salesman') || lower.includes('rep') || lower.includes('hire')) return aiResponses.human_vs_bot;
+            if (lower.includes('enterprise') || lower.includes('custom') || lower.includes('white-label')) return aiResponses.enterprise;
+            if (lower.includes('integrat') || lower.includes('salesforce') || lower.includes('hubspot') || lower.includes('crm')) return aiResponses.integration;
             if (lower.includes('trial') || lower.includes('free')) return aiResponses.trial;
             if (lower.includes('price') || lower.includes('cost') || lower.includes('plan') || lower.includes('pricing')) return aiResponses.price;
-            if (lower.includes('demo') || lower.includes('connect') || lower.includes('team') || lower.includes('sales')) return aiResponses.lead_capture;
+            if (lower.includes('demo') || lower.includes('connect') || lower.includes('team') || lower.includes('sales') || lower.includes('close') || lower.includes('buy')) return aiResponses.lead_capture;
             return aiResponses.default;
         }
 

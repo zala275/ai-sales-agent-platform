@@ -10,21 +10,31 @@
     const primaryColor = (currentScript && currentScript.getAttribute("data-primary-color")) || "#2170e4";
     const position = (currentScript && currentScript.getAttribute("data-position")) || "bottom-right";
 
-    // Knowledge & Responses for Autonomous Sales Dialogue
+    // Knowledge & Responses for Autonomous Sales Dialogue (Online Human Salesman)
     const SALES_RESPONSES = [
         {
+            keywords: ["chatbot", "bot", "not a bot", "human", "who are you", "what are you"],
+            response: "I am an Autonomous AI Sales Representative — definitely not a passive chatbot. While support bots merely dump FAQ links, I operate as your online human sales executive: analyzing buyer pain points, conducting BANT lead qualification (Budget, Authority, Need, Timeline), calculating exact ROI, overcoming price objections, and booking warm pipeline deals 24/7. What's your average deal size?",
+            intent: "consultative_positioning"
+        },
+        {
+            keywords: ["expensive", "costly", "too much", "high price", "budget", "discount"],
+            response: "I completely respect budget diligence! Let's examine the mathematics: If your average deal value is $1,000, closing just ONE single lead that would have bounced after hours yields a 1,200% ROI on our $79/mo Professional Tier. Plus, as an authorized closer, I can apply a 20% Showcase Partner Credit today. Shall I reserve that for your workspace?",
+            intent: "objection_handling"
+        },
+        {
             keywords: ["pricing", "cost", "plan", "price", "how much", "rate"],
-            response: "Our plans start at $29/mo for Starter (1 agent, 150 leads) and $79/mo for Professional (5 agents, 1,000 leads, CRM sync). For custom infrastructure, our Enterprise plan is $199/mo. Would you like me to email you our detailed pricing matrix? What's your business email?",
+            response: "Our tiers are built for pipeline growth: Starter ($29/mo) for 1 agent and 150 leads, Professional ($79/mo) for 5 agents, full CRM sync, and objection intelligence (most popular), and Enterprise ($199/mo) with custom API routing. Would you like me to send our complete ROI matrix to your work email?",
             intent: "pricing"
         },
         {
             keywords: ["hubspot", "crm", "salesforce", "integrate", "integration", "webhook"],
-            response: "Yes! We support 1-click bi-directional sync with HubSpot, Salesforce, and custom webhooks. All qualified leads and conversation transcripts are automatically pushed to your CRM in real time.",
+            response: "Yes! We support 1-click bi-directional sync with HubSpot, Salesforce, Zoho, and custom webhooks. All qualified leads, conversation transcripts, and BANT scores are pushed to your pipeline in real time.",
             intent: "integration"
         },
         {
-            keywords: ["demo", "schedule", "call", "talk", "sales", "rep", "human"],
-            response: "I'd love to connect you with our Senior Solutions Architect for a quick 15-minute demo! What's the best email and phone number to send the calendar invite to?",
+            keywords: ["demo", "schedule", "call", "talk", "sales", "rep", "close", "buy"],
+            response: "I'd love to connect you with our Senior Solutions Architect for a 15-minute tailored walkthrough! What's the best work email and phone number to send your calendar invite to?",
             intent: "demo_request"
         },
         {
@@ -177,7 +187,7 @@
 
             <div class="salesai-msg-list" id="salesai-messages">
                 <div class="salesai-bubble-agent">
-                    👋 Hello! Welcome to ApexCloud. Are you looking to scale your infrastructure or explore our Enterprise pricing today?
+                    👋 Welcome! I'm Alex, your Senior AI Sales Representative. Rather than a passive chatbot, I work as your online human sales executive: consulting on pipeline growth, calculating ROI, overcoming objections, and tailoring high-converting proposals. What kind of business are you scaling today?
                 </div>
             </div>
 
