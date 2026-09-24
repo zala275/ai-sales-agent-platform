@@ -98,14 +98,26 @@ const AppState = (() => {
 
     // Load or initialize storage
     const loadState = () => {
+        let current = DEFAULT_DATA;
         try {
             const saved = localStorage.getItem("sales_ai_saas_state");
-            if (saved) return JSON.parse(saved);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                current = { ...DEFAULT_DATA, ...parsed };
+                // Always guarantee Ghanshyam Zala and Professional Tier
+                current.user = {
+                    ...DEFAULT_DATA.user,
+                    ...(parsed.user || {}),
+                    name: "Ghanshyam Zala",
+                    email: "admin@salesai.pro",
+                    plan: (parsed.user && parsed.user.plan) ? parsed.user.plan : "Professional Tier"
+                };
+            }
         } catch (e) {
             console.warn("Storage fallback to defaults", e);
         }
-        localStorage.setItem("sales_ai_saas_state", JSON.stringify(DEFAULT_DATA));
-        return DEFAULT_DATA;
+        localStorage.setItem("sales_ai_saas_state", JSON.stringify(current));
+        return current;
     };
 
     let state = loadState();
@@ -370,20 +382,21 @@ const AppState = (() => {
         });
 
         navContainer.innerHTML = `
-            <aside class="w-[280px] bg-[#0f172a] text-white flex flex-col h-screen fixed left-0 top-0 border-r border-slate-800 shadow-2xl z-50 select-none">
-                <!-- Brand Header (Crisp, High-Contrast & Clearly Visible) -->
-                <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-[#0b1120]">
-                    <a href="index.html" class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center font-bold text-white text-lg shadow-md flex-shrink-0">
+            <aside class="w-[280px] bg-[#0f172a] text-white flex flex-col h-screen fixed left-0 top-0 border-r border-slate-800 shadow-2xl z-50 select-none" style="background-color: #0f172a !important; color: #ffffff !important;">
+                <!-- Brand Header (100% Guaranteed Visible, Crisp & High Contrast) -->
+                <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-[#0b1120]" style="background-color: #0b1120 !important; border-bottom: 1px solid #1e293b !important; padding: 18px 16px !important;">
+                    <a href="index.html" class="flex items-center gap-3" style="display: flex !important; align-items: center !important; gap: 12px !important; text-decoration: none !important;">
+                        <div style="width: 40px !important; height: 40px !important; border-radius: 10px !important; background: linear-gradient(135deg, #2563eb, #6366f1) !important; display: flex !important; align-items: center !important; justify-content: center !important; font-weight: 800 !important; color: #ffffff !important; font-size: 18px !important; flex-shrink: 0 !important; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;">
                             ✦
                         </div>
-                        <div class="min-w-0">
-                            <div class="sidebar-brand-name font-black text-white text-base tracking-tight flex items-center gap-1.5 leading-none">
-                                <span>SalesAI</span>
-                                <span class="pro-tag text-[10px] px-1.5 py-0.5 rounded bg-blue-600 text-white font-mono uppercase font-bold tracking-wider">PRO</span>
+                        <div style="min-width: 0 !important; display: block !important;">
+                            <div class="sidebar-brand-name flex items-center gap-1.5 leading-none" style="display: flex !important; align-items: center !important; gap: 6px !important; line-height: 1 !important;">
+                                <span style="color: #ffffff !important; font-weight: 800 !important; font-size: 17.5px !important; letter-spacing: -0.02em !important;">SalesAI</span>
+                                <span class="pro-tag" style="background-color: #2563eb !important; color: #ffffff !important; font-size: 10px !important; font-weight: 800 !important; padding: 2px 6px !important; border-radius: 4px !important; text-transform: uppercase !important; font-family: monospace !important; letter-spacing: 0.05em !important;">PRO</span>
                             </div>
-                            <div class="plan-badge-text current-plan-badge text-blue-400 font-semibold text-xs mt-1 truncate">
-                                ${state.user.plan}
+                            <div class="plan-badge-text current-plan-badge" style="color: #60a5fa !important; font-weight: 700 !important; font-size: 12.5px !important; margin-top: 5px !important; display: flex !important; align-items: center !important; gap: 5px !important;">
+                                <span style="width: 7px !important; height: 7px !important; border-radius: 50% !important; background-color: #34d399 !important; display: inline-block !important;"></span>
+                                <span style="color: #60a5fa !important; font-weight: 700 !important;">${state.user.plan || "Professional Tier"}</span>
                             </div>
                         </div>
                     </a>
@@ -406,21 +419,21 @@ const AppState = (() => {
                     </button>
                 </div>
 
-                <!-- User Footer (Ghanshyam Zala & Email 100% Clear & Visible) -->
-                <div class="sidebar-user-footer p-4 border-t border-slate-800 flex items-center justify-between bg-[#0b1120]">
-                    <div class="flex items-center gap-3 min-w-0">
-                        <img src="${state.user.avatar}" class="w-9 h-9 rounded-full object-cover border-2 border-blue-500/40 flex-shrink-0" alt="Avatar" />
-                        <div class="min-w-0">
-                            <div class="sidebar-user-name font-bold text-white text-xs truncate">
-                                ${state.user.name}
+                <!-- User Footer (Ghanshyam Zala & Email 100% Guaranteed Crisp & Visible) -->
+                <div class="sidebar-user-footer p-4 border-t border-slate-800 flex items-center justify-between bg-[#0b1120]" style="background-color: #0b1120 !important; border-top: 1px solid #1e293b !important; padding: 14px 16px !important; display: flex !important; align-items: center !important; justify-content: space-between !important;">
+                    <div class="flex items-center gap-3 min-w-0" style="display: flex !important; align-items: center !important; gap: 10px !important; min-width: 0 !important; overflow: hidden !important;">
+                        <img src="${state.user.avatar}" class="w-9 h-9 rounded-full object-cover border-2 border-blue-500/40 flex-shrink-0" style="width: 38px !important; height: 38px !important; border-radius: 50% !important; object-fit: cover !important; border: 2px solid #3b82f6 !important; flex-shrink: 0 !important;" alt="Avatar" />
+                        <div class="min-w-0" style="min-width: 0 !important; overflow: hidden !important;">
+                            <div class="sidebar-user-name" style="color: #ffffff !important; font-weight: 700 !important; font-size: 14px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; line-height: 1.25 !important;">
+                                ${state.user.name || "Ghanshyam Zala"}
                             </div>
-                            <div class="sidebar-user-email text-slate-400 font-medium text-[11px] truncate">
-                                ${state.user.email}
+                            <div class="sidebar-user-email" style="color: #94a3b8 !important; font-weight: 500 !important; font-size: 11.5px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; margin-top: 2px !important;">
+                                ${state.user.email || "admin@salesai.pro"}
                             </div>
                         </div>
                     </div>
-                    <a href="settings.html" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors ml-1" title="Settings">
-                        <span class="material-symbols-outlined text-[19px]">tune</span>
+                    <a href="settings.html" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors ml-1" style="color: #94a3b8 !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 6px !important; border-radius: 6px !important;" title="Settings">
+                        <span class="material-symbols-outlined text-[19px]" style="font-size: 20px !important; color: #94a3b8 !important;">tune</span>
                     </a>
                 </div>
             </aside>
@@ -429,9 +442,12 @@ const AppState = (() => {
 
     // Auto-inject Crystal Clarity High-Contrast Stylesheet across all pages
     const injectClarityStyles = () => {
-        if (document.getElementById("salesai-clarity-enhancer")) return;
-        const style = document.createElement("style");
-        style.id = "salesai-clarity-enhancer";
+        let style = document.getElementById("salesai-clarity-enhancer");
+        if (!style) {
+            style = document.createElement("style");
+            style.id = "salesai-clarity-enhancer";
+            document.head.appendChild(style);
+        }
         style.textContent = `
             /* 1. Global Font Smoothing & Anti-Aliasing */
             *, *::before, *::after {
@@ -441,36 +457,38 @@ const AppState = (() => {
             }
 
             /* 2. Eliminate Blurry Backdrop Filters on Cards & Surfaces */
-            .glass-card, [class*="glass-card"] {
-                background-color: #ffffff !important;
+            *, .glass-card, [class*="glass-card"] {
                 backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
+            }
+
+            .glass-card, [class*="glass-card"], .clean-card {
+                background-color: #ffffff !important;
                 border: 1px solid #cbd5e1 !important;
-                box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04) !important;
+                box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.08) !important;
             }
 
             /* 3. Solid, Sharp Navigation Header (No Blurry Glassmorphism) */
             header {
                 background-color: #ffffff !important;
-                backdrop-filter: none !important;
-                -webkit-backdrop-filter: none !important;
                 border-bottom: 1px solid #e2e8f0 !important;
             }
 
             /* 4. MAIN CONTENT TYPOGRAPHY ONLY (Never touch aside) */
-            main h1, main h2, main h3, main h4, main h5, main h6, main .text-on-surface {
+            main h1, main h2, main h3, main h4, main h5, main h6 {
                 color: #0f172a !important;
-                font-weight: 700 !important;
+                font-weight: 800 !important;
+                letter-spacing: -0.015em !important;
             }
 
             main p, main .text-on-surface-variant {
                 color: #334155 !important;
-                font-size: 14px !important;
-                line-height: 1.55 !important;
+                font-size: 14.5px !important;
+                line-height: 1.6 !important;
             }
 
             main .text-xs {
-                font-size: 13px !important;
+                font-size: 12.5px !important;
             }
 
             main .text-outline {
@@ -478,26 +496,30 @@ const AppState = (() => {
                 font-weight: 500 !important;
             }
 
-            /* 5. SIDEBAR BRAND & USER FOOTER MUST BE BRIGHT WHITE (Never dark) */
+            /* 5. SIDEBAR BRAND & USER FOOTER MUST BE BRIGHT WHITE */
             aside {
                 background-color: #0f172a !important;
+                color: #ffffff !important;
             }
 
             aside .sidebar-brand-name, aside .sidebar-brand-name span {
                 color: #ffffff !important;
                 font-weight: 800 !important;
-                font-size: 16.5px !important;
+                font-size: 17.5px !important;
             }
 
             aside .sidebar-brand-name span.pro-tag {
                 background-color: #2563eb !important;
                 color: #ffffff !important;
                 font-size: 10px !important;
+                font-weight: 800 !important;
+                padding: 2px 6px !important;
+                border-radius: 4px !important;
             }
 
             aside .plan-badge-text, aside .current-plan-badge {
                 color: #60a5fa !important;
-                font-weight: 600 !important;
+                font-weight: 700 !important;
                 font-size: 12.5px !important;
             }
 
@@ -515,7 +537,7 @@ const AppState = (() => {
 
             aside a.sidebar-nav-link:hover {
                 color: #ffffff !important;
-                background-color: rgba(255, 255, 255, 0.09) !important;
+                background-color: rgba(255, 255, 255, 0.08) !important;
             }
 
             aside a.sidebar-nav-link.active-link {
@@ -528,12 +550,12 @@ const AppState = (() => {
             aside .sidebar-user-name {
                 color: #ffffff !important;
                 font-weight: 700 !important;
-                font-size: 13px !important;
+                font-size: 14px !important;
             }
 
             aside .sidebar-user-email {
                 color: #94a3b8 !important;
-                font-size: 11px !important;
+                font-size: 11.5px !important;
                 font-weight: 500 !important;
             }
 
@@ -547,15 +569,14 @@ const AppState = (() => {
             table th {
                 color: #475569 !important;
                 font-weight: 700 !important;
-                font-size: 12px !important;
+                font-size: 12.5px !important;
             }
 
             table td {
                 color: #0f172a !important;
-                font-size: 13px !important;
+                font-size: 13.5px !important;
             }
         `;
-        document.head.appendChild(style);
     };
 
     return {

@@ -1048,74 +1048,174 @@ td small {
    Guarantees 100% visible, high-contrast, razor-sharp text
    ========================================================== */
 
-aside {
+/* Universal font smoothing & clarity */
+html, body, aside, main, header, div, p, span, h1, h2, h3, h4, h5, h6, table, input, button {
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+/* Eliminate blurry backdrop filters */
+*, *::before, *::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Base body typography: crisp, slightly larger, comfortable line height */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-size: 14.5px !important;
+  line-height: 1.6 !important;
+  color: #0f172a !important;
+  background-color: #f8fafc !important;
+}
+
+/* Main Content Headings: Bold, dark navy, clear */
+main h1, h1 {
+  color: #0f172a !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+}
+
+main h2, h2 {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+
+main h3, h3, main h4, h4 {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+/* Paragraphs & Text: Dark slate (never washed out gray) */
+main p, p {
+  color: #334155 !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+}
+
+.text-on-surface-variant, .text-slate-600, .text-slate-500 {
+  color: #334155 !important;
+}
+
+.text-outline, .text-slate-400 {
+  color: #64748b !important;
+  font-weight: 500 !important;
+}
+
+/* Cards & Surfaces: Pure crisp white, clean border, subtle shadow */
+.clean-card, .glass-card, [class*="glass-card"] {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Navigation Header: Pure crisp white */
+header {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+/* ==========================================================
+   SIDEBAR - 100% Guaranteed High-Contrast Bright Elements
+   ========================================================== */
+aside, #main-sidebar-container aside {
   background-color: #0f172a !important;
   color: #ffffff !important;
 }
 
+/* Top Left Brand Header */
 aside .sidebar-brand-name,
-aside .sidebar-brand-name span {
+aside .sidebar-brand-name span,
+#main-sidebar-container .sidebar-brand-name {
   color: #ffffff !important;
   font-weight: 800 !important;
   font-size: 17px !important;
+  letter-spacing: -0.01em !important;
 }
 
-aside .sidebar-brand-name span.pro-tag {
+aside .sidebar-brand-name span.pro-tag,
+#main-sidebar-container span.pro-tag {
   background-color: #2563eb !important;
   color: #ffffff !important;
   font-size: 10px !important;
   font-weight: 800 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
 }
 
 aside .plan-badge-text,
-aside .current-plan-badge {
+aside .current-plan-badge,
+#main-sidebar-container .current-plan-badge {
   color: #60a5fa !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   font-size: 12.5px !important;
 }
 
-aside .sidebar-section-heading {
+/* Section Headings */
+aside .sidebar-section-heading,
+#main-sidebar-container .sidebar-section-heading {
   color: #94a3b8 !important;
   font-size: 11px !important;
   font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
 }
 
-aside a.sidebar-nav-link {
+/* Nav Links */
+aside a.sidebar-nav-link,
+#main-sidebar-container a.sidebar-nav-link {
   color: #cbd5e1 !important;
   font-size: 13.5px !important;
   font-weight: 500 !important;
 }
 
-aside a.sidebar-nav-link:hover {
+aside a.sidebar-nav-link:hover,
+#main-sidebar-container a.sidebar-nav-link:hover {
   color: #ffffff !important;
-  background-color: rgba(255, 255, 255, 0.09) !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-aside a.sidebar-nav-link.active-link {
+aside a.sidebar-nav-link.active-link,
+#main-sidebar-container a.sidebar-nav-link.active-link {
   color: #ffffff !important;
   background-color: #1e3a8a !important;
   font-weight: 700 !important;
   border-left: 4px solid #3b82f6 !important;
 }
 
-aside .sidebar-user-name {
+/* Bottom Left User Profile: Ghanshyam Zala & Email */
+aside .sidebar-user-name,
+#main-sidebar-container .sidebar-user-name {
   color: #ffffff !important;
   font-weight: 700 !important;
-  font-size: 13px !important;
+  font-size: 13.5px !important;
+  line-height: 1.25 !important;
 }
 
-aside .sidebar-user-email {
+aside .sidebar-user-email,
+#main-sidebar-container .sidebar-user-email {
   color: #94a3b8 !important;
-  font-size: 11px !important;
+  font-size: 11.5px !important;
   font-weight: 500 !important;
 }
 
-main h1, main h2, main h3, main h4, main h5, main h6 {
+/* Inputs & Form Controls */
+input, select, textarea {
   color: #0f172a !important;
-  font-weight: 700 !important;
+  font-weight: 500 !important;
+  font-size: 13.5px !important;
 }
 
-main p {
-  color: #334155 !important;
-  font-size: 14px !important;
+/* Tables */
+table th {
+  color: #475569 !important;
+  font-weight: 700 !important;
+  font-size: 12.5px !important;
+}
+
+table td {
+  color: #0f172a !important;
+  font-size: 13.5px !important;
 }
