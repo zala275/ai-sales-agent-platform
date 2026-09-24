@@ -336,7 +336,7 @@ const AppState = (() => {
         navSections.forEach(section => {
             menuHtml += `
                 <div class="pt-3 pb-1">
-                    <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">
+                    <div class="sidebar-section-heading text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">
                         ${section.heading}
                     </div>
                     <ul class="space-y-0.5">
@@ -345,19 +345,19 @@ const AppState = (() => {
             section.links.forEach(item => {
                 const isActive = item.id === activePage;
                 const activeClasses = isActive
-                    ? "bg-blue-600/20 text-blue-300 border-l-4 border-blue-500 font-semibold"
+                    ? "active-link bg-blue-600/30 text-white border-l-4 border-blue-400 font-bold"
                     : item.highlight
-                        ? "bg-blue-500/15 text-blue-200 hover:bg-blue-500/25 border-l-4 border-blue-400 font-medium"
-                        : "text-slate-300 hover:text-white hover:bg-slate-800/60 font-normal";
+                        ? "bg-blue-500/20 text-blue-200 hover:bg-blue-500/30 border-l-4 border-blue-400 font-semibold"
+                        : "text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium";
 
                 menuHtml += `
                     <li>
-                        <a href="${item.href}" class="flex items-center justify-between px-3.5 py-2 rounded-r-lg transition-colors text-[13px] group ${activeClasses}">
+                        <a href="${item.href}" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-r-lg transition-colors text-[13.5px] group ${activeClasses}">
                             <div class="flex items-center gap-2.5 truncate">
-                                <span class="material-symbols-outlined text-[19px] transition-transform group-hover:scale-105">${item.icon}</span>
-                                <span class="truncate font-medium">${item.label}</span>
+                                <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105">${item.icon}</span>
+                                <span class="truncate">${item.label}</span>
                             </div>
-                            ${item.badge ? `<span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${isActive ? 'bg-blue-500 text-white' : 'bg-slate-800 text-slate-300 border border-slate-700'}">${item.badge}</span>` : ""}
+                            ${item.badge ? `<span class="badge text-[10px] px-2 py-0.5 rounded-full font-bold ${isActive ? 'bg-blue-500 text-white' : 'bg-slate-800 text-slate-200 border border-slate-700'}">${item.badge}</span>` : ""}
                         </a>
                     </li>
                 `;
@@ -370,18 +370,21 @@ const AppState = (() => {
         });
 
         navContainer.innerHTML = `
-            <aside class="w-[280px] bg-[#0b1120] text-white flex flex-col h-screen fixed left-0 top-0 border-r border-slate-800 shadow-xl z-50">
-                <!-- Brand -->
-                <div class="p-5 border-b border-slate-800/80 flex items-center justify-between">
-                    <a href="index.html" class="flex items-center gap-2.5">
-                        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center font-bold text-white shadow-md">
+            <aside class="w-[280px] bg-[#0f172a] text-white flex flex-col h-screen fixed left-0 top-0 border-r border-slate-800 shadow-2xl z-50 select-none">
+                <!-- Brand Header (Crisp, High-Contrast & Clearly Visible) -->
+                <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-[#0b1120]">
+                    <a href="index.html" class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center font-bold text-white text-lg shadow-md flex-shrink-0">
                             ✦
                         </div>
-                        <div>
-                            <h1 class="font-bold text-base tracking-tight text-white flex items-center gap-1.5">
-                                SalesAI <span class="text-[10px] px-1.5 py-0.5 rounded bg-blue-600 text-white font-mono uppercase">Pro</span>
-                            </h1>
-                            <p class="text-[11px] text-slate-400 font-medium current-plan-badge">${state.user.plan}</p>
+                        <div class="min-w-0">
+                            <div class="sidebar-brand-name font-black text-white text-base tracking-tight flex items-center gap-1.5 leading-none">
+                                <span>SalesAI</span>
+                                <span class="pro-tag text-[10px] px-1.5 py-0.5 rounded bg-blue-600 text-white font-mono uppercase font-bold tracking-wider">PRO</span>
+                            </div>
+                            <div class="plan-badge-text current-plan-badge text-blue-400 font-semibold text-xs mt-1 truncate">
+                                ${state.user.plan}
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -392,28 +395,32 @@ const AppState = (() => {
                 </div>
 
                 <!-- Showcase Upgrade Callout -->
-                <div class="p-3 mx-3 my-2 rounded-xl bg-gradient-to-br from-blue-900/30 to-indigo-900/20 border border-blue-500/20">
+                <div class="p-3 mx-3 my-2 rounded-xl bg-gradient-to-br from-blue-950/70 to-indigo-950/60 border border-blue-500/30">
                     <div class="flex items-center justify-between mb-1">
                         <span class="text-[11px] font-bold text-blue-300">Showcase Simulator</span>
-                        <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold">Ready</span>
+                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold">Ready</span>
                     </div>
-                    <p class="text-[11px] text-slate-300 mb-2">Test 1-click plan upgrade & real-time revenue trigger.</p>
-                    <button onclick="AppState.openPaymentSimulator('enterprise', 'Enterprise Tier', 199)" class="w-full py-1.5 text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow">
+                    <p class="text-[11.5px] text-slate-300 mb-2 leading-tight">Test 1-click plan upgrade & real-time revenue trigger.</p>
+                    <button onclick="AppState.openPaymentSimulator('enterprise', 'Enterprise Tier', 199)" class="w-full py-2 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow">
                         ⚡ Simulate Upgrade ($199)
                     </button>
                 </div>
 
-                <!-- User Footer -->
-                <div class="p-4 border-t border-slate-800/80 flex items-center justify-between bg-black/30">
-                    <div class="flex items-center gap-2.5 truncate">
-                        <img src="${state.user.avatar}" class="w-8 h-8 rounded-full object-cover border border-slate-700" alt="Avatar" />
-                        <div class="truncate">
-                            <p class="text-xs font-semibold text-white truncate">${state.user.name}</p>
-                            <p class="text-[10px] text-slate-400 truncate">${state.user.email}</p>
+                <!-- User Footer (Ghanshyam Zala & Email 100% Clear & Visible) -->
+                <div class="sidebar-user-footer p-4 border-t border-slate-800 flex items-center justify-between bg-[#0b1120]">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <img src="${state.user.avatar}" class="w-9 h-9 rounded-full object-cover border-2 border-blue-500/40 flex-shrink-0" alt="Avatar" />
+                        <div class="min-w-0">
+                            <div class="sidebar-user-name font-bold text-white text-xs truncate">
+                                ${state.user.name}
+                            </div>
+                            <div class="sidebar-user-email text-slate-400 font-medium text-[11px] truncate">
+                                ${state.user.email}
+                            </div>
                         </div>
                     </div>
-                    <a href="settings.html" class="text-slate-400 hover:text-white p-1" title="Settings">
-                        <span class="material-symbols-outlined text-[18px]">tune</span>
+                    <a href="settings.html" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors ml-1" title="Settings">
+                        <span class="material-symbols-outlined text-[19px]">tune</span>
                     </a>
                 </div>
             </aside>
@@ -438,8 +445,8 @@ const AppState = (() => {
                 background-color: #ffffff !important;
                 backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
-                border: 1px solid #e2e8f0 !important;
-                box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05) !important;
+                border: 1px solid #cbd5e1 !important;
+                box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04) !important;
             }
 
             /* 3. Solid, Sharp Navigation Header (No Blurry Glassmorphism) */
@@ -450,33 +457,102 @@ const AppState = (() => {
                 border-bottom: 1px solid #e2e8f0 !important;
             }
 
-            /* 4. High-Contrast Typography */
-            h1, h2, h3, h4, h5, h6, .text-on-surface {
+            /* 4. MAIN CONTENT TYPOGRAPHY ONLY (Never touch aside) */
+            main h1, main h2, main h3, main h4, main h5, main h6, main .text-on-surface {
                 color: #0f172a !important;
+                font-weight: 700 !important;
             }
 
-            p, .text-on-surface-variant {
+            main p, main .text-on-surface-variant {
                 color: #334155 !important;
+                font-size: 14px !important;
+                line-height: 1.55 !important;
             }
 
-            .text-outline {
+            main .text-xs {
+                font-size: 13px !important;
+            }
+
+            main .text-outline {
                 color: #64748b !important;
                 font-weight: 500 !important;
             }
 
-            /* 5. Crisp Inputs & Tables */
+            /* 5. SIDEBAR BRAND & USER FOOTER MUST BE BRIGHT WHITE (Never dark) */
+            aside {
+                background-color: #0f172a !important;
+            }
+
+            aside .sidebar-brand-name, aside .sidebar-brand-name span {
+                color: #ffffff !important;
+                font-weight: 800 !important;
+                font-size: 16.5px !important;
+            }
+
+            aside .sidebar-brand-name span.pro-tag {
+                background-color: #2563eb !important;
+                color: #ffffff !important;
+                font-size: 10px !important;
+            }
+
+            aside .plan-badge-text, aside .current-plan-badge {
+                color: #60a5fa !important;
+                font-weight: 600 !important;
+                font-size: 12.5px !important;
+            }
+
+            aside .sidebar-section-heading {
+                color: #94a3b8 !important;
+                font-size: 11px !important;
+                font-weight: 700 !important;
+            }
+
+            aside a.sidebar-nav-link {
+                color: #cbd5e1 !important;
+                font-size: 13.5px !important;
+                font-weight: 500 !important;
+            }
+
+            aside a.sidebar-nav-link:hover {
+                color: #ffffff !important;
+                background-color: rgba(255, 255, 255, 0.09) !important;
+            }
+
+            aside a.sidebar-nav-link.active-link {
+                color: #ffffff !important;
+                background-color: #1e3a8a !important;
+                font-weight: 700 !important;
+                border-left: 4px solid #3b82f6 !important;
+            }
+
+            aside .sidebar-user-name {
+                color: #ffffff !important;
+                font-weight: 700 !important;
+                font-size: 13px !important;
+            }
+
+            aside .sidebar-user-email {
+                color: #94a3b8 !important;
+                font-size: 11px !important;
+                font-weight: 500 !important;
+            }
+
+            /* 6. Crisp Inputs & Tables */
             input, select, textarea {
                 color: #0f172a !important;
                 font-weight: 500 !important;
+                font-size: 13.5px !important;
             }
 
             table th {
                 color: #475569 !important;
-                font-weight: 600 !important;
+                font-weight: 700 !important;
+                font-size: 12px !important;
             }
 
             table td {
                 color: #0f172a !important;
+                font-size: 13px !important;
             }
         `;
         document.head.appendChild(style);

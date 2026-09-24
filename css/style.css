@@ -1042,3 +1042,80 @@ td small {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================
+   SalesAI Global Crystal Clarity & High-Definition Typography
+   Guarantees 100% visible, high-contrast, razor-sharp text
+   ========================================================== */
+
+aside {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+}
+
+aside .sidebar-brand-name,
+aside .sidebar-brand-name span {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 17px !important;
+}
+
+aside .sidebar-brand-name span.pro-tag {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+}
+
+aside .plan-badge-text,
+aside .current-plan-badge {
+  color: #60a5fa !important;
+  font-weight: 600 !important;
+  font-size: 12.5px !important;
+}
+
+aside .sidebar-section-heading {
+  color: #94a3b8 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+aside a.sidebar-nav-link {
+  color: #cbd5e1 !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+}
+
+aside a.sidebar-nav-link:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.09) !important;
+}
+
+aside a.sidebar-nav-link.active-link {
+  color: #ffffff !important;
+  background-color: #1e3a8a !important;
+  font-weight: 700 !important;
+  border-left: 4px solid #3b82f6 !important;
+}
+
+aside .sidebar-user-name {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+}
+
+aside .sidebar-user-email {
+  color: #94a3b8 !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+
+main h1, main h2, main h3, main h4, main h5, main h6 {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+main p {
+  color: #334155 !important;
+  font-size: 14px !important;
+}
