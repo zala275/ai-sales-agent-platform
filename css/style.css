@@ -1262,10 +1262,23 @@ table td {
   box-sizing: border-box !important;
 }
 
-p, span, h1, h2, h3, h4, h5, h6, a, label, div, li, button, input {
+p, h1, h2, h3, h4, h5, h6, a, label, div, li, input {
   overflow-wrap: break-word !important;
   word-wrap: break-word !important;
   word-break: break-word !important;
+}
+
+/* Button & Action Typography Protection: NEVER break words into pieces like "su bmi t" */
+button,
+button *,
+.btn,
+input[type="submit"],
+input[type="button"] {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  word-wrap: normal !important;
+  overflow-wrap: normal !important;
+  flex-shrink: 0 !important;
 }
 
 /* Explicit table cell rules: NEVER crush words vertically into single letters */
