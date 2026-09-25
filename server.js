@@ -58,10 +58,13 @@ function parseJsonBody(req) {
 
 // Server Request Handler
 const server = http.createServer(async (req, res) => {
-    // CORS headers for embedded widgets
+    // CORS & No-Cache headers to prevent stale mobile and proxy caching
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Agent-Key");
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
 
     if (req.method === "OPTIONS") {
         res.writeHead(204);
