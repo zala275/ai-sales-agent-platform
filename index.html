@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/style.css?v=6.0"/>
+    <link rel="stylesheet" href="css/style.css?v=7.0"/>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -58,8 +58,16 @@
     <!-- Main Content -->
     <main class="flex-1 ml-0 md:ml-[280px] min-h-screen flex flex-col">
         <!-- TopNavBar -->
-        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-6 z-40 transition-all">
-            <div class="flex items-center gap-3">
+        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-4 md:px-6 z-40 transition-all">
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <!-- Direct HTML Mobile Hamburger Button (100% Guaranteed Visible on Phones) -->
+                <button type="button" onclick="AppState.toggleMobileSidebar(true)" class="md:hidden flex items-center justify-center w-10 h-10 rounded-xl bg-slate-900 text-white shadow-md hover:bg-slate-800 transition-all flex-shrink-0 cursor-pointer" aria-label="Open Navigation Menu">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
                 <span class="text-xs px-2.5 py-1 rounded-full bg-secondary-fixed/50 text-secondary font-semibold uppercase tracking-wider">Super Admin View</span>
                 <span class="text-xs text-outline hidden sm:inline">Platform Health & Aggregates</span>
             </div>
@@ -441,6 +449,6 @@
         </div>
     </main>
 
-    <script src="js/app-state.js?v=6.0"></script>
+    <script src="js/app-state.js?v=7.0"></script>
 </body>
 </html>

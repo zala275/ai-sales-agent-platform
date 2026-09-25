@@ -386,7 +386,7 @@ const AppState = (() => {
             <div id="mobile-sidebar-backdrop" onclick="AppState.toggleMobileSidebar(false)" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 99998; display: none;"></div>
 
             <!-- Master Sidebar (Responsive: Off-canvas on mobile, fixed left on desktop) -->
-            <aside id="main-sidebar" class="w-[285px] bg-[#0f172a] text-white flex flex-col h-screen fixed left-0 top-0 border-r border-slate-800 shadow-2xl z-[99999] select-none" style="background-color: #0f172a !important; color: #ffffff !important;">
+            <aside id="main-sidebar" class="hidden md:flex w-[285px] bg-[#0f172a] text-white flex-col h-screen fixed left-0 top-0 border-r border-slate-800 shadow-2xl z-[99999] select-none" style="background-color: #0f172a !important; color: #ffffff !important;">
                 <!-- Brand Header (100% Guaranteed Visible, Crisp & High Contrast) -->
                 <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-[#0b1120]" style="background-color: #0b1120 !important; border-bottom: 1px solid #1e293b !important; padding: 14px 16px !important;">
                     <a href="index.html" class="flex items-center gap-3" style="display: flex !important; align-items: center !important; gap: 12px !important; text-decoration: none !important;">
@@ -483,17 +483,19 @@ const AppState = (() => {
             if (!sidebar) return;
 
             if (window.innerWidth < 768) {
-                // Mobile state: strictly off-screen and hidden by default unless opened
-                if (!sidebar.classList.contains("mobile-open")) {
-                    sidebar.style.transform = "translateX(-100%)";
-                    sidebar.style.visibility = "hidden";
-                    sidebar.style.pointerEvents = "none";
+                // Mobile state: strictly hidden by default unless opened
+                if (sidebar.classList.contains("mobile-open")) {
+                    sidebar.style.display = "flex";
+                    if (backdrop) backdrop.style.display = "block";
+                } else {
+                    sidebar.style.display = "none";
                     if (backdrop) backdrop.style.display = "none";
                 }
                 if (bottomNav) bottomNav.style.display = "flex";
             } else {
                 // Desktop state: strictly visible and pinned
-                sidebar.style.transform = "translateX(0)";
+                sidebar.style.display = "flex";
+                sidebar.style.transform = "none";
                 sidebar.style.visibility = "visible";
                 sidebar.style.pointerEvents = "auto";
                 if (backdrop) backdrop.style.display = "none";
@@ -527,17 +529,17 @@ const AppState = (() => {
                     min-width: 42px !important;
                     min-height: 42px !important;
                     border-radius: 10px !important;
-                    background-color: #ffffff !important;
-                    border: 1.5px solid #cbd5e1 !important;
-                    color: #0f172a !important;
+                    background-color: #0f172a !important;
+                    border: 1px solid #334155 !important;
+                    color: #ffffff !important;
                     cursor: pointer !important;
                     margin-right: 12px !important;
                     flex-shrink: 0 !important;
                     z-index: 50 !important;
-                    box-shadow: 0 2px 5px rgba(15, 23, 42, 0.08) !important;
+                    box-shadow: 0 2px 6px rgba(0,0,0,0.18) !important;
                 `;
                 trigger.innerHTML = `
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="3" y1="12" x2="21" y2="12"></line>
                         <line x1="3" y1="6" x2="21" y2="6"></line>
                         <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -568,7 +570,7 @@ const AppState = (() => {
 
         if (shouldOpen) {
             sidebar.classList.add("mobile-open");
-            sidebar.style.transform = "translateX(0)";
+            sidebar.style.display = "flex";
             sidebar.style.visibility = "visible";
             sidebar.style.pointerEvents = "auto";
             if (backdrop) {
@@ -579,9 +581,9 @@ const AppState = (() => {
             document.body.style.overflow = "hidden";
         } else {
             sidebar.classList.remove("mobile-open");
-            sidebar.style.transform = "translateX(-100%)";
-            sidebar.style.visibility = "hidden";
-            sidebar.style.pointerEvents = "none";
+            if (window.innerWidth < 768) {
+                sidebar.style.display = "none";
+            }
             if (backdrop) {
                 backdrop.classList.remove("active");
                 backdrop.style.display = "none";
@@ -628,14 +630,15 @@ const AppState = (() => {
             /* Responsive Desktop vs Mobile rules */
             @media (min-width: 768px) {
                 #main-sidebar {
-                    transform: translateX(0) !important;
-                    visibility: visible !important;
-                    pointer-events: auto !important;
+                    display: flex !important;
                     position: fixed !important;
                     top: 0 !important;
                     left: 0 !important;
                     bottom: 0 !important;
                     width: 280px !important;
+                    transform: none !important;
+                    visibility: visible !important;
+                    pointer-events: auto !important;
                 }
                 #mobile-menu-trigger, .mobile-menu-btn {
                     display: none !important;
@@ -650,23 +653,35 @@ const AppState = (() => {
 
             @media (max-width: 767px) {
                 #main-sidebar {
+                    display: none !important;
+                }
+                #main-sidebar.mobile-open,
+                body.mobile-sidebar-open #main-sidebar {
+                    display: flex !important;
                     position: fixed !important;
                     top: 0 !important;
                     bottom: 0 !important;
                     left: 0 !important;
                     width: 285px !important;
                     max-width: 85vw !important;
-                    transform: translateX(-100%) !important;
-                    visibility: hidden !important;
-                    pointer-events: none !important;
-                    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                    height: 100vh !important;
+                    height: 100dvh !important;
                     z-index: 99999 !important;
-                }
-                #main-sidebar.mobile-open,
-                body.mobile-sidebar-open #main-sidebar {
-                    transform: translateX(0) !important;
+                    box-shadow: 6px 0 28px rgba(0, 0, 0, 0.65) !important;
+                    transform: none !important;
                     visibility: visible !important;
                     pointer-events: auto !important;
+                }
+                #mobile-sidebar-backdrop {
+                    display: none !important;
+                    position: fixed !important;
+                    inset: 0 !important;
+                    background: rgba(15, 23, 42, 0.75) !important;
+                    z-index: 99998 !important;
+                }
+                body.mobile-sidebar-open #mobile-sidebar-backdrop,
+                #mobile-sidebar-backdrop.active {
+                    display: block !important;
                 }
                 #mobile-menu-trigger, .mobile-menu-btn {
                     display: inline-flex !important;
@@ -687,6 +702,7 @@ const AppState = (() => {
                     width: 100% !important;
                     padding-left: 12px !important;
                     padding-right: 12px !important;
+                }
             }
 
             /* 4. MAIN CONTENT TYPOGRAPHY ONLY (Never touch aside) */
@@ -806,9 +822,15 @@ const AppState = (() => {
     };
 })();
 
-// Auto-initialize when DOM loads
-document.addEventListener("DOMContentLoaded", () => {
+// Auto-initialize reliably across all mobile browsers & webviews
+const initApp = () => {
     AppState.injectClarityStyles();
     const pageId = document.body.getAttribute("data-page") || "dashboard";
     AppState.renderSidebar(pageId);
-});
+};
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initApp);
+} else {
+    initApp();
+}
