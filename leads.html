@@ -48,7 +48,7 @@
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
     </style>
-    <link rel="stylesheet" href="css/style.css?v=8.4"/>
+    <link rel="stylesheet" href="css/style.css?v=8.5"/>
 </head>
 <body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="leads">
 
@@ -141,7 +141,7 @@
             </div>
 
             <!-- Desktop View: Full Data Table (Hidden on Mobile) -->
-            <div class="hidden md:flex glass-card rounded-2xl overflow-hidden flex-col">
+            <div id="desktop-leads-table" class="leads-desktop-table hidden md:flex glass-card rounded-2xl overflow-hidden flex-col">
                 <div class="overflow-x-auto w-full">
                     <table class="w-full text-left text-xs border-collapse">
                         <thead>
@@ -169,7 +169,7 @@
         </div>
     </main>
 
-    <script src="js/app-state.js?v=8.4"></script>
+    <script src="js/app-state.js?v=8.5"></script>
     <script>
         let currentFilter = 'all';
 

@@ -48,7 +48,7 @@
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
     </style>
-    <link rel="stylesheet" href="css/style.css?v=8.4"/>
+    <link rel="stylesheet" href="css/style.css?v=8.5"/>
 </head>
 <body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="knowledge">
 
@@ -133,8 +133,8 @@
                             </span>
                         </div>
 
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs border-collapse">
+                        <div class="overflow-x-auto w-full">
+                            <table class="w-full text-left text-xs border-collapse min-w-[600px]">
                                 <thead>
                                     <tr class="border-b border-outline-variant/20 text-outline font-semibold uppercase tracking-wider bg-surface-container-low/40">
                                         <th class="p-4">Source Title & Type</th>
@@ -305,7 +305,7 @@
         </div>
     </div>
 
-    <script src="js/app-state.js?v=8.4"></script>
+    <script src="js/app-state.js?v=8.5"></script>
     <script>
         function openAddSourceModal() {
             const modal = document.getElementById("source-modal");

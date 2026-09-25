@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/style.css?v=8.4"/>
+    <link rel="stylesheet" href="css/style.css?v=8.5"/>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -384,8 +384,8 @@
                     </a>
                 </div>
 
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs border-collapse">
+                <div class="overflow-x-auto w-full">
+                    <table class="w-full text-left text-xs border-collapse min-w-[620px]">
                         <thead>
                             <tr class="border-b border-outline-variant/20 text-outline font-semibold uppercase tracking-wider">
                                 <th class="pb-3">Client Workspace</th>
@@ -397,11 +397,13 @@
                         </thead>
                         <tbody class="divide-y divide-outline-variant/10 text-on-surface font-medium">
                             <tr class="hover:bg-surface-container-low/60 transition-colors">
-                                <td class="py-3.5 flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs">AC</div>
-                                    <div>
-                                        <p class="font-bold text-sm">ApexCloud SaaS</p>
-                                        <p class="text-[11px] text-outline">sarah@apexcloud.io</p>
+                                <td class="py-3.5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs flex-shrink-0">AC</div>
+                                        <div>
+                                            <p class="font-bold text-sm">ApexCloud SaaS</p>
+                                            <p class="text-[11px] text-outline">sarah@apexcloud.io</p>
+                                        </div>
                                     </div>
                                 </td>
                                 <td class="py-3.5 font-semibold text-secondary">Professional Tier ($79/mo)</td>
@@ -413,11 +415,13 @@
                             </tr>
 
                             <tr class="hover:bg-surface-container-low/60 transition-colors">
-                                <td class="py-3.5 flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 font-bold flex items-center justify-center text-xs">FT</div>
-                                    <div>
-                                        <p class="font-bold text-sm">FinTechScale Ltd</p>
-                                        <p class="text-[11px] text-outline">rahul@fintechscale.in</p>
+                                <td class="py-3.5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 font-bold flex items-center justify-center text-xs flex-shrink-0">FT</div>
+                                        <div>
+                                            <p class="font-bold text-sm">FinTechScale Ltd</p>
+                                            <p class="text-[11px] text-outline">rahul@fintechscale.in</p>
+                                        </div>
                                     </div>
                                 </td>
                                 <td class="py-3.5 font-semibold text-purple-700">Enterprise Tier ($199/mo)</td>
@@ -429,11 +433,13 @@
                             </tr>
 
                             <tr class="hover:bg-surface-container-low/60 transition-colors">
-                                <td class="py-3.5 flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-xs">GS</div>
-                                    <div>
-                                        <p class="font-bold text-sm">GlobalNet Systems</p>
-                                        <p class="text-[11px] text-outline">m.sterling@globalnet.org</p>
+                                <td class="py-3.5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-xs flex-shrink-0">GS</div>
+                                        <div>
+                                            <p class="font-bold text-sm">GlobalNet Systems</p>
+                                            <p class="text-[11px] text-outline">m.sterling@globalnet.org</p>
+                                        </div>
                                     </div>
                                 </td>
                                 <td class="py-3.5 font-semibold text-on-surface-variant">Starter Tier ($29/mo)</td>
@@ -450,6 +456,6 @@
         </div>
     </main>
 
-    <script src="js/app-state.js?v=8.4"></script>
+    <script src="js/app-state.js?v=8.5"></script>
 </body>
 </html>

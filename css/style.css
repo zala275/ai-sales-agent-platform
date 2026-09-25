@@ -1262,10 +1262,23 @@ table td {
   box-sizing: border-box !important;
 }
 
-p, span, h1, h2, h3, h4, h5, h6, a, label, div, td, th, li, button, input {
+p, span, h1, h2, h3, h4, h5, h6, a, label, div, li, button, input {
   overflow-wrap: break-word !important;
   word-wrap: break-word !important;
   word-break: break-word !important;
+}
+
+/* Explicit table cell rules: NEVER crush words vertically into single letters */
+th,
+td,
+table th,
+table td,
+th *,
+td * {
+  overflow-wrap: normal !important;
+  word-wrap: normal !important;
+  word-break: normal !important;
+  white-space: nowrap !important;
 }
 
 pre, code {
@@ -1543,19 +1556,47 @@ img, svg, video, canvas, audio, iframe, embed, object {
 
   /* Ensure wide tables scroll horizontally inside their container without breaking page viewport */
   .table-container,
-  .overflow-x-auto {
+  .overflow-x-auto,
+  .table-scroll,
+  .table-panel {
     display: block !important;
     width: 100% !important;
     max-width: 100% !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
   }
 
+  table,
   .overflow-x-auto > table,
-  .table-container > table {
-    min-width: 560px;
+  .table-container > table,
+  .table-scroll > table {
+    min-width: 650px !important;
     display: table !important;
     width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  table th,
+  table td,
+  th,
+  td {
+    white-space: nowrap !important;
+    word-break: normal !important;
+    word-wrap: normal !important;
+    overflow-wrap: normal !important;
+    padding: 10px 14px !important;
+  }
+
+  /* Leads page: hide crushed desktop table on mobile, show dedicated touch cards */
+  #desktop-leads-table,
+  .leads-desktop-table {
+    display: none !important;
+  }
+
+  #leads-mobile-cards,
+  .leads-mobile-cards {
+    display: block !important;
   }
 
   /* Compact typography on smaller phone screens */
@@ -1577,5 +1618,17 @@ img, svg, video, canvas, audio, iframe, embed, object {
   /* Fix flex containers wrapping on small screens */
   .flex-wrap-mobile {
     flex-wrap: wrap !important;
+  }
+}
+
+/* Desktop Leads Viewport Rules (> 768px) */
+@media (min-width: 769px) {
+  #desktop-leads-table,
+  .leads-desktop-table {
+    display: flex !important;
+  }
+  #leads-mobile-cards,
+  .leads-mobile-cards {
+    display: none !important;
   }
 }
