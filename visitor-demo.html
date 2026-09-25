@@ -74,7 +74,7 @@
         .widget-closed { display: none; }
         .widget-open { display: flex; }
     </style>
-    <link rel="stylesheet" href="css/style.css?v=8.9"/>
+    <link rel="stylesheet" href="css/style.css?v=9.0"/>
 </head>
 <body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="visitor-demo">
 
@@ -400,7 +400,7 @@
         </div>
     </main>
 
-    <script src="js/app-state.js?v=8.9"></script>
+    <script src="js/app-state.js?v=9.0"></script>
     <script>
         // =============================================================
         // WIDGET STATE
@@ -535,7 +535,7 @@
                                 <span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">smart_toy</span>
                             </div>
                             <div class="bg-white border border-green-200 rounded-2xl rounded-tl-none p-3 shadow-sm max-w-[90%] bg-green-50">
-                                <p class="text-xs text-on-surface">🎉 <strong>Offer Activated!</strong> Your custom pricing and proposal details have been unlocked right here in chat.</p>
+                                <p class="text-xs text-on-surface">🎉 <strong>Offer Activated!</strong> We've applied an exclusive <strong>20% discount for new customers</strong> and unlocked your full pricing proposal right here in chat.</p>
                                 <div class="mt-2 flex items-center gap-1.5 text-green-700 text-[11px] font-semibold">
                                     <span class="material-symbols-outlined text-[14px]">check_circle</span>
                                     Lead captured & CRM synced
@@ -590,7 +590,11 @@
                                     <span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">smart_toy</span>
                                 </div>
                                 <div class="bg-white border border-outline-variant/10 rounded-2xl rounded-tl-none p-3.5 shadow-sm max-w-[95%] w-full">
-                                    <p class="text-xs text-on-surface mb-2 font-medium">Enter your email below to unlock your custom proposal, ROI breakdown &amp; exclusive 20% discount!</p>
+                                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-amber-50 text-amber-800 text-[11px] font-bold rounded-lg border border-amber-200 mb-2">
+                                        <span class="material-symbols-outlined text-[15px] text-amber-600">local_offer</span>
+                                        <span>Special Offer: 20% discount for new customers!</span>
+                                    </div>
+                                    <p class="text-xs text-on-surface mb-2 font-medium">Enter your email below to unlock your custom proposal, ROI breakdown &amp; claim your 20% discount for new customers!</p>
                                     <form onsubmit="captureLeadForm(event)" class="flex flex-col sm:flex-row gap-2 mt-2 w-full">
                                         <div class="relative flex-1">
                                             <input type="email" placeholder="Enter work email..." required class="w-full h-10 text-xs border border-slate-200 rounded-xl pl-9 pr-3 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all text-on-surface"/>
@@ -617,12 +621,16 @@
             e.preventDefault();
             const email = e.target.querySelector('input').value;
             e.target.closest('.bg-white').innerHTML = `
-                <div class="space-y-1">
+                <div class="space-y-1.5">
                     <p class="text-xs text-green-700 font-bold flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-[17px]">check_circle</span>
                         Lead Confirmed &amp; CRM Synced!
                     </p>
-                    <p class="text-[11px] text-on-surface-variant">Your special 20% discount and custom pricing proposal are now unlocked right here in chat!</p>
+                    <div class="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-800 text-[11px] font-bold rounded-md">
+                        <span class="material-symbols-outlined text-[14px]">local_offer</span>
+                        <span>20% discount for new customers applied!</span>
+                    </div>
+                    <p class="text-[11px] text-on-surface-variant">Your custom proposal and full product pricing details are now unlocked right here in chat.</p>
                 </div>
             `;
             simulateLeadCapture(email);

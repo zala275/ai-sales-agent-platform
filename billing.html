@@ -48,7 +48,7 @@
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
     </style>
-    <link rel="stylesheet" href="css/style.css?v=8.9"/>
+    <link rel="stylesheet" href="css/style.css?v=9.0"/>
 </head>
 <body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="billing">
 
@@ -75,9 +75,15 @@
         <!-- Page Body -->
         <div class="p-6 md:p-8 mt-16 max-w-7xl w-full mx-auto space-y-8">
             <div class="text-center max-w-2xl mx-auto space-y-2">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-secondary border border-blue-200 text-xs font-semibold">
-                    <span class="material-symbols-outlined text-sm">bolt</span>
-                    Interactive Showcase Demo
+                <div class="flex items-center justify-center gap-2 flex-wrap">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-secondary border border-blue-200 text-xs font-semibold">
+                        <span class="material-symbols-outlined text-sm">bolt</span>
+                        Interactive Showcase Demo
+                    </div>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold shadow-sm">
+                        <span class="material-symbols-outlined text-sm text-emerald-600">local_offer</span>
+                        Special Offer: 20% discount for new customers!
+                    </div>
                 </div>
                 <h2 class="text-3xl font-extrabold tracking-tight text-on-surface">Predictable Pricing for High-Growth Sales</h2>
                 <p class="text-sm text-on-surface-variant">Click any tier below to simulate a bank-grade checkout, instant invoice generation, and real-time account upgrade.</p>
@@ -245,7 +251,7 @@
         </div>
     </main>
 
-    <script src="js/app-state.js?v=8.9"></script>
+    <script src="js/app-state.js?v=9.0"></script>
     <script>
         function renderBillingHistory() {
             const state = AppState.getState();

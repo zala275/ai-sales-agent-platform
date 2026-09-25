@@ -137,7 +137,7 @@ const server = http.createServer(async (req, res) => {
             } else if (message.includes("hubspot") || message.includes("crm") || message.includes("salesforce")) {
                 reply = "Yes! We support direct bi-directional synchronization with HubSpot and Salesforce. What is your email to send the integration documentation?";
             } else if (message.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/)) {
-                reply = "🎉 Fantastic! I have captured your contact information, qualified your lead as Hot (95%), and synchronized your deal into our pipeline. Your 20% discount and custom pricing proposal are unlocked right here!";
+                reply = "🎉 Fantastic! I have captured your contact information, qualified your lead as Hot (95%), and synchronized your deal into our pipeline. A special 20% discount for new customers and your custom pricing proposal are unlocked right here!";
             }
 
             res.writeHead(200);
