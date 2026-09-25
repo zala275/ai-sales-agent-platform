@@ -176,10 +176,13 @@ const AppState = (() => {
         modal.innerHTML = `
             <div class="bg-surface-container-lowest dark:bg-[#131b2e] border border-outline-variant/30 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden text-on-surface">
                 <!-- Header -->
-                <div class="p-6 border-b border-outline-variant/10 flex items-center justify-between bg-primary-container text-white">
+                <div class="p-5 border-b border-outline-variant/10 flex items-center justify-between bg-primary-container text-white">
                     <div class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-secondary-fixed">credit_card</span>
-                        <h3 class="font-bold text-lg">Simulated Checkout</h3>
+                        <span class="material-symbols-outlined text-amber-400">school</span>
+                        <div>
+                            <h3 class="font-bold text-base">Academic Showcase: Payment Simulator</h3>
+                            <p class="text-[11px] text-slate-300">Prototype demonstration for academic evaluation</p>
+                        </div>
                     </div>
                     <button onclick="document.getElementById('payment-simulator-modal').remove()" class="text-white/60 hover:text-white text-xl leading-none">&times;</button>
                 </div>
@@ -188,27 +191,27 @@ const AppState = (() => {
                 <div class="p-6 space-y-4">
                     <div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20">
                         <div>
-                            <span class="text-xs uppercase tracking-wider text-outline font-semibold">Selected Plan</span>
+                            <span class="text-xs uppercase tracking-wider text-outline font-semibold">Showcase Plan</span>
                             <h4 class="font-bold text-base text-on-surface" id="modal-plan-name">${planName}</h4>
                         </div>
                         <div class="text-right">
-                            <span class="text-xs text-outline">Billed Monthly</span>
+                            <span class="text-xs text-outline">Simulated Tier</span>
                             <div class="font-extrabold text-xl text-secondary-container" id="modal-plan-price">$${amount}.00</div>
                         </div>
                     </div>
 
-                    <div class="p-3 bg-blue-50 dark:bg-blue-950/40 rounded-xl border border-blue-200 dark:border-blue-800 text-xs text-blue-900 dark:text-blue-200 flex gap-2.5 items-start">
-                        <span class="material-symbols-outlined text-base text-blue-600 mt-0.5">verified_user</span>
+                    <div class="p-3 bg-amber-50 dark:bg-amber-950/40 rounded-xl border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 flex gap-2.5 items-start">
+                        <span class="material-symbols-outlined text-base text-amber-600 mt-0.5">info</span>
                         <div>
-                            <strong>Demo Mode Active:</strong> No real card will be charged. This demonstrates the full payment flow, receipt generation, and live account tier upgrade for your showcase.
+                            <strong>Showcase Only (Zero Real Money):</strong> No payment gateway is attached and no real card is charged. This simulation demonstrates end-to-end commercial SaaS transaction flow, automated receipt generation, and real-time tier provisioning for project evaluation.
                         </div>
                     </div>
 
                     <div class="space-y-3">
                         <div>
-                            <label class="block text-xs font-semibold text-outline mb-1">Card Number</label>
+                            <label class="block text-xs font-semibold text-outline mb-1">Simulated Card</label>
                             <div class="relative">
-                                <input type="text" value="4242 •••• •••• 4242" readonly class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-3 py-2 text-sm font-mono text-on-surface" />
+                                <input type="text" value="4242 •••• •••• 4242 (Demo Test Card)" readonly class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-3 py-2 text-sm font-mono text-on-surface" />
                                 <span class="material-symbols-outlined absolute right-3 top-2.5 text-outline text-base">lock</span>
                             </div>
                         </div>
@@ -224,8 +227,8 @@ const AppState = (() => {
                         </div>
                     </div>
 
-                    <button id="btn-confirm-simulated-payment" class="w-full py-3 px-4 bg-secondary-container hover:bg-secondary text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 group mt-4">
-                        <span>Confirm & Complete Payment ($${amount}.00)</span>
+                    <button id="btn-confirm-simulated-payment" class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 group mt-4">
+                        <span>Authorize Simulated Payment ($${amount}.00 Demo)</span>
                         <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
                     </button>
                 </div>
@@ -326,13 +329,18 @@ const AppState = (() => {
                 ]
             },
             {
-                heading: "System & Billing",
+                heading: "System & Administration",
                 links: [
-                    { id: "billing", href: "billing.html", label: "Billing & Plans", icon: "payments", badge: "Showcase" },
                     { id: "team", href: "team.html", label: "Team & Permissions", icon: "group", badge: "" },
                     { id: "settings", href: "settings.html", label: "Settings & API", icon: "settings", badge: "" },
                     { id: "notifications", href: "notifications.html", label: "Notifications", icon: "notifications", badge: "3" },
                     { id: "support", href: "support.html", label: "Support Portal", icon: "help_center", badge: "" }
+                ]
+            },
+            {
+                heading: "🎓 Academic Showcase",
+                links: [
+                    { id: "billing", href: "billing.html", label: "Payment Showcase", icon: "payments", badge: "Simulation Only", showcase: true }
                 ]
             },
             {
@@ -358,18 +366,24 @@ const AppState = (() => {
                 const isActive = item.id === activePage;
                 const activeClasses = isActive
                     ? "active-link bg-blue-600/30 text-white border-l-4 border-blue-400 font-bold"
-                    : item.highlight
-                        ? "bg-blue-500/20 text-blue-200 hover:bg-blue-500/30 border-l-4 border-blue-400 font-semibold"
-                        : "text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium";
+                    : item.showcase
+                        ? "bg-amber-500/10 text-amber-200 hover:bg-amber-500/20 border-l-4 border-amber-400 font-semibold"
+                        : item.highlight
+                            ? "bg-blue-500/20 text-blue-200 hover:bg-blue-500/30 border-l-4 border-blue-400 font-semibold"
+                            : "text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium";
+
+                const badgeClass = item.showcase
+                    ? (isActive ? 'bg-amber-400 text-slate-950 font-black shadow' : 'bg-amber-500/25 text-amber-300 border border-amber-500/40 font-bold')
+                    : (isActive ? 'bg-blue-500 text-white font-bold' : 'bg-slate-800 text-slate-200 border border-slate-700 font-bold');
 
                 menuHtml += `
                     <li>
                         <a href="${item.href}" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-r-lg transition-colors text-[13.5px] group ${activeClasses}">
                             <div class="flex items-center gap-2.5 truncate">
-                                <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105">${item.icon}</span>
+                                <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 ${item.showcase ? 'text-amber-400' : ''}">${item.icon}</span>
                                 <span class="truncate">${item.label}</span>
                             </div>
-                            ${item.badge ? `<span class="badge text-[10px] px-2 py-0.5 rounded-full font-bold ${isActive ? 'bg-blue-500 text-white' : 'bg-slate-800 text-slate-200 border border-slate-700'}">${item.badge}</span>` : ""}
+                            ${item.badge ? `<span class="badge text-[10px] px-2 py-0.5 rounded-full ${badgeClass}">${item.badge}</span>` : ""}
                         </a>
                     </li>
                 `;
