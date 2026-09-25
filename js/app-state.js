@@ -382,9 +382,13 @@ const AppState = (() => {
         });
 
         navContainer.innerHTML = `
-            <aside class="w-[280px] bg-[#0f172a] text-white flex flex-col h-screen fixed left-0 top-0 border-r border-slate-800 shadow-2xl z-50 select-none" style="background-color: #0f172a !important; color: #ffffff !important;">
+            <!-- Mobile Dark Backdrop Overlay -->
+            <div id="mobile-sidebar-backdrop" onclick="AppState.toggleMobileSidebar(false)" class="fixed inset-0 bg-black/60 z-[9998] hidden transition-opacity duration-300 md:hidden backdrop-blur-sm"></div>
+
+            <!-- Master Sidebar (Responsive: Off-canvas on mobile, fixed left on desktop) -->
+            <aside id="main-sidebar" class="w-[280px] bg-[#0f172a] text-white flex flex-col h-screen fixed left-0 top-0 border-r border-slate-800 shadow-2xl z-[9999] select-none transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out" style="background-color: #0f172a !important; color: #ffffff !important;">
                 <!-- Brand Header (100% Guaranteed Visible, Crisp & High Contrast) -->
-                <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-[#0b1120]" style="background-color: #0b1120 !important; border-bottom: 1px solid #1e293b !important; padding: 18px 16px !important;">
+                <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-[#0b1120]" style="background-color: #0b1120 !important; border-bottom: 1px solid #1e293b !important; padding: 16px !important;">
                     <a href="index.html" class="flex items-center gap-3" style="display: flex !important; align-items: center !important; gap: 12px !important; text-decoration: none !important;">
                         <div style="width: 40px !important; height: 40px !important; border-radius: 10px !important; background: linear-gradient(135deg, #2563eb, #6366f1) !important; display: flex !important; align-items: center !important; justify-content: center !important; font-weight: 800 !important; color: #ffffff !important; font-size: 18px !important; flex-shrink: 0 !important; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;">
                             ✦
@@ -400,6 +404,11 @@ const AppState = (() => {
                             </div>
                         </div>
                     </a>
+
+                    <!-- Mobile Close Button (Hidden on Desktop) -->
+                    <button onclick="AppState.toggleMobileSidebar(false)" class="md:hidden p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors" title="Close Menu">
+                        <span class="material-symbols-outlined text-[24px]">close</span>
+                    </button>
                 </div>
 
                 <!-- Nav Menu -->
@@ -437,7 +446,67 @@ const AppState = (() => {
                     </a>
                 </div>
             </aside>
+
+            <!-- Native-Feeling Mobile Bottom Navigation Bar (Screens < 768px) -->
+            <nav id="mobile-bottom-nav" class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 flex items-center justify-around py-2 px-1 shadow-2xl">
+                <a href="index.html" class="flex flex-col items-center gap-0.5 text-[10.5px] font-semibold ${activePage === 'dashboard' ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-slate-900'}">
+                    <span class="material-symbols-outlined text-[21px]">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="agents.html" class="flex flex-col items-center gap-0.5 text-[10.5px] font-semibold ${activePage === 'agents' ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-slate-900'}">
+                    <span class="material-symbols-outlined text-[21px]">smart_toy</span>
+                    <span>Agents</span>
+                </a>
+                <a href="leads.html" class="flex flex-col items-center gap-0.5 text-[10.5px] font-semibold ${activePage === 'leads' ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-slate-900'}">
+                    <span class="material-symbols-outlined text-[21px]">person_search</span>
+                    <span>Leads</span>
+                </a>
+                <a href="visitor-demo.html" class="flex flex-col items-center gap-0.5 text-[10.5px] font-semibold ${activePage === 'visitor-demo' ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-slate-900'}">
+                    <span class="material-symbols-outlined text-[21px]">play_circle</span>
+                    <span>Live Demo</span>
+                </a>
+                <button onclick="AppState.toggleMobileSidebar(true)" class="flex flex-col items-center gap-0.5 text-[10.5px] font-semibold text-slate-600 hover:text-slate-900">
+                    <span class="material-symbols-outlined text-[21px]">menu</span>
+                    <span>All Menu</span>
+                </button>
+            </nav>
         `;
+
+        // Auto-inject mobile hamburger menu button into page <header>
+        setTimeout(() => {
+            const header = document.querySelector("header");
+            if (header && !header.querySelector("#mobile-menu-trigger")) {
+                const trigger = document.createElement("button");
+                trigger.id = "mobile-menu-trigger";
+                trigger.className = "md:hidden p-2 text-slate-700 hover:text-slate-950 hover:bg-slate-100 rounded-lg flex items-center justify-center mr-2 flex-shrink-0 cursor-pointer";
+                trigger.setAttribute("aria-label", "Open Navigation Menu");
+                trigger.onclick = () => toggleMobileSidebar(true);
+                trigger.innerHTML = `<span class="material-symbols-outlined text-[24px]">menu</span>`;
+                header.insertBefore(trigger, header.firstChild);
+            }
+        }, 50);
+    };
+
+    // Toggle Mobile Sidebar Drawer (Off-canvas)
+    const toggleMobileSidebar = (open = null) => {
+        const sidebar = document.getElementById("main-sidebar");
+        const backdrop = document.getElementById("mobile-sidebar-backdrop");
+        if (!sidebar) return;
+
+        const isClosed = sidebar.classList.contains("-translate-x-full");
+        const shouldOpen = open !== null ? open : isClosed;
+
+        if (shouldOpen) {
+            sidebar.classList.remove("-translate-x-full");
+            sidebar.classList.add("translate-x-0");
+            if (backdrop) backdrop.classList.remove("hidden");
+            document.body.style.overflow = "hidden";
+        } else {
+            sidebar.classList.add("-translate-x-full");
+            sidebar.classList.remove("translate-x-0");
+            if (backdrop) backdrop.classList.add("hidden");
+            document.body.style.overflow = "";
+        }
     };
 
     // Auto-inject Crystal Clarity High-Contrast Stylesheet across all pages
@@ -586,6 +655,7 @@ const AppState = (() => {
         openPaymentSimulator,
         captureLead,
         renderSidebar,
+        toggleMobileSidebar,
         injectClarityStyles
     };
 })();

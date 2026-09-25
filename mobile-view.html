@@ -36,19 +36,19 @@
     </style>
     <link rel="stylesheet" href="css/style.css?v=5.0"/>
 </head>
-<body class="bg-slate-900 font-sans text-on-surface flex min-h-screen items-center justify-center p-4">
+<body class="bg-surface font-sans text-on-surface flex min-h-screen sm:items-center sm:justify-center sm:p-4 sm:bg-slate-900">
 
-    <!-- Mobile Device Mockup Wrapper -->
-    <div class="w-full max-w-[420px] bg-black rounded-[44px] p-3 shadow-2xl border-4 border-slate-700 relative flex flex-col h-[820px] overflow-hidden">
-        <!-- Phone Camera Notch / Dynamic Island -->
-        <div class="absolute top-4 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-full z-50 flex items-center justify-end px-3">
+    <!-- Mobile Device Mockup Wrapper (Native Full Screen on Mobile, iPhone Frame on Desktop) -->
+    <div class="w-full h-screen sm:h-[820px] sm:max-w-[420px] bg-surface sm:bg-black sm:rounded-[44px] sm:p-3 sm:shadow-2xl sm:border-4 sm:border-slate-700 relative flex flex-col overflow-hidden">
+        <!-- Phone Camera Notch / Dynamic Island (Desktop mockup only) -->
+        <div class="hidden sm:flex absolute top-4 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-full z-50 items-center justify-end px-3">
             <div class="w-2.5 h-2.5 rounded-full bg-slate-900 border border-slate-700"></div>
         </div>
 
         <!-- Phone Screen Frame -->
-        <div class="w-full h-full bg-surface rounded-[36px] overflow-hidden flex flex-col relative pt-7">
+        <div class="w-full h-full bg-surface sm:rounded-[36px] overflow-hidden flex flex-col relative sm:pt-7">
             <!-- Mobile Top Bar -->
-            <header class="h-14 px-4 bg-white/90 backdrop-blur-md border-b border-outline-variant/20 flex items-center justify-between flex-shrink-0 z-30">
+            <header class="h-14 px-4 bg-white/95 backdrop-blur-md border-b border-outline-variant/20 flex items-center justify-between flex-shrink-0 z-30">
                 <a href="index.html" class="p-1 rounded-full text-outline hover:text-on-surface" title="Back to Dashboard">
                     <span class="material-symbols-outlined text-lg">arrow_back</span>
                 </a>
