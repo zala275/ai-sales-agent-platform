@@ -1278,7 +1278,7 @@ img, svg, video, canvas, audio, iframe, embed, object {
   height: auto;
 }
 
-/* Universal Hamburger Toggle Button (ALWAYS visible on both PC and mobile!) */
+/* Universal Single Hamburger Toggle Button (ALWAYS visible on both PC and mobile!) */
 #mobile-menu-trigger,
 .mobile-menu-btn {
   display: inline-flex !important;
@@ -1441,6 +1441,16 @@ img, svg, video, canvas, audio, iframe, embed, object {
   body.mobile-sidebar-open #mobile-sidebar-backdrop,
   #mobile-sidebar-backdrop.active {
     display: block !important;
+  }
+
+  /* When drawer is open on mobile: Keep the same SINGLE hamburger button visible on top right of the drawer */
+  body.mobile-sidebar-open #mobile-menu-trigger,
+  body.mobile-sidebar-open .mobile-menu-btn {
+    position: fixed !important;
+    top: 14px !important;
+    left: 232px !important;
+    z-index: 100000 !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45) !important;
   }
 
   /* 3. Mobile Bottom Navigation Bar */
