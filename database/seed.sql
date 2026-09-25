@@ -58,4 +58,4 @@ VALUES
 ('msg_04', 'conv_9821', 'visitor', 'Does it integrate with HubSpot? What is the cost?'),
 ('msg_05', 'conv_9821', 'agent', 'Yes, we have 1-click bi-directional HubSpot sync! For your volume, our Professional Plan at $79/mo covers up to 5 agents and 1,000 captured leads. I can send you our detailed integration guide and a demo invite right now—what is your business email?'),
 ('msg_06', 'conv_9821', 'visitor', 'Great, send it to david.m@acmecorp.com or call me at +1 (555) 234-8901. I am David Miller, Head of Growth at Acme Corp.'),
-('msg_07', 'conv_9821', 'agent', 'Thank you David! I have sent the HubSpot integration guide to david.m@acmecorp.com and assigned our Senior Solutions Architect to connect with you. Have a great day!');
+('msg_07', 'conv_9821', 'agent', 'Thank you David! I have applied your 20% discount (exclusive to new customers only • not valid for existing accounts) and unlocked the full HubSpot integration guide and custom pricing proposal right here in chat. Have a great day!');

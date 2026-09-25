@@ -443,7 +443,7 @@
                 next: 'follow_up'
             },
             'objection_price': {
-                msg: "I completely respect budget diligence! Let's examine the mathematics: If your average deal value is $1,000, closing just <strong>one single additional lead</strong> that would have bounced after 6 PM yields an immediate <strong>1,200% ROI</strong> on our $79/mo Professional Tier. Plus, as an authorized closer, I can lock in an exclusive <strong>20% Showcase Partner Credit</strong> for you today. Shall I apply that credit to your setup?",
+                msg: "I completely respect budget diligence! Let's examine the mathematics: If your average deal value is $1,000, closing just <strong>one single additional lead</strong> that would have bounced after 6 PM yields an immediate <strong>1,200% ROI</strong> on our $79/mo Professional Tier. Plus, as an authorized closer, I can apply an exclusive <strong>20% discount strictly for new customers</strong> (first-time signups only, not valid for existing accounts). Shall I apply that to your setup?",
                 next: 'lead_capture'
             },
             'human_vs_bot': {
@@ -463,7 +463,7 @@
                 next: 'lead_capture'
             },
             'price': {
-                msg: "Our plans are structured by sales output: <strong>Starter ($29/mo)</strong> for early testing, <strong>Professional ($79/mo)</strong> for active teams with CRM sync (our most popular), and <strong>Enterprise ($199/mo)</strong> with custom API models. Annual plans include a 20% discount. Which tier matches your current monthly lead volume?",
+                msg: "Our plans are structured by sales output: <strong>Starter ($29/mo)</strong> for early testing, <strong>Professional ($79/mo)</strong> for active teams with CRM sync (our most popular), and <strong>Enterprise ($199/mo)</strong> with custom API models. Plus, we offer an exclusive <strong>20% discount strictly for new customers</strong> (first-time signups only, not valid for existing accounts). Which tier matches your current monthly lead volume?",
                 next: 'follow_up'
             },
             'lead_capture': {
@@ -535,7 +535,7 @@
                                 <span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">smart_toy</span>
                             </div>
                             <div class="bg-white border border-green-200 rounded-2xl rounded-tl-none p-3 shadow-sm max-w-[90%] bg-green-50">
-                                <p class="text-xs text-on-surface">🎉 <strong>Offer Activated!</strong> We've applied an exclusive <strong>20% discount for new customers</strong> and unlocked your full pricing proposal right here in chat.</p>
+                                <p class="text-xs text-on-surface">🎉 <strong>Offer Activated!</strong> We've applied an exclusive <strong>20% discount (strictly for new customers only • not valid for existing accounts)</strong> and unlocked your full pricing proposal right here in chat.</p>
                                 <div class="mt-2 flex items-center gap-1.5 text-green-700 text-[11px] font-semibold">
                                     <span class="material-symbols-outlined text-[14px]">check_circle</span>
                                     Lead captured & CRM synced
@@ -561,8 +561,8 @@
                 let extraHtml = '';
                 if (response.showForm || response.next === 'lead_capture') {
                     extraHtml = `
-                        <button onclick="sendChatMsg('Yes, connect me with sales')" class="mt-2 w-full py-1.5 ai-gradient text-white text-[11px] font-semibold rounded-lg hover:opacity-90 transition-opacity">
-                            Yes, connect me with sales →
+                        <button onclick="sendChatMsg('Yes, unlock my 20% new customer discount')" class="mt-2 w-full py-1.5 ai-gradient text-white text-[11px] font-semibold rounded-lg hover:opacity-90 transition-opacity">
+                            Yes, unlock my 20% new customer discount →
                         </button>
                     `;
                     if (response.next === 'email_input') {
@@ -592,9 +592,9 @@
                                 <div class="bg-white border border-outline-variant/10 rounded-2xl rounded-tl-none p-3.5 shadow-sm max-w-[95%] w-full">
                                     <div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-amber-50 text-amber-800 text-[11px] font-bold rounded-lg border border-amber-200 mb-2">
                                         <span class="material-symbols-outlined text-[15px] text-amber-600">local_offer</span>
-                                        <span>Special Offer: 20% discount for new customers!</span>
+                                        <span>Special Offer: 20% discount (Strictly for new customers only • Not valid for existing customers)</span>
                                     </div>
-                                    <p class="text-xs text-on-surface mb-2 font-medium">Enter your email below to unlock your custom proposal, ROI breakdown &amp; claim your 20% discount for new customers!</p>
+                                    <p class="text-xs text-on-surface mb-2 font-medium">Enter your email below to unlock your custom proposal, ROI breakdown &amp; claim your 20% discount (strictly valid for new customers only, not for existing accounts)!</p>
                                     <form onsubmit="captureLeadForm(event)" class="flex flex-col sm:flex-row gap-2 mt-2 w-full">
                                         <div class="relative flex-1">
                                             <input type="email" placeholder="Enter work email..." required class="w-full h-10 text-xs border border-slate-200 rounded-xl pl-9 pr-3 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all text-on-surface"/>
@@ -626,9 +626,9 @@
                         <span class="material-symbols-outlined text-[17px]">check_circle</span>
                         Lead Confirmed &amp; CRM Synced!
                     </p>
-                    <div class="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-800 text-[11px] font-bold rounded-md">
+                    <div class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-green-100 text-green-800 text-[11px] font-bold rounded-md">
                         <span class="material-symbols-outlined text-[14px]">local_offer</span>
-                        <span>20% discount for new customers applied!</span>
+                        <span>20% discount applied (Strictly for new customers only • Not valid for existing accounts)</span>
                     </div>
                     <p class="text-[11px] text-on-surface-variant">Your custom proposal and full product pricing details are now unlocked right here in chat.</p>
                 </div>
@@ -704,7 +704,7 @@
             const steps = [
                 { delay: 1200, msg: 'What plans do you offer?' },
                 { delay: 4500, msg: 'Tell me about the Enterprise plan' },
-                { delay: 8000, msg: 'Yes, connect me with sales' },
+                { delay: 8000, msg: 'Yes, unlock my 20% new customer discount' },
             ];
             steps.forEach(step => setTimeout(() => sendChatMsg(step.msg), step.delay));
             setTimeout(() => {

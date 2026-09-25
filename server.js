@@ -131,13 +131,13 @@ const server = http.createServer(async (req, res) => {
             if (message.includes("chatbot") || message.includes("bot") || message.includes("not a bot") || message.includes("who are you")) {
                 reply = "I am an Autonomous AI Sales Representative — definitely not a passive chatbot. While support bots merely dump FAQ links, I operate as your online human sales executive: analyzing buyer pain points, conducting BANT lead qualification (Budget, Authority, Need, Timeline), calculating exact ROI, overcoming price objections, and booking warm pipeline deals 24/7. What's your average deal size?";
             } else if (message.includes("expensive") || message.includes("costly") || message.includes("too much") || message.includes("budget") || message.includes("discount")) {
-                reply = "I completely respect budget diligence! Let's examine the mathematics: If your average deal value is $1,000, closing just ONE single lead that would have bounced after hours yields a 1,200% ROI on our $79/mo Professional Tier. Plus, as an authorized closer, I can apply a 20% Showcase Partner Credit today. Shall I reserve that for your workspace?";
+                reply = "I completely respect budget diligence! Let's examine the mathematics: If your average deal value is $1,000, closing just ONE single lead that would have bounced after hours yields a 1,200% ROI on our $79/mo Professional Tier. Plus, as an authorized closer, I can apply an exclusive 20% discount strictly for new customers today (not valid for existing accounts). Shall I reserve that for your workspace?";
             } else if (message.includes("price") || message.includes("cost") || message.includes("plan")) {
-                reply = "Our plans start at $29/mo for Starter, $79/mo for Professional (our most popular with 5 agents and full CRM sync), and $199/mo for Enterprise. What is your business email so I can send the complete specification and custom ROI breakdown?";
+                reply = "Our plans start at $29/mo for Starter, $79/mo for Professional (our most popular with 5 agents and full CRM sync), and $199/mo for Enterprise. Plus, we offer an exclusive 20% discount strictly for new customers (not valid for existing accounts). What is your business email so I can send the complete specification and custom ROI breakdown?";
             } else if (message.includes("hubspot") || message.includes("crm") || message.includes("salesforce")) {
                 reply = "Yes! We support direct bi-directional synchronization with HubSpot and Salesforce. What is your email to send the integration documentation?";
             } else if (message.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/)) {
-                reply = "🎉 Fantastic! I have captured your contact information, qualified your lead as Hot (95%), and synchronized your deal into our pipeline. A special 20% discount for new customers and your custom pricing proposal are unlocked right here!";
+                reply = "🎉 Fantastic! I have captured your contact information, qualified your lead as Hot (95%), and synchronized your deal into our pipeline. An exclusive 20% discount strictly for new customers (not valid for existing accounts) and your custom pricing proposal are unlocked right here in chat!";
             }
 
             res.writeHead(200);

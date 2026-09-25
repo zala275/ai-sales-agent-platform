@@ -19,12 +19,12 @@
         },
         {
             keywords: ["expensive", "costly", "too much", "high price", "budget", "discount"],
-            response: "I completely respect budget diligence! Let's examine the mathematics: If your average deal value is $1,000, closing just ONE single lead that would have bounced after hours yields a 1,200% ROI on our $79/mo Professional Tier. Plus, as an authorized closer, I can apply a 20% Showcase Partner Credit today. Shall I reserve that for your workspace?",
+            response: "I completely respect budget diligence! Let's examine the mathematics: If your average deal value is $1,000, closing just ONE single lead that would have bounced after hours yields a 1,200% ROI on our $79/mo Professional Tier. Plus, as an authorized closer, I can apply an exclusive 20% discount strictly for new customers today (not valid for existing accounts). Shall I reserve that for your workspace?",
             intent: "objection_handling"
         },
         {
             keywords: ["pricing", "cost", "plan", "price", "how much", "rate"],
-            response: "Our tiers are built for pipeline growth: Starter ($29/mo) for 1 agent and 150 leads, Professional ($79/mo) for 5 agents, full CRM sync, and objection intelligence (most popular), and Enterprise ($199/mo) with custom API routing. Would you like me to send our complete ROI matrix to your work email?",
+            response: "Our tiers are built for pipeline growth: Starter ($29/mo) for 1 agent and 150 leads, Professional ($79/mo) for 5 agents, full CRM sync, and objection intelligence (most popular), and Enterprise ($199/mo) with custom API routing. Plus, we offer an exclusive 20% discount strictly for new customers (first-time signups only). Would you like me to unlock that right here in chat?",
             intent: "pricing"
         },
         {
@@ -34,7 +34,7 @@
         },
         {
             keywords: ["demo", "schedule", "call", "talk", "sales", "rep", "close", "buy"],
-            response: "I'd love to connect you with our Senior Solutions Architect for a 15-minute tailored walkthrough! What's the best work email and phone number to send your calendar invite to?",
+            response: "I can present your tailored pricing proposal, ROI analysis, and full product specifications directly here in chat! Plus, I can apply our 20% discount (strictly for new customers only • not applicable for existing accounts). What's your business email?",
             intent: "demo_request"
         },
         {
@@ -265,7 +265,7 @@
                 const email = emailMatch ? emailMatch[0] : "visitor@company.com";
                 const phone = phoneMatch ? phoneMatch[0] : "+1 (555) 019-2831";
 
-                replyText = `Thank you! I have saved your contact details (${email}). Our Senior Solutions Architect has been alerted and will send over our custom architecture whitepaper and pricing proposal shortly!`;
+                replyText = `🎉 Thank you! I have saved your contact details (${email}). An exclusive 20% discount (strictly for new customers only • not valid for existing accounts) and your full product pricing breakdown have been unlocked right here in chat!`;
 
                 // If AppState exists in global scope (e.g. on demo page), sync lead directly to dashboard!
                 if (window.AppState && typeof window.AppState.captureLead === "function") {
