@@ -82,89 +82,87 @@
             <!-- Main Onboarding Area -->
             <div class="flex-1 p-6 max-w-4xl">
 
-                <!-- STEP 1: Choose Plan -->
+                <!-- STEP 1: Choose Agent Persona (100% Free) -->
                 <div id="step-1" class="slide-in">
                     <div class="mb-6">
-                        <h2 class="text-2xl font-extrabold text-on-surface mb-1">Choose Your Plan</h2>
-                        <p class="text-sm text-on-surface-variant">Start with a 14-day free trial. No credit card required.</p>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full mb-3 uppercase tracking-wider">
+                            <span class="material-symbols-outlined text-sm text-emerald-600">verified</span>
+                            100% Free Platform • No Payment Required
+                        </div>
+                        <h2 class="text-2xl font-extrabold text-on-surface mb-1">Select Your Agent Persona</h2>
+                        <p class="text-sm text-on-surface-variant">Choose how your AI Sales Agent interacts with visitors. You can customize prompts anytime.</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-                        <!-- Starter -->
-                        <div class="plan-card glass-card rounded-2xl p-6 border-2 border-outline-variant/30 flex flex-col" onclick="selectPlan(this,'starter','Starter Tier',29)">
+                        <!-- Persona 1 -->
+                        <div class="plan-card glass-card rounded-2xl p-6 border-2 border-outline-variant/30 flex flex-col cursor-pointer" onclick="selectPlan(this,'sdr','Inbound SDR Agent',0)">
                             <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-sm font-bold text-on-surface">Starter</h3>
+                                <h3 class="text-sm font-bold text-on-surface">Inbound SDR</h3>
                                 <div class="w-5 h-5 rounded-full border-2 border-outline-variant plan-radio flex items-center justify-center flex-shrink-0">
                                     <div class="w-2.5 h-2.5 rounded-full hidden plan-radio-dot"></div>
                                 </div>
                             </div>
-                            <p class="text-3xl font-extrabold text-on-surface mb-0.5">$29<span class="text-sm font-normal text-outline">/mo</span></p>
-                            <p class="text-xs text-outline mb-5">For startups & small teams</p>
+                            <p class="text-2xl font-extrabold text-emerald-600 mb-0.5">Free<span class="text-xs font-normal text-outline"> / unlimited</span></p>
+                            <p class="text-xs text-outline mb-5">Speed-to-lead & BANT qualifying</p>
                             <ul class="space-y-2.5 flex-1 mb-5">
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>1 AI Agent</li>
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>500 leads/month</li>
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Basic analytics</li>
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Email support</li>
-                                <li class="flex gap-2 text-xs text-outline"><span class="material-symbols-outlined text-outline-variant text-[16px]">cancel</span>CRM integrations</li>
-                                <li class="flex gap-2 text-xs text-outline"><span class="material-symbols-outlined text-outline-variant text-[16px]">cancel</span>White-label</li>
+                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Sub-500ms Instant Greeting</li>
+                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Lead Email & Contact Capture</li>
+                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>BANT Intent Diagnostics</li>
+                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Standard Knowledge Ingestion</li>
                             </ul>
                             <button class="w-full py-2 border-2 border-outline-variant text-on-surface text-xs font-semibold rounded-xl hover:border-secondary-container hover:text-secondary-container transition-colors">
-                                Select Starter
+                                Select Inbound SDR
                             </button>
                         </div>
 
-                        <!-- Professional (Popular) -->
-                        <div class="plan-card glass-card rounded-2xl p-6 border-2 border-secondary-container selected flex flex-col relative" onclick="selectPlan(this,'professional','Professional Tier',79)">
-                            <div class="absolute -top-3 left-1/2 -translate-x-1/2 ai-gradient text-white px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Most Popular</div>
+                        <!-- Persona 2 (Selected) -->
+                        <div class="plan-card glass-card rounded-2xl p-6 border-2 border-secondary-container selected flex flex-col relative cursor-pointer" onclick="selectPlan(this,'closer','Technical Closer Agent',0)">
+                            <div class="absolute -top-3 left-1/2 -translate-x-1/2 ai-gradient text-white px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Recommended</div>
                             <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-sm font-bold text-secondary-container">Professional</h3>
+                                <h3 class="text-sm font-bold text-secondary-container">Technical Closer</h3>
                                 <div class="w-5 h-5 rounded-full border-2 border-secondary-container plan-radio flex items-center justify-center flex-shrink-0">
                                     <div class="w-2.5 h-2.5 rounded-full bg-secondary-container plan-radio-dot"></div>
                                 </div>
                             </div>
-                            <p class="text-3xl font-extrabold text-on-surface mb-0.5">$79<span class="text-sm font-normal text-outline">/mo</span></p>
-                            <p class="text-xs text-outline mb-5">For growing businesses</p>
+                            <p class="text-2xl font-extrabold text-emerald-600 mb-0.5">Free<span class="text-xs font-normal text-outline"> / unlimited</span></p>
+                            <p class="text-xs text-outline mb-5">Consultative discovery & objections</p>
                             <ul class="space-y-2.5 flex-1 mb-5">
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>5 AI Agents</li>
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Unlimited leads</li>
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Advanced analytics</li>
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Priority support</li>
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>CRM integrations</li>
-                                <li class="flex gap-2 text-xs text-outline"><span class="material-symbols-outlined text-outline-variant text-[16px]">cancel</span>White-label</li>
+                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Autonomous Objection Handling</li>
+                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Custom ROI & Product Breakdown</li>
+                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>HubSpot & Salesforce Sync</li>
+                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>RAG Grounded Responses</li>
                             </ul>
                             <button class="w-full py-2 ai-gradient text-white text-xs font-semibold rounded-xl hover:opacity-90 transition-opacity shadow-sm">
-                                Select Professional
+                                Selected Closer
                             </button>
                         </div>
 
-                        <!-- Enterprise -->
-                        <div class="plan-card glass-card rounded-2xl p-6 border-2 border-outline-variant/30 flex flex-col" onclick="selectPlan(this,'enterprise','Enterprise Tier',199)">
+                        <!-- Persona 3 -->
+                        <div class="plan-card glass-card rounded-2xl p-6 border-2 border-outline-variant/30 flex flex-col cursor-pointer" onclick="selectPlan(this,'enterprise_exec','Enterprise Deal Exec',0)">
                             <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-sm font-bold text-on-surface">Enterprise</h3>
+                                <h3 class="text-sm font-bold text-on-surface">Enterprise Exec</h3>
                                 <div class="w-5 h-5 rounded-full border-2 border-outline-variant plan-radio flex items-center justify-center flex-shrink-0">
                                     <div class="w-2.5 h-2.5 rounded-full hidden plan-radio-dot"></div>
                                 </div>
                             </div>
-                            <p class="text-3xl font-extrabold text-on-surface mb-0.5">$199<span class="text-sm font-normal text-outline">/mo</span></p>
-                            <p class="text-xs text-outline mb-5">For enterprises & agencies</p>
+                            <p class="text-2xl font-extrabold text-emerald-600 mb-0.5">Free<span class="text-xs font-normal text-outline"> / unlimited</span></p>
+                            <p class="text-xs text-outline mb-5">Complex RFPs & multi-agent routing</p>
                             <ul class="space-y-2.5 flex-1 mb-5">
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Unlimited agents</li>
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Unlimited leads</li>
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Full analytics suite</li>
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Dedicated account mgr</li>
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>All integrations + API</li>
-                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>White-label widget</li>
+                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Multi-Agent Team Orchestration</li>
+                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Deep Architecture & Compliance</li>
+                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Full Webhook & REST API Sync</li>
+                                <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>White-Label Widget Customization</li>
                             </ul>
                             <button class="w-full py-2 bg-primary-container text-white text-xs font-semibold rounded-xl hover:bg-secondary-container transition-colors">
-                                Select Enterprise
+                                Select Enterprise Exec
                             </button>
                         </div>
                     </div>
 
                     <div class="flex items-center justify-between">
                         <p class="text-xs text-outline">
-                            <span class="material-symbols-outlined text-green-600 text-[14px] align-middle">security</span>
-                            14-day free trial · Cancel anytime · No credit card required
+                            <span class="material-symbols-outlined text-green-600 text-[14px] align-middle">verified</span>
+                            100% Free Open Deployment · No credit card required · Zero hidden charges
                         </p>
                         <button onclick="nextStep()" class="flex items-center gap-2 px-5 py-2.5 ai-gradient text-white text-sm font-bold rounded-xl hover:opacity-90 transition-opacity shadow-md">
                             Continue <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -368,10 +366,10 @@
                         <button onclick="prevStep()" class="flex items-center gap-2 px-4 py-2 border border-outline-variant text-on-surface text-sm font-semibold rounded-xl hover:bg-surface-container transition-colors">
                             <span class="material-symbols-outlined text-[18px]">arrow_back</span> Back
                         </button>
-                        <button onclick="AppState.openPaymentSimulator(selectedPlanId, selectedPlanName, selectedPlanPrice)" class="flex items-center gap-2 px-6 py-3 ai-gradient text-white text-sm font-bold rounded-xl hover:opacity-90 transition-opacity shadow-lg">
-                            <span class="material-symbols-outlined text-[18px]">credit_card</span>
-                            Activate Subscription
-                        </button>
+                        <a href="visitor-demo.html" class="flex items-center gap-2 px-6 py-3 ai-gradient text-white text-sm font-bold rounded-xl hover:opacity-90 transition-opacity shadow-lg">
+                            <span class="material-symbols-outlined text-[18px]">play_circle</span>
+                            Launch Free Agent Live →
+                        </a>
                     </div>
                 </div>
 

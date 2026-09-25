@@ -321,14 +321,14 @@
                                 <button onclick="sendChatMsg('Why are you not a chatbot?')" class="px-2.5 py-1 text-[11px] border border-blue-500/40 bg-blue-50/50 text-blue-700 font-semibold rounded-full hover:bg-blue-600 hover:text-white transition-colors">
                                     ⚡ Why are you NOT a chatbot?
                                 </button>
-                                <button onclick="sendChatMsg('That seems too expensive for our team.')" class="px-2.5 py-1 text-[11px] border border-purple-500/40 bg-purple-50/50 text-purple-700 font-semibold rounded-full hover:bg-purple-600 hover:text-white transition-colors">
-                                    💰 That's too expensive (Handle Objection)
+                                <button onclick="sendChatMsg('Is SalesAI completely free to deploy?')" class="px-2.5 py-1 text-[11px] border border-purple-500/40 bg-purple-50/50 text-purple-700 font-semibold rounded-full hover:bg-purple-600 hover:text-white transition-colors">
+                                    💰 Is SalesAI 100% Free?
                                 </button>
                                 <button onclick="sendChatMsg('How do you act like a human salesman?')" class="px-2.5 py-1 text-[11px] border border-slate-300 text-slate-700 font-semibold rounded-full hover:bg-slate-800 hover:text-white transition-colors">
                                     👔 Human Salesman vs Bot?
                                 </button>
-                                <button onclick="sendChatMsg('What is the Enterprise plan?')" class="px-2.5 py-1 text-[11px] border border-secondary-container/40 text-secondary-container font-semibold rounded-full hover:bg-secondary-container hover:text-white transition-colors">
-                                    🏢 Enterprise & White-label
+                                <button onclick="sendChatMsg('What are the enterprise capabilities?')" class="px-2.5 py-1 text-[11px] border border-secondary-container/40 text-secondary-container font-semibold rounded-full hover:bg-secondary-container hover:text-white transition-colors">
+                                    🏢 Enterprise Capabilities
                                 </button>
                             </div>
                         </div>
@@ -467,7 +467,7 @@
                 next: 'follow_up'
             },
             'objection_price': {
-                msg: "I completely respect budget diligence! Let's examine the mathematics: If your average deal value is $1,000, closing just <strong>one single additional lead</strong> that would have bounced after 6 PM yields an immediate <strong>1,200% ROI</strong> on our $79/mo Professional Tier. Plus, as an authorized closer, I can apply an exclusive <strong>20% discount strictly for new customers</strong> (first-time signups only, not valid for existing accounts). Shall I apply that to your setup?",
+                msg: "SalesAI is currently <strong>100% Free</strong> during our platform launch! You get full access to all autonomous sales capabilities, CRM sync, and lead capture with zero charges. For future commercial scaling, planned SaaS tiers will range from Starter ($29/mo) to Enterprise ($199/mo), but right now everything is completely free to launch. Shall we configure your agent?",
                 next: 'lead_capture'
             },
             'human_vs_bot': {
@@ -475,7 +475,7 @@
                 next: 'lead_capture'
             },
             'enterprise': {
-                msg: "Our <strong>Enterprise plan ($199/mo)</strong> is built for high-volume sales teams: unlimited agents, white-label widget, dedicated SLA, custom CRM webhooks, and multi-agent coordination. Would you like me to reserve an Enterprise onboarding slot for your domain?",
+                msg: "Our platform supports high-volume sales teams with unlimited agents, custom CRM webhooks, multi-agent coordination, and custom personas — currently <strong>100% free</strong> during platform launch! Would you like me to guide you through deploying on your domain?",
                 next: 'lead_capture'
             },
             'integration': {
@@ -487,7 +487,7 @@
                 next: 'lead_capture'
             },
             'price': {
-                msg: "Our plans are structured by sales output: <strong>Starter ($29/mo)</strong> for early testing, <strong>Professional ($79/mo)</strong> for active teams with CRM sync (our most popular), and <strong>Enterprise ($199/mo)</strong> with custom API models. Plus, we offer an exclusive <strong>20% discount strictly for new customers</strong> (first-time signups only, not valid for existing accounts). Which tier matches your current monthly lead volume?",
+                msg: "SalesAI is currently <strong>100% Free</strong> with zero payment or credit card required! You get unlimited autonomous conversations, CRM sync, and lead capture today. For future roadmap scaling, commercial tiers ($29 Starter, $79 Pro, $199 Enterprise) will be introduced, but everything is free right now. Would you like me to guide you through deploying your free agent?",
                 next: 'follow_up'
             },
             'lead_capture': {
@@ -496,7 +496,7 @@
                 showForm: true
             },
             'default': {
-                msg: "That's a strategic priority. Based on how high-growth businesses deploy our platform, I recommend starting with our <strong>Professional Tier ($79/mo)</strong>. It gives you 5 autonomous sales agents, full CRM synchronization, and objection-handling intelligence. Shall we set up your trial key?",
+                msg: "That's a strategic priority! With our platform currently <strong>100% Free</strong>, you get full autonomous sales capabilities, instant CRM synchronization, and objection-handling intelligence with zero cost. Shall we generate your free deployment code?",
                 next: 'lead_capture'
             }
         };
@@ -559,7 +559,7 @@
                                 <span class="material-symbols-outlined text-white text-[14px]" style="font-variation-settings:'FILL' 1">smart_toy</span>
                             </div>
                             <div class="bg-white border border-green-200 rounded-2xl rounded-tl-none p-3 shadow-sm max-w-[90%] bg-green-50">
-                                <p class="text-xs text-on-surface">🎉 <strong>Offer Activated!</strong> We've applied an exclusive <strong>20% discount (strictly for new customers only • not valid for existing accounts)</strong> and unlocked your full pricing proposal right here in chat.</p>
+                                <p class="text-xs text-on-surface">🎉 <strong>Free Workspace Access Confirmed!</strong> SalesAI is <strong>100% Free</strong> with zero payment required today. Your lead details and autonomous agent configuration have been synced to your workspace!</p>
                                 <div class="mt-2 flex items-center gap-1.5 text-green-700 text-[11px] font-semibold">
                                     <span class="material-symbols-outlined text-[14px]">check_circle</span>
                                     Lead captured & CRM synced

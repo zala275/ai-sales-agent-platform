@@ -10,8 +10,8 @@ const AppState = (() => {
             name: "Ghanshyam Zala",
             email: "admin@salesai.pro",
             role: "super_admin", // 'super_admin' | 'business_owner'
-            plan: "Professional Tier",
-            planId: "professional",
+            plan: "Free Pro Edition",
+            planId: "free_pro",
             avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuDt1Yw07Q6BOMOD20XaPXSJ7PmI8KW3I2DyPqBzTNi7azfGLELOXtcC3AFL2awka53srthWQbXp9DVbcWycGGbYMyn1zGjX0SR8IAhBm_WQD1hMtbcNVG6h0wTB5Exk8YszqHNHzNbD6ULjQhIPCyg7gARJBaqbSv-BC9jL6Dr7dRepB1QVAUyu_WggL-WX5jpyrQtAd2qc9vyfl5Ee2Kk3E2WrY6_S7PUJ4sMO7_JlBLUY0QyqOalFeA",
             company: "SalesAI Global",
             mrr: 18450
@@ -104,13 +104,13 @@ const AppState = (() => {
             if (saved) {
                 const parsed = JSON.parse(saved);
                 current = { ...DEFAULT_DATA, ...parsed };
-                // Always guarantee Ghanshyam Zala and Professional Tier
+                // Always guarantee Ghanshyam Zala and Free Pro Edition
                 current.user = {
                     ...DEFAULT_DATA.user,
                     ...(parsed.user || {}),
                     name: "Ghanshyam Zala",
                     email: "admin@salesai.pro",
-                    plan: (parsed.user && parsed.user.plan) ? parsed.user.plan : "Professional Tier"
+                    plan: (parsed.user && parsed.user.plan && parsed.user.plan.includes("Free")) ? parsed.user.plan : "Free Pro Edition"
                 };
             }
         } catch (e) {
@@ -338,12 +338,6 @@ const AppState = (() => {
                 ]
             },
             {
-                heading: "🎓 Academic Showcase",
-                links: [
-                    { id: "billing", href: "billing.html", label: "Payment Showcase", icon: "payments", badge: "Simulation Only", showcase: true }
-                ]
-            },
-            {
                 heading: "Live Interactive Demos",
                 links: [
                     { id: "visitor-demo", href: "visitor-demo.html", label: "💬 Test Live Widget", icon: "play_circle", badge: "Live Demo", highlight: true },
@@ -410,11 +404,11 @@ const AppState = (() => {
                         <div style="min-width: 0 !important; display: block !important;">
                             <div class="sidebar-brand-name flex items-center gap-1.5 leading-none" style="display: flex !important; align-items: center !important; gap: 6px !important; line-height: 1 !important;">
                                 <span style="color: #ffffff !important; font-weight: 800 !important; font-size: 17.5px !important; letter-spacing: -0.02em !important;">SalesAI</span>
-                                <span class="pro-tag" style="background-color: #2563eb !important; color: #ffffff !important; font-size: 10px !important; font-weight: 800 !important; padding: 2px 6px !important; border-radius: 4px !important; text-transform: uppercase !important; font-family: monospace !important; letter-spacing: 0.05em !important;">PRO</span>
+                                <span class="pro-tag" style="background-color: #10b981 !important; color: #ffffff !important; font-size: 10px !important; font-weight: 800 !important; padding: 2px 6px !important; border-radius: 4px !important; text-transform: uppercase !important; font-family: monospace !important; letter-spacing: 0.05em !important;">FREE</span>
                             </div>
-                            <div class="plan-badge-text current-plan-badge" style="color: #60a5fa !important; font-weight: 700 !important; font-size: 12.5px !important; margin-top: 5px !important; display: flex !important; align-items: center !important; gap: 5px !important;">
+                            <div class="plan-badge-text current-plan-badge" style="color: #34d399 !important; font-weight: 700 !important; font-size: 12.5px !important; margin-top: 5px !important; display: flex !important; align-items: center !important; gap: 5px !important;">
                                 <span style="width: 7px !important; height: 7px !important; border-radius: 50% !important; background-color: #34d399 !important; display: inline-block !important;"></span>
-                                <span style="color: #60a5fa !important; font-weight: 700 !important;">${state.user.plan || "Professional Tier"}</span>
+                                <span style="color: #34d399 !important; font-weight: 700 !important;">${state.user.plan || "Free Pro Edition"}</span>
                             </div>
                         </div>
                     </a>
@@ -425,16 +419,20 @@ const AppState = (() => {
                     ${menuHtml}
                 </div>
 
-                <!-- Showcase Upgrade Callout -->
-                <div class="p-3 mx-3 my-2 rounded-xl bg-gradient-to-br from-blue-950/70 to-indigo-950/60 border border-blue-500/30">
+                <!-- Free Platform Quick Action -->
+                <div class="p-3 mx-3 my-2 rounded-xl bg-gradient-to-br from-slate-900 to-indigo-950/70 border border-emerald-500/30">
                     <div class="flex items-center justify-between mb-1">
-                        <span class="text-[11px] font-bold text-blue-300">Showcase Simulator</span>
-                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold">Ready</span>
+                        <span class="text-[11px] font-bold text-emerald-300 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px] text-emerald-400">check_circle</span>
+                            Autonomous Sales Agent
+                        </span>
+                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">100% Free</span>
                     </div>
-                    <p class="text-[11.5px] text-slate-300 mb-2 leading-tight">Test 1-click plan upgrade & real-time revenue trigger.</p>
-                    <button onclick="AppState.openPaymentSimulator('enterprise', 'Enterprise Tier', 199)" class="w-full py-2 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow">
-                        ⚡ Simulate Upgrade ($199)
-                    </button>
+                    <p class="text-[11.5px] text-slate-300 mb-2 leading-tight">Embed your autonomous sales executive on any website in seconds.</p>
+                    <a href="deployment.html" class="w-full py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors shadow flex items-center justify-center gap-1.5 text-center">
+                        <span class="material-symbols-outlined text-[15px]">code</span>
+                        Deploy Free Agent
+                    </a>
                 </div>
 
                 <!-- User Footer (Ghanshyam Zala & Email 100% Guaranteed Crisp & Visible) -->

@@ -19,12 +19,12 @@
         },
         {
             keywords: ["expensive", "costly", "too much", "high price", "budget", "discount"],
-            response: "I completely respect budget diligence! Let's examine the mathematics: If your average deal value is $1,000, closing just ONE single lead that would have bounced after hours yields a 1,200% ROI on our $79/mo Professional Tier. Plus, as an authorized closer, I can apply an exclusive 20% discount strictly for new customers today (not valid for existing accounts). Shall I reserve that for your workspace?",
+            response: "Great news: SalesAI is currently 100% Free during our platform launch! You can deploy your autonomous sales executive with zero subscription fees and full capabilities. For future commercial scaling, our planned roadmap tiers will begin at $29/mo, but right now everything is completely free to launch. Shall we configure your agent?",
             intent: "objection_handling"
         },
         {
             keywords: ["pricing", "cost", "plan", "price", "how much", "rate"],
-            response: "Our tiers are built for pipeline growth: Starter ($29/mo) for 1 agent and 150 leads, Professional ($79/mo) for 5 agents, full CRM sync, and objection intelligence (most popular), and Enterprise ($199/mo) with custom API routing. Plus, we offer an exclusive 20% discount strictly for new customers (first-time signups only). Would you like me to unlock that right here in chat?",
+            response: "SalesAI is currently 100% Free with zero payment or credit card required! You get unlimited autonomous conversations, CRM sync, and lead capture today. For future roadmap scaling, commercial tiers ($29 Starter, $79 Pro, $199 Enterprise) will be introduced, but everything is free right now. Would you like me to guide you through deploying your free agent?",
             intent: "pricing"
         },
         {
