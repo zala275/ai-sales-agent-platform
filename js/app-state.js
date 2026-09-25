@@ -310,6 +310,14 @@ const AppState = (() => {
                 ]
             },
             {
+                heading: "Showcase & Demos (For Sir)",
+                links: [
+                    { id: "billing", href: "billing.html", label: "💳 Payment & SaaS Plans", icon: "payments", badge: "Showcase", showcase: true },
+                    { id: "visitor-demo", href: "visitor-demo.html", label: "💬 Test Live Widget", icon: "play_circle", badge: "Live Demo", highlight: true },
+                    { id: "mobile-view", href: "mobile-view.html", label: "📱 Mobile App View", icon: "stay_current_portrait", badge: "" }
+                ]
+            },
+            {
                 heading: "AI Engine & RAG",
                 links: [
                     { id: "agents", href: "agents.html", label: "AI Agents Studio", icon: "smart_toy", badge: "Live" },
@@ -335,19 +343,6 @@ const AppState = (() => {
                     { id: "settings", href: "settings.html", label: "Settings & API", icon: "settings", badge: "" },
                     { id: "notifications", href: "notifications.html", label: "Notifications", icon: "notifications", badge: "3" },
                     { id: "support", href: "support.html", label: "Support Portal", icon: "help_center", badge: "" }
-                ]
-            },
-            {
-                heading: "Future Monetization (Showcase)",
-                links: [
-                    { id: "billing", href: "billing.html", label: "💳 Payment & SaaS Plans", icon: "payments", badge: "Showcase", showcase: true }
-                ]
-            },
-            {
-                heading: "Live Interactive Demos",
-                links: [
-                    { id: "visitor-demo", href: "visitor-demo.html", label: "💬 Test Live Widget", icon: "play_circle", badge: "Live Demo", highlight: true },
-                    { id: "mobile-view", href: "mobile-view.html", label: "📱 Mobile App View", icon: "stay_current_portrait", badge: "" }
                 ]
             }
         ];
@@ -435,10 +430,16 @@ const AppState = (() => {
                         <span class="text-[9px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold">Ready</span>
                     </div>
                     <p class="text-[11.5px] text-slate-300 mb-2 leading-tight">Embed your autonomous sales executive on any website in seconds.</p>
-                    <a href="deployment.html" class="w-full py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors shadow flex items-center justify-center gap-1.5 text-center">
-                        <span class="material-symbols-outlined text-[15px]">code</span>
-                        Deploy Agent
-                    </a>
+                    <div class="flex gap-2">
+                        <a href="deployment.html" class="flex-1 py-2 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors shadow flex items-center justify-center gap-1 text-center">
+                            <span class="material-symbols-outlined text-[15px]">code</span>
+                            Deploy
+                        </a>
+                        <a href="billing.html" class="py-2 px-2.5 text-xs font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-lg transition-colors shadow flex items-center justify-center gap-1 text-center" title="Payment Showcase For Sir">
+                            <span class="material-symbols-outlined text-[15px] text-amber-400">payments</span>
+                            Showcase
+                        </a>
+                    </div>
                 </div>
 
                 <!-- User Footer (Ghanshyam Zala & Email 100% Guaranteed Crisp & Visible) -->
