@@ -1253,11 +1253,67 @@ table td {
 }
 
 /* ==========================================================
-   Desktop vs Mobile Sidebar Layout (Pure Robust CSS)
+   Universal Desktop & Mobile Collapsible Sidebar
+   Works flawlessly on both PC (collapsible) and Mobile (drawer)
    ========================================================== */
+
+/* Universal text & container wrapping to prevent horizontal text overflow */
+*, *::before, *::after {
+  box-sizing: border-box !important;
+}
+
+p, span, h1, h2, h3, h4, h5, h6, a, label, div, td, th, li, button, input {
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+}
+
+pre, code {
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+  max-width: 100% !important;
+  height: auto;
+}
+
+/* Universal Hamburger Toggle Button (ALWAYS visible on both PC and mobile!) */
+#mobile-menu-trigger,
+.mobile-menu-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  border-radius: 10px !important;
+  background-color: #0f172a !important;
+  border: 1px solid #334155 !important;
+  color: #ffffff !important;
+  cursor: pointer !important;
+  margin-right: 12px !important;
+  flex-shrink: 0 !important;
+  z-index: 50 !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18) !important;
+  transition: background-color 0.2s, transform 0.1s !important;
+}
+
+#mobile-menu-trigger:hover,
+.mobile-menu-btn:hover {
+  background-color: #1e293b !important;
+  transform: scale(1.04) !important;
+}
+
+#mobile-menu-trigger svg,
+.mobile-menu-btn svg {
+  stroke: #ffffff !important;
+}
 
 /* Desktop view: 768px and above */
 @media (min-width: 768px) {
+  /* Default: Sidebar Open */
   #main-sidebar {
     display: flex !important;
     position: fixed !important;
@@ -1265,30 +1321,80 @@ table td {
     left: 0 !important;
     bottom: 0 !important;
     width: 280px !important;
-    transform: none !important;
+    transform: translateX(0) !important;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
     visibility: visible !important;
     pointer-events: auto !important;
     z-index: 40 !important;
   }
+
+  main,
+  #main-content,
+  .main-content {
+    margin-left: 280px !important;
+    width: calc(100% - 280px) !important;
+    min-width: 0 !important;
+    transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1), width 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  header,
+  .topbar,
+  #main-header {
+    left: 280px !important;
+    width: calc(100% - 280px) !important;
+    transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1), width 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  /* When collapsed on Desktop by clicking Hamburger */
+  body.sidebar-collapsed #main-sidebar {
+    transform: translateX(-100%) !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  body.sidebar-collapsed main,
+  body.sidebar-collapsed #main-content,
+  body.sidebar-collapsed .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+
+  body.sidebar-collapsed header,
+  body.sidebar-collapsed .topbar,
+  body.sidebar-collapsed #main-header {
+    left: 0 !important;
+    width: 100% !important;
+  }
+
   #mobile-sidebar-backdrop {
     display: none !important;
   }
+
   #mobile-bottom-nav {
-    display: none !important;
-  }
-  #mobile-menu-trigger,
-  .mobile-menu-btn {
     display: none !important;
   }
 }
 
 /* Mobile view: below 768px */
 @media (max-width: 767px) {
-  html, body {
+  html {
     overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    width: 100% !important;
     max-width: 100vw !important;
+    height: auto !important;
+  }
+
+  body {
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    -webkit-overflow-scrolling: touch !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    min-height: 100vh !important;
+    touch-action: pan-y !important;
     position: relative !important;
-    -webkit-text-size-adjust: 100% !important;
   }
 
   /* 1. Master Sidebar MUST be completely HIDDEN by default on mobile */
@@ -1337,37 +1443,6 @@ table td {
     display: block !important;
   }
 
-  /* 2. Guaranteed Prominent Hamburger Button on Mobile Header */
-  #mobile-menu-trigger,
-  .mobile-menu-btn {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 42px !important;
-    height: 42px !important;
-    min-width: 42px !important;
-    min-height: 42px !important;
-    border-radius: 10px !important;
-    background-color: #0f172a !important;
-    border: 1px solid #334155 !important;
-    color: #ffffff !important;
-    cursor: pointer !important;
-    margin-right: 12px !important;
-    flex-shrink: 0 !important;
-    z-index: 50 !important;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
-  }
-
-  #mobile-menu-trigger svg,
-  .mobile-menu-btn svg {
-    stroke: #ffffff !important;
-  }
-
-  #mobile-menu-trigger:hover,
-  .mobile-menu-btn:hover {
-    background-color: #1e293b !important;
-  }
-
   /* 3. Mobile Bottom Navigation Bar */
   #mobile-bottom-nav {
     display: flex !important;
@@ -1385,7 +1460,7 @@ table td {
     padding-bottom: env(safe-area-inset-bottom, 0px) !important;
   }
 
-  /* 4. Full screen main content */
+  /* 4. Full screen main content - NO MARGIN, SMOOTH NATIVE VERTICAL SCROLL */
   main,
   #main-content,
   .main-content,
@@ -1394,22 +1469,51 @@ table td {
     margin-left: 0 !important;
     padding-left: 12px !important;
     padding-right: 12px !important;
-    padding-top: 12px !important;
-    padding-bottom: 84px !important; /* Clears mobile bottom nav */
+    padding-top: 8px !important;
+    padding-bottom: 96px !important; /* Space for bottom nav */
     width: 100% !important;
     max-width: 100vw !important;
+    min-width: 0 !important;
     box-sizing: border-box !important;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
   }
 
-  /* Top Navigation Header: full width, no left margin */
+  /* Content Containers inside Main */
+  .max-w-7xl,
+  .w-full,
+  .space-y-6,
+  .glass-card,
+  .clean-card,
+  div {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Header adjustments on mobile */
   header,
   .topbar,
   #main-header {
     left: 0 !important;
     width: 100% !important;
-    padding-left: 12px !important;
-    padding-right: 12px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
     box-sizing: border-box !important;
+  }
+
+  /* Mobile padding & spacing optimizations */
+  .p-6,
+  .p-8 {
+    padding: 14px 10px !important;
+  }
+
+  .gap-6,
+  .gap-5 {
+    gap: 12px !important;
+  }
+
+  .mt-16 {
+    margin-top: 60px !important;
   }
 
   /* Responsive grids collapse cleanly into 1 column on mobile */
@@ -1418,6 +1522,9 @@ table td {
   .grid-cols-4,
   .grid-cols-5,
   .grid-cols-6,
+  .sm\:grid-cols-2,
+  .sm\:grid-cols-3,
+  .sm\:grid-cols-4,
   .md\:grid-cols-2,
   .md\:grid-cols-3,
   .md\:grid-cols-4,
@@ -1440,18 +1547,18 @@ table td {
 
   /* Compact typography on smaller phone screens */
   h1, .text-3xl, .text-4xl {
-    font-size: 1.5rem !important;
+    font-size: 1.35rem !important;
     line-height: 1.25 !important;
   }
 
   h2, .text-2xl {
-    font-size: 1.25rem !important;
+    font-size: 1.18rem !important;
     line-height: 1.3 !important;
   }
 
   /* Touch buttons comfortable for finger taps */
   button, a.sidebar-nav-link, select, input[type="button"], input[type="submit"] {
-    min-height: 40px !important;
+    min-height: 38px !important;
   }
 
   /* Fix flex containers wrapping on small screens */

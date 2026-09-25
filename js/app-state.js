@@ -475,6 +475,18 @@ const AppState = (() => {
             </nav>
         `;
 
+        // Auto-close mobile sidebar drawer when navigating on mobile
+        setTimeout(() => {
+            const sidebarLinks = sidebar.querySelectorAll("a");
+            sidebarLinks.forEach(link => {
+                link.addEventListener("click", () => {
+                    if (window.innerWidth < 768) {
+                        toggleMobileSidebar(false);
+                    }
+                });
+            });
+        }, 120);
+
         // Apply initial responsive layout directly to DOM elements
         const updateSidebarLayout = () => {
             const sidebar = document.getElementById("main-sidebar");
@@ -492,23 +504,27 @@ const AppState = (() => {
                     if (backdrop) backdrop.style.display = "none";
                 }
                 if (bottomNav) bottomNav.style.display = "flex";
+                document.body.classList.remove("sidebar-collapsed");
             } else {
-                // Desktop state: strictly visible and pinned
+                // Desktop state: check user's saved collapsed preference
+                const isCollapsed = localStorage.getItem("salesai_sidebar_collapsed") === "true";
+                if (isCollapsed) {
+                    document.body.classList.add("sidebar-collapsed");
+                } else {
+                    document.body.classList.remove("sidebar-collapsed");
+                }
                 sidebar.style.display = "flex";
-                sidebar.style.transform = "none";
-                sidebar.style.visibility = "visible";
                 sidebar.style.pointerEvents = "auto";
                 if (backdrop) backdrop.style.display = "none";
                 if (bottomNav) bottomNav.style.display = "none";
                 document.body.classList.remove("mobile-sidebar-open");
-                document.body.style.overflow = "";
             }
         };
 
         updateSidebarLayout();
         window.addEventListener("resize", updateSidebarLayout);
 
-        // Inject Mobile Hamburger Button into page Header
+        // Inject Universal Hamburger Button into page Header if not present
         const injectHamburgerButton = () => {
             const header = document.querySelector("header") || document.querySelector(".topbar");
             if (!header) return;
@@ -518,16 +534,16 @@ const AppState = (() => {
                 trigger = document.createElement("button");
                 trigger.id = "mobile-menu-trigger";
                 trigger.className = "mobile-menu-btn";
-                trigger.setAttribute("aria-label", "Toggle Navigation Menu");
+                trigger.setAttribute("aria-label", "Toggle Sidebar Menu");
                 trigger.setAttribute("type", "button");
                 trigger.style.cssText = `
                     display: inline-flex !important;
                     align-items: center !important;
                     justify-content: center !important;
-                    width: 42px !important;
-                    height: 42px !important;
-                    min-width: 42px !important;
-                    min-height: 42px !important;
+                    width: 40px !important;
+                    height: 40px !important;
+                    min-width: 40px !important;
+                    min-height: 40px !important;
                     border-radius: 10px !important;
                     background-color: #0f172a !important;
                     border: 1px solid #334155 !important;
@@ -545,18 +561,42 @@ const AppState = (() => {
                         <line x1="3" y1="18" x2="21" y2="18"></line>
                     </svg>
                 `;
-                trigger.onclick = (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    toggleMobileSidebar();
-                };
                 header.insertBefore(trigger, header.firstChild);
             }
+            
+            // Ensure button always calls toggleSidebar()
+            trigger.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleSidebar();
+            };
         };
 
         injectHamburgerButton();
         setTimeout(injectHamburgerButton, 60);
         setTimeout(injectHamburgerButton, 300);
+    };
+
+    // Universal Toggle Sidebar: Automatically detects Desktop vs Mobile
+    const toggleSidebar = (open = null) => {
+        if (window.innerWidth < 768) {
+            toggleMobileSidebar(open);
+        } else {
+            toggleDesktopSidebar(open);
+        }
+    };
+
+    // Toggle Desktop Sidebar (Collapse / Expand with smooth transition)
+    const toggleDesktopSidebar = (open = null) => {
+        const isCollapsed = document.body.classList.contains("sidebar-collapsed");
+        const shouldCollapse = open !== null ? !open : !isCollapsed;
+        if (shouldCollapse) {
+            document.body.classList.add("sidebar-collapsed");
+            localStorage.setItem("salesai_sidebar_collapsed", "true");
+        } else {
+            document.body.classList.remove("sidebar-collapsed");
+            localStorage.setItem("salesai_sidebar_collapsed", "false");
+        }
     };
 
     // Toggle Mobile Sidebar Drawer (Off-canvas)
@@ -578,7 +618,7 @@ const AppState = (() => {
                 backdrop.style.display = "block";
             }
             document.body.classList.add("mobile-sidebar-open");
-            document.body.style.overflow = "hidden";
+            // Native mobile scrolling preserved - no freeze
         } else {
             sidebar.classList.remove("mobile-open");
             if (window.innerWidth < 768) {
@@ -589,7 +629,6 @@ const AppState = (() => {
                 backdrop.style.display = "none";
             }
             document.body.classList.remove("mobile-sidebar-open");
-            document.body.style.overflow = "";
         }
     };
 
@@ -636,12 +675,30 @@ const AppState = (() => {
                     left: 0 !important;
                     bottom: 0 !important;
                     width: 280px !important;
-                    transform: none !important;
                     visibility: visible !important;
                     pointer-events: auto !important;
+                    transition: transform 0.25s ease !important;
                 }
+                body.sidebar-collapsed #main-sidebar {
+                    transform: translateX(-100%) !important;
+                    visibility: hidden !important;
+                    pointer-events: none !important;
+                }
+                body.sidebar-collapsed main,
+                body.sidebar-collapsed #main-content,
+                body.sidebar-collapsed .main-content {
+                    margin-left: 0 !important;
+                    width: 100% !important;
+                }
+                body.sidebar-collapsed header,
+                body.sidebar-collapsed .topbar,
+                body.sidebar-collapsed #main-header {
+                    left: 0 !important;
+                    width: 100% !important;
+                }
+                /* Hamburger button is visible on Desktop and Mobile */
                 #mobile-menu-trigger, .mobile-menu-btn {
-                    display: none !important;
+                    display: inline-flex !important;
                 }
                 #mobile-bottom-nav {
                     display: none !important;
@@ -693,15 +750,15 @@ const AppState = (() => {
                     margin-left: 0 !important;
                     width: 100% !important;
                     max-width: 100vw !important;
-                    padding-left: 12px !important;
-                    padding-right: 12px !important;
-                    padding-bottom: 84px !important;
+                    padding-left: 10px !important;
+                    padding-right: 10px !important;
+                    padding-bottom: 96px !important;
                 }
                 header {
                     left: 0 !important;
                     width: 100% !important;
-                    padding-left: 12px !important;
-                    padding-right: 12px !important;
+                    padding-left: 10px !important;
+                    padding-right: 10px !important;
                 }
             }
 
@@ -817,6 +874,8 @@ const AppState = (() => {
         openPaymentSimulator,
         captureLead,
         renderSidebar,
+        toggleSidebar,
+        toggleDesktopSidebar,
         toggleMobileSidebar,
         injectClarityStyles
     };
@@ -824,6 +883,7 @@ const AppState = (() => {
 
 // Auto-initialize reliably across all mobile browsers & webviews
 const initApp = () => {
+    document.body.style.overflow = "";
     AppState.injectClarityStyles();
     const pageId = document.body.getAttribute("data-page") || "dashboard";
     AppState.renderSidebar(pageId);
