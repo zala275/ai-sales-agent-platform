@@ -19,12 +19,12 @@
         },
         {
             keywords: ["expensive", "costly", "too much", "high price", "budget", "discount"],
-            response: "Great news: SalesAI is currently 100% Free during our platform launch! You can deploy your autonomous sales executive with zero subscription fees and full capabilities. For future commercial scaling, our planned roadmap tiers will begin at $29/mo, but right now everything is completely free to launch. Shall we configure your agent?",
+            response: "Great news: SalesAI is currently open for deployment during our platform launch! You can deploy your autonomous sales executive with zero subscription fees and full capabilities. For future commercial scaling, our planned roadmap tiers will begin at $29/mo, but right now everything is completely free to launch. Shall we configure your agent?",
             intent: "objection_handling"
         },
         {
             keywords: ["pricing", "cost", "plan", "price", "how much", "rate"],
-            response: "SalesAI is currently 100% Free with zero payment or credit card required! You get unlimited autonomous conversations, CRM sync, and lead capture today. For future roadmap scaling, commercial tiers ($29 Starter, $79 Pro, $199 Enterprise) will be introduced, but everything is free right now. Would you like me to guide you through deploying your free agent?",
+            response: "SalesAI is currently open for deployment with zero payment or credit card required! You get unlimited autonomous conversations, CRM sync, and lead capture today. For future roadmap scaling, commercial tiers ($29 Starter, $79 Pro, $199 Enterprise) will be introduced, but everything is free right now. Would you like me to guide you through deploying your free agent?",
             intent: "pricing"
         },
         {

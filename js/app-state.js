@@ -10,7 +10,7 @@ const AppState = (() => {
             name: "Ghanshyam Zala",
             email: "admin@salesai.pro",
             role: "super_admin", // 'super_admin' | 'business_owner'
-            plan: "Free Pro Edition",
+            plan: "Pro Edition",
             planId: "free_pro",
             avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuDt1Yw07Q6BOMOD20XaPXSJ7PmI8KW3I2DyPqBzTNi7azfGLELOXtcC3AFL2awka53srthWQbXp9DVbcWycGGbYMyn1zGjX0SR8IAhBm_WQD1hMtbcNVG6h0wTB5Exk8YszqHNHzNbD6ULjQhIPCyg7gARJBaqbSv-BC9jL6Dr7dRepB1QVAUyu_WggL-WX5jpyrQtAd2qc9vyfl5Ee2Kk3E2WrY6_S7PUJ4sMO7_JlBLUY0QyqOalFeA",
             company: "SalesAI Global",
@@ -104,13 +104,13 @@ const AppState = (() => {
             if (saved) {
                 const parsed = JSON.parse(saved);
                 current = { ...DEFAULT_DATA, ...parsed };
-                // Always guarantee Ghanshyam Zala and Free Pro Edition
+                // Always guarantee Ghanshyam Zala and Pro Edition
                 current.user = {
                     ...DEFAULT_DATA.user,
                     ...(parsed.user || {}),
                     name: "Ghanshyam Zala",
                     email: "admin@salesai.pro",
-                    plan: (parsed.user && parsed.user.plan && parsed.user.plan.includes("Free")) ? parsed.user.plan : "Free Pro Edition"
+                    plan: (parsed.user && parsed.user.plan && !parsed.user.plan.includes("Free")) ? parsed.user.plan : "Pro Edition"
                 };
             }
         } catch (e) {
@@ -404,11 +404,11 @@ const AppState = (() => {
                         <div style="min-width: 0 !important; display: block !important;">
                             <div class="sidebar-brand-name flex items-center gap-1.5 leading-none" style="display: flex !important; align-items: center !important; gap: 6px !important; line-height: 1 !important;">
                                 <span style="color: #ffffff !important; font-weight: 800 !important; font-size: 17.5px !important; letter-spacing: -0.02em !important;">SalesAI</span>
-                                <span class="pro-tag" style="background-color: #10b981 !important; color: #ffffff !important; font-size: 10px !important; font-weight: 800 !important; padding: 2px 6px !important; border-radius: 4px !important; text-transform: uppercase !important; font-family: monospace !important; letter-spacing: 0.05em !important;">FREE</span>
+                                <span class="pro-tag" style="background-color: #2563eb !important; color: #ffffff !important; font-size: 10px !important; font-weight: 800 !important; padding: 2px 6px !important; border-radius: 4px !important; text-transform: uppercase !important; font-family: monospace !important; letter-spacing: 0.05em !important;">PRO</span>
                             </div>
                             <div class="plan-badge-text current-plan-badge" style="color: #34d399 !important; font-weight: 700 !important; font-size: 12.5px !important; margin-top: 5px !important; display: flex !important; align-items: center !important; gap: 5px !important;">
                                 <span style="width: 7px !important; height: 7px !important; border-radius: 50% !important; background-color: #34d399 !important; display: inline-block !important;"></span>
-                                <span style="color: #34d399 !important; font-weight: 700 !important;">${state.user.plan || "Free Pro Edition"}</span>
+                                <span style="color: #34d399 !important; font-weight: 700 !important;">${state.user.plan || "Pro Edition"}</span>
                             </div>
                         </div>
                     </a>
@@ -426,12 +426,12 @@ const AppState = (() => {
                             <span class="material-symbols-outlined text-[14px] text-emerald-400">check_circle</span>
                             Autonomous Sales Agent
                         </span>
-                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">100% Free</span>
+                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold">Ready</span>
                     </div>
                     <p class="text-[11.5px] text-slate-300 mb-2 leading-tight">Embed your autonomous sales executive on any website in seconds.</p>
                     <a href="deployment.html" class="w-full py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors shadow flex items-center justify-center gap-1.5 text-center">
                         <span class="material-symbols-outlined text-[15px]">code</span>
-                        Deploy Free Agent
+                        Deploy Agent
                     </a>
                 </div>
 
