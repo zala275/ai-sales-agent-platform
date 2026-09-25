@@ -74,7 +74,7 @@
         .widget-closed { display: none; }
         .widget-open { display: flex; }
     </style>
-    <link rel="stylesheet" href="css/style.css?v=8.5"/>
+    <link rel="stylesheet" href="css/style.css?v=8.6"/>
 </head>
 <body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="visitor-demo">
 
@@ -309,17 +309,24 @@
                             </div>
                         </div>
 
-                        <!-- Chat Input -->
-                        <div class="p-3 border-t border-outline-variant/20 bg-white">
+                        <!-- Chat Input Area -->
+                        <div class="p-3 border-t border-slate-200/80 bg-white">
                             <div class="flex items-center gap-2">
-                                <input id="chat-input" type="text" placeholder="Type your message..."
-                                    class="flex-1 text-xs border border-outline-variant/30 rounded-xl px-3 py-2.5 bg-surface focus:outline-none focus:ring-1 focus:ring-secondary-container focus:border-secondary-container"
+                                <input id="chat-input" type="text" placeholder="Ask about pricing, ROI, or booking..."
+                                    class="flex-1 h-11 text-xs border border-slate-200 rounded-2xl px-4 bg-slate-50/70 text-on-surface focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all"
                                     onkeydown="if(event.key==='Enter') sendChatMsg()"/>
-                                <button onclick="sendChatMsg()" class="w-9 h-9 ai-gradient text-white rounded-xl flex items-center justify-center hover:opacity-90 transition-opacity flex-shrink-0 shadow">
-                                    <span class="material-symbols-outlined text-[16px]" style="font-variation-settings:'FILL' 1">send</span>
+                                <button id="chat-send-btn" onclick="sendChatMsg()" class="w-11 h-11 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 hover:from-blue-700 hover:via-indigo-700 hover:to-violet-700 text-white rounded-2xl flex items-center justify-center shadow-md shadow-blue-500/25 hover:shadow-lg hover:shadow-blue-500/35 hover:scale-105 active:scale-95 transition-all duration-150 flex-shrink-0 cursor-pointer" title="Send message (Enter)" aria-label="Send message">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" class="translate-x-[1px] -translate-y-[0.5px]">
+                                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                                        <polygon points="22 2 15 22 11 13 2 9 22 2" fill="rgba(255,255,255,0.2)"></polygon>
+                                    </svg>
                                 </button>
                             </div>
-                            <p class="text-[10px] text-outline text-center mt-2">Powered by <strong class="ai-gradient-text">SalesAI Pro</strong> · 🔒 Secure</p>
+                            <p class="text-[10.5px] text-outline text-center mt-2 flex items-center justify-center gap-1">
+                                <span>Powered by</span>
+                                <strong class="ai-gradient-text font-bold">SalesAI Pro</strong>
+                                <span>· 🔒 256-bit Encrypted</span>
+                            </p>
                         </div>
                     </div>
 
@@ -394,7 +401,7 @@
         </div>
     </main>
 
-    <script src="js/app-state.js?v=8.5"></script>
+    <script src="js/app-state.js?v=8.6"></script>
     <script>
         // =============================================================
         // WIDGET STATE
@@ -486,9 +493,20 @@
 
         function sendChatMsg(overrideMsg) {
             const input = document.getElementById('chat-input');
-            const msg = overrideMsg || input.value.trim();
+            const sendBtn = document.getElementById('chat-send-btn');
+            const msg = overrideMsg || (input ? input.value.trim() : '');
             if (!msg) return;
-            if (input) input.value = '';
+
+            // Tactile micro-animation feedback
+            if (sendBtn) {
+                sendBtn.classList.add('scale-90', 'brightness-110');
+                setTimeout(() => sendBtn.classList.remove('scale-90', 'brightness-110'), 140);
+            }
+
+            if (input) {
+                input.value = '';
+                input.focus();
+            }
 
             const container = document.getElementById('chat-messages');
             msgCount++;
@@ -574,9 +592,14 @@
                                 </div>
                                 <div class="bg-white border border-outline-variant/10 rounded-2xl rounded-tl-none p-3 shadow-sm max-w-[90%]">
                                     <p class="text-xs text-on-surface mb-2">Just drop your work email and I'll have someone reach out within 1 hour!</p>
-                                    <form onsubmit="captureLeadForm(event)" class="flex gap-2">
-                                        <input type="email" placeholder="work@email.com" required class="flex-1 text-xs border border-outline-variant/30 rounded-lg px-2 py-1.5 bg-surface focus:outline-none focus:ring-1 focus:ring-secondary-container"/>
-                                        <button type="submit" class="px-3 py-1.5 ai-gradient text-white text-[11px] font-bold rounded-lg hover:opacity-90 transition-opacity">Submit</button>
+                                    <form onsubmit="captureLeadForm(event)" class="flex items-center gap-2 mt-1">
+                                        <input type="email" placeholder="Enter work email..." required class="flex-1 h-9 text-xs border border-slate-200 rounded-xl px-3 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all"/>
+                                        <button type="submit" class="h-9 px-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-bold rounded-xl shadow-sm hover:shadow hover:scale-[1.03] active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer flex-shrink-0">
+                                            <span>Submit</span>
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </button>
                                     </form>
                                 </div>
                             </div>

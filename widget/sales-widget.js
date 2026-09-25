@@ -153,13 +153,27 @@
             border-color: ${primaryColor};
         }
         .salesai-send-btn {
-            background: ${primaryColor};
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
             color: white;
             border: none;
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-weight: 600;
+            border-radius: 12px;
+            padding: 10px 18px;
+            font-weight: 700;
+            font-size: 13px;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+            transition: all 0.18s ease;
+        }
+        .salesai-send-btn:hover {
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+        }
+        .salesai-send-btn:active {
+            transform: scale(0.96);
         }
     `;
     document.head.appendChild(style);
