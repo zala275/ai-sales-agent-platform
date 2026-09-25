@@ -383,12 +383,12 @@ const AppState = (() => {
 
         navContainer.innerHTML = `
             <!-- Mobile Dark Backdrop Overlay -->
-            <div id="mobile-sidebar-backdrop" onclick="AppState.toggleMobileSidebar(false)" class="fixed inset-0 bg-black/60 z-[9998] hidden transition-opacity duration-300 md:hidden backdrop-blur-sm"></div>
+            <div id="mobile-sidebar-backdrop" onclick="AppState.toggleMobileSidebar(false)" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 99998; display: none;"></div>
 
             <!-- Master Sidebar (Responsive: Off-canvas on mobile, fixed left on desktop) -->
-            <aside id="main-sidebar" class="w-[280px] bg-[#0f172a] text-white flex flex-col h-screen fixed left-0 top-0 border-r border-slate-800 shadow-2xl z-[9999] select-none transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out" style="background-color: #0f172a !important; color: #ffffff !important;">
+            <aside id="main-sidebar" class="w-[285px] bg-[#0f172a] text-white flex flex-col h-screen fixed left-0 top-0 border-r border-slate-800 shadow-2xl z-[99999] select-none" style="background-color: #0f172a !important; color: #ffffff !important;">
                 <!-- Brand Header (100% Guaranteed Visible, Crisp & High Contrast) -->
-                <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-[#0b1120]" style="background-color: #0b1120 !important; border-bottom: 1px solid #1e293b !important; padding: 16px !important;">
+                <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-[#0b1120]" style="background-color: #0b1120 !important; border-bottom: 1px solid #1e293b !important; padding: 14px 16px !important;">
                     <a href="index.html" class="flex items-center gap-3" style="display: flex !important; align-items: center !important; gap: 12px !important; text-decoration: none !important;">
                         <div style="width: 40px !important; height: 40px !important; border-radius: 10px !important; background: linear-gradient(135deg, #2563eb, #6366f1) !important; display: flex !important; align-items: center !important; justify-content: center !important; font-weight: 800 !important; color: #ffffff !important; font-size: 18px !important; flex-shrink: 0 !important; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;">
                             ✦
@@ -405,9 +405,12 @@ const AppState = (() => {
                         </div>
                     </a>
 
-                    <!-- Mobile Close Button (Hidden on Desktop) -->
-                    <button onclick="AppState.toggleMobileSidebar(false)" class="md:hidden p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors" title="Close Menu">
-                        <span class="material-symbols-outlined text-[24px]">close</span>
+                    <!-- Mobile Close Button (Hidden on Desktop via CSS) -->
+                    <button onclick="AppState.toggleMobileSidebar(false)" class="p-2 text-slate-300 hover:text-white rounded-lg bg-slate-800/80 hover:bg-slate-700 transition-colors flex items-center justify-center cursor-pointer md:hidden" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; background-color: #1e293b; border: 1px solid #334155; border-radius: 8px;" title="Close Menu">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
                     </button>
                 </div>
 
@@ -448,43 +451,110 @@ const AppState = (() => {
             </aside>
 
             <!-- Native-Feeling Mobile Bottom Navigation Bar (Screens < 768px) -->
-            <nav id="mobile-bottom-nav" class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 flex items-center justify-around py-2 px-1 shadow-2xl">
-                <a href="index.html" class="flex flex-col items-center gap-0.5 text-[10.5px] font-semibold ${activePage === 'dashboard' ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-slate-900'}">
-                    <span class="material-symbols-outlined text-[21px]">dashboard</span>
+            <nav id="mobile-bottom-nav" class="md:hidden" style="display: flex; position: fixed; bottom: 0; left: 0; right: 0; height: 64px; background: #ffffff; border-top: 1px solid #e2e8f0; z-index: 9000; align-items: center; justify-content: space-around; box-shadow: 0 -4px 16px rgba(15,23,42,0.08); padding-bottom: env(safe-area-inset-bottom, 0px);">
+                <a href="index.html" class="mobile-nav-item ${activePage === 'dashboard' ? 'active' : ''}" style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: ${activePage === 'dashboard' ? '#2563eb' : '#64748b'}; font-size: 11px; font-weight: 600;">
+                    <span class="material-symbols-outlined" style="font-size: 22px;">dashboard</span>
                     <span>Dashboard</span>
                 </a>
-                <a href="agents.html" class="flex flex-col items-center gap-0.5 text-[10.5px] font-semibold ${activePage === 'agents' ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-slate-900'}">
-                    <span class="material-symbols-outlined text-[21px]">smart_toy</span>
+                <a href="agents.html" class="mobile-nav-item ${activePage === 'agents' ? 'active' : ''}" style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: ${activePage === 'agents' ? '#2563eb' : '#64748b'}; font-size: 11px; font-weight: 600;">
+                    <span class="material-symbols-outlined" style="font-size: 22px;">smart_toy</span>
                     <span>Agents</span>
                 </a>
-                <a href="leads.html" class="flex flex-col items-center gap-0.5 text-[10.5px] font-semibold ${activePage === 'leads' ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-slate-900'}">
-                    <span class="material-symbols-outlined text-[21px]">person_search</span>
+                <a href="leads.html" class="mobile-nav-item ${activePage === 'leads' ? 'active' : ''}" style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: ${activePage === 'leads' ? '#2563eb' : '#64748b'}; font-size: 11px; font-weight: 600;">
+                    <span class="material-symbols-outlined" style="font-size: 22px;">person_search</span>
                     <span>Leads</span>
                 </a>
-                <a href="visitor-demo.html" class="flex flex-col items-center gap-0.5 text-[10.5px] font-semibold ${activePage === 'visitor-demo' ? 'text-blue-600 font-bold' : 'text-slate-600 hover:text-slate-900'}">
-                    <span class="material-symbols-outlined text-[21px]">play_circle</span>
+                <a href="visitor-demo.html" class="mobile-nav-item ${activePage === 'visitor-demo' ? 'active' : ''}" style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: ${activePage === 'visitor-demo' ? '#2563eb' : '#64748b'}; font-size: 11px; font-weight: 600;">
+                    <span class="material-symbols-outlined" style="font-size: 22px;">play_circle</span>
                     <span>Live Demo</span>
                 </a>
-                <button onclick="AppState.toggleMobileSidebar(true)" class="flex flex-col items-center gap-0.5 text-[10.5px] font-semibold text-slate-600 hover:text-slate-900">
-                    <span class="material-symbols-outlined text-[21px]">menu</span>
-                    <span>All Menu</span>
+                <button type="button" onclick="AppState.toggleMobileSidebar(true)" class="mobile-nav-item" style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #64748b; font-size: 11px; font-weight: 600; background: none; border: none; cursor: pointer;">
+                    <span class="material-symbols-outlined" style="font-size: 22px;">menu</span>
+                    <span>Menu</span>
                 </button>
             </nav>
         `;
 
-        // Auto-inject mobile hamburger menu button into page <header>
-        setTimeout(() => {
-            const header = document.querySelector("header");
-            if (header && !header.querySelector("#mobile-menu-trigger")) {
-                const trigger = document.createElement("button");
+        // Apply initial responsive layout directly to DOM elements
+        const updateSidebarLayout = () => {
+            const sidebar = document.getElementById("main-sidebar");
+            const backdrop = document.getElementById("mobile-sidebar-backdrop");
+            const bottomNav = document.getElementById("mobile-bottom-nav");
+            if (!sidebar) return;
+
+            if (window.innerWidth < 768) {
+                // Mobile state: strictly off-screen and hidden by default unless opened
+                if (!sidebar.classList.contains("mobile-open")) {
+                    sidebar.style.transform = "translateX(-100%)";
+                    sidebar.style.visibility = "hidden";
+                    sidebar.style.pointerEvents = "none";
+                    if (backdrop) backdrop.style.display = "none";
+                }
+                if (bottomNav) bottomNav.style.display = "flex";
+            } else {
+                // Desktop state: strictly visible and pinned
+                sidebar.style.transform = "translateX(0)";
+                sidebar.style.visibility = "visible";
+                sidebar.style.pointerEvents = "auto";
+                if (backdrop) backdrop.style.display = "none";
+                if (bottomNav) bottomNav.style.display = "none";
+                document.body.classList.remove("mobile-sidebar-open");
+                document.body.style.overflow = "";
+            }
+        };
+
+        updateSidebarLayout();
+        window.addEventListener("resize", updateSidebarLayout);
+
+        // Inject Mobile Hamburger Button into page Header
+        const injectHamburgerButton = () => {
+            const header = document.querySelector("header") || document.querySelector(".topbar");
+            if (!header) return;
+
+            let trigger = document.getElementById("mobile-menu-trigger");
+            if (!trigger) {
+                trigger = document.createElement("button");
                 trigger.id = "mobile-menu-trigger";
-                trigger.className = "md:hidden p-2 text-slate-700 hover:text-slate-950 hover:bg-slate-100 rounded-lg flex items-center justify-center mr-2 flex-shrink-0 cursor-pointer";
-                trigger.setAttribute("aria-label", "Open Navigation Menu");
-                trigger.onclick = () => toggleMobileSidebar(true);
-                trigger.innerHTML = `<span class="material-symbols-outlined text-[24px]">menu</span>`;
+                trigger.className = "mobile-menu-btn";
+                trigger.setAttribute("aria-label", "Toggle Navigation Menu");
+                trigger.setAttribute("type", "button");
+                trigger.style.cssText = `
+                    display: inline-flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    width: 42px !important;
+                    height: 42px !important;
+                    min-width: 42px !important;
+                    min-height: 42px !important;
+                    border-radius: 10px !important;
+                    background-color: #ffffff !important;
+                    border: 1.5px solid #cbd5e1 !important;
+                    color: #0f172a !important;
+                    cursor: pointer !important;
+                    margin-right: 12px !important;
+                    flex-shrink: 0 !important;
+                    z-index: 50 !important;
+                    box-shadow: 0 2px 5px rgba(15, 23, 42, 0.08) !important;
+                `;
+                trigger.innerHTML = `
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                `;
+                trigger.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleMobileSidebar();
+                };
                 header.insertBefore(trigger, header.firstChild);
             }
-        }, 50);
+        };
+
+        injectHamburgerButton();
+        setTimeout(injectHamburgerButton, 60);
+        setTimeout(injectHamburgerButton, 300);
     };
 
     // Toggle Mobile Sidebar Drawer (Off-canvas)
@@ -493,18 +563,30 @@ const AppState = (() => {
         const backdrop = document.getElementById("mobile-sidebar-backdrop");
         if (!sidebar) return;
 
-        const isClosed = sidebar.classList.contains("-translate-x-full");
-        const shouldOpen = open !== null ? open : isClosed;
+        const isCurrentlyOpen = sidebar.classList.contains("mobile-open");
+        const shouldOpen = open !== null ? open : !isCurrentlyOpen;
 
         if (shouldOpen) {
-            sidebar.classList.remove("-translate-x-full");
-            sidebar.classList.add("translate-x-0");
-            if (backdrop) backdrop.classList.remove("hidden");
+            sidebar.classList.add("mobile-open");
+            sidebar.style.transform = "translateX(0)";
+            sidebar.style.visibility = "visible";
+            sidebar.style.pointerEvents = "auto";
+            if (backdrop) {
+                backdrop.classList.add("active");
+                backdrop.style.display = "block";
+            }
+            document.body.classList.add("mobile-sidebar-open");
             document.body.style.overflow = "hidden";
         } else {
-            sidebar.classList.add("-translate-x-full");
-            sidebar.classList.remove("translate-x-0");
-            if (backdrop) backdrop.classList.add("hidden");
+            sidebar.classList.remove("mobile-open");
+            sidebar.style.transform = "translateX(-100%)";
+            sidebar.style.visibility = "hidden";
+            sidebar.style.pointerEvents = "none";
+            if (backdrop) {
+                backdrop.classList.remove("active");
+                backdrop.style.display = "none";
+            }
+            document.body.classList.remove("mobile-sidebar-open");
             document.body.style.overflow = "";
         }
     };
@@ -537,10 +619,74 @@ const AppState = (() => {
                 box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.08) !important;
             }
 
-            /* 3. Solid, Sharp Navigation Header (No Blurry Glassmorphism) */
+            /* 3. Solid, Sharp Navigation Header */
             header {
                 background-color: #ffffff !important;
                 border-bottom: 1px solid #e2e8f0 !important;
+            }
+
+            /* Responsive Desktop vs Mobile rules */
+            @media (min-width: 768px) {
+                #main-sidebar {
+                    transform: translateX(0) !important;
+                    visibility: visible !important;
+                    pointer-events: auto !important;
+                    position: fixed !important;
+                    top: 0 !important;
+                    left: 0 !important;
+                    bottom: 0 !important;
+                    width: 280px !important;
+                }
+                #mobile-menu-trigger, .mobile-menu-btn {
+                    display: none !important;
+                }
+                #mobile-bottom-nav {
+                    display: none !important;
+                }
+                #mobile-sidebar-backdrop {
+                    display: none !important;
+                }
+            }
+
+            @media (max-width: 767px) {
+                #main-sidebar {
+                    position: fixed !important;
+                    top: 0 !important;
+                    bottom: 0 !important;
+                    left: 0 !important;
+                    width: 285px !important;
+                    max-width: 85vw !important;
+                    transform: translateX(-100%) !important;
+                    visibility: hidden !important;
+                    pointer-events: none !important;
+                    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                    z-index: 99999 !important;
+                }
+                #main-sidebar.mobile-open,
+                body.mobile-sidebar-open #main-sidebar {
+                    transform: translateX(0) !important;
+                    visibility: visible !important;
+                    pointer-events: auto !important;
+                }
+                #mobile-menu-trigger, .mobile-menu-btn {
+                    display: inline-flex !important;
+                }
+                #mobile-bottom-nav {
+                    display: flex !important;
+                }
+                main, #main-content, .main-content {
+                    margin-left: 0 !important;
+                    width: 100% !important;
+                    max-width: 100vw !important;
+                    padding-left: 12px !important;
+                    padding-right: 12px !important;
+                    padding-bottom: 84px !important;
+                }
+                header {
+                    left: 0 !important;
+                    width: 100% !important;
+                    padding-left: 12px !important;
+                    padding-right: 12px !important;
             }
 
             /* 4. MAIN CONTENT TYPOGRAPHY ONLY (Never touch aside) */
