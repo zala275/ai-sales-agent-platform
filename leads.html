@@ -48,7 +48,7 @@
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
     </style>
-    <link rel="stylesheet" href="css/style.css?v=8.3"/>
+    <link rel="stylesheet" href="css/style.css?v=8.4"/>
 </head>
 <body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="leads">
 
@@ -58,8 +58,8 @@
     <!-- Main Content -->
     <main class="flex-1 ml-0 md:ml-[280px] min-h-screen flex flex-col">
         <!-- TopNavBar -->
-        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-4 md:px-6 z-40 transition-all">
-            <div class="flex items-center gap-2.5 sm:gap-3">
+        <header class="bg-surface/85 backdrop-blur-md h-16 fixed top-0 right-0 w-full md:w-[calc(100%-280px)] border-b border-outline-variant/20 flex justify-between items-center px-3 sm:px-6 z-40 transition-all">
+            <div class="flex items-center gap-2 sm:gap-3 min-w-0">
                 <!-- Universal Hamburger Button (Visible on both PC and Mobile) -->
                 <button id="mobile-menu-trigger" type="button" onclick="AppState.toggleSidebar()" class="flex items-center justify-center w-10 h-10 rounded-xl bg-slate-900 text-white shadow-md hover:bg-slate-800 transition-all flex-shrink-0 cursor-pointer" aria-label="Toggle Navigation Menu">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -68,80 +68,81 @@
                         <line x1="3" y1="18" x2="21" y2="18"></line>
                     </svg>
                 </button>
-                <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-semibold uppercase tracking-wider">Leads Pipeline</span>
-                <span class="text-xs text-outline hidden sm:inline">Autonomous capture & high-intent scoring</span>
+                <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-semibold uppercase tracking-wider truncate">Leads Pipeline</span>
+                <span class="text-xs text-outline hidden md:inline">Autonomous capture & high-intent scoring</span>
             </div>
             
-            <div class="flex items-center gap-3">
-                <button onclick="exportLeadsCSV()" class="flex items-center gap-1.5 px-3 py-1.5 border border-outline-variant/40 hover:bg-surface-container rounded-lg text-xs font-semibold text-on-surface transition-all">
+            <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                <button onclick="exportLeadsCSV()" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 border border-outline-variant/40 hover:bg-surface-container rounded-lg text-xs font-semibold text-on-surface transition-all" title="Export CSV">
                     <span class="material-symbols-outlined text-[16px]">file_download</span>
-                    <span>Export CSV</span>
+                    <span class="hidden sm:inline">Export CSV</span>
                 </button>
-                <a href="visitor-demo.html" class="flex items-center gap-1.5 px-3 py-1.5 bg-secondary-container hover:bg-secondary text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
+                <a href="visitor-demo.html" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-secondary-container hover:bg-secondary text-white text-xs font-semibold rounded-lg shadow-sm transition-all">
                     <span class="material-symbols-outlined text-[16px]">add_comment</span>
-                    <span>Simulate New Lead</span>
+                    <span class="hidden sm:inline">Simulate New Lead</span>
+                    <span class="sm:hidden">+ Lead</span>
                 </a>
             </div>
         </header>
 
         <!-- Page Body -->
-        <div class="p-6 md:p-8 mt-16 max-w-7xl w-full mx-auto space-y-6">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="p-3.5 sm:p-6 md:p-8 mt-16 max-w-7xl w-full mx-auto space-y-4 sm:space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                    <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-on-surface">Captured Leads &amp; CRM Funnel</h2>
-                    <p class="text-sm text-on-surface-variant mt-1">Autonomous sales pipeline qualified by your website's AI agents in real-time.</p>
+                    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-on-surface">Captured Leads &amp; CRM Funnel</h2>
+                    <p class="text-xs sm:text-sm text-on-surface-variant mt-0.5">Autonomous sales pipeline qualified by your website's AI agents in real-time.</p>
                 </div>
-                <div class="flex items-center gap-2">
-                    <a href="integrations.html" class="px-3.5 py-2 bg-primary-container text-white rounded-xl text-xs font-semibold hover:bg-black transition-colors flex items-center gap-1.5">
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <a href="integrations.html" class="px-3 py-2 bg-primary-container text-white rounded-xl text-xs font-semibold hover:bg-black transition-colors flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">sync</span> Sync with CRM
                     </a>
                 </div>
             </div>
 
-            <!-- Pipeline Metrics -->
-            <div class="grid grid-cols-1 sm:grid-cols-4 gap-5">
-                <div class="glass-card rounded-2xl p-5">
-                    <span class="text-xs font-semibold text-outline uppercase tracking-wider">Total Leads Captured</span>
-                    <h3 class="text-2xl font-bold text-on-surface mt-1" id="total-leads-count">--</h3>
-                    <p class="text-[11px] text-emerald-600 font-semibold mt-1">+18 today</p>
+            <!-- Pipeline Metrics: Responsive 2x2 grid on mobile, 4 columns on desktop -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5">
+                <div class="glass-card rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between">
+                    <span class="text-[11px] sm:text-xs font-semibold text-outline uppercase tracking-wider">Total Leads</span>
+                    <h3 class="text-xl sm:text-2xl font-bold text-on-surface mt-1" id="total-leads-count">--</h3>
+                    <p class="text-[10.5px] sm:text-[11px] text-emerald-600 font-semibold mt-1">+18 today</p>
                 </div>
 
-                <div class="glass-card rounded-2xl p-5">
-                    <span class="text-xs font-semibold text-outline uppercase tracking-wider">🔥 Hot Intent Leads</span>
-                    <h3 class="text-2xl font-bold text-emerald-600 mt-1" id="hot-leads-count">--</h3>
-                    <p class="text-[11px] text-outline mt-1">Ready for sales closer</p>
+                <div class="glass-card rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between">
+                    <span class="text-[11px] sm:text-xs font-semibold text-outline uppercase tracking-wider">🔥 Hot Intent</span>
+                    <h3 class="text-xl sm:text-2xl font-bold text-emerald-600 mt-1" id="hot-leads-count">--</h3>
+                    <p class="text-[10.5px] sm:text-[11px] text-outline mt-1">Ready for closer</p>
                 </div>
 
-                <div class="glass-card rounded-2xl p-5">
-                    <span class="text-xs font-semibold text-outline uppercase tracking-wider">Avg Lead Response</span>
-                    <h3 class="text-2xl font-bold text-on-surface mt-1">&lt; 2 secs</h3>
-                    <p class="text-[11px] text-secondary font-semibold mt-1">Instant qualification</p>
+                <div class="glass-card rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between">
+                    <span class="text-[11px] sm:text-xs font-semibold text-outline uppercase tracking-wider">Avg Response</span>
+                    <h3 class="text-xl sm:text-2xl font-bold text-on-surface mt-1">&lt; 2 secs</h3>
+                    <p class="text-[10.5px] sm:text-[11px] text-secondary font-semibold mt-1">Instant qualification</p>
                 </div>
 
-                <div class="glass-card rounded-2xl p-5">
-                    <span class="text-xs font-semibold text-outline uppercase tracking-wider">Est. Pipeline Value</span>
-                    <h3 class="text-2xl font-bold text-secondary mt-1">$48,250</h3>
-                    <p class="text-[11px] text-outline mt-1">Based on budget estimates</p>
+                <div class="glass-card rounded-2xl p-3.5 sm:p-5 flex flex-col justify-between">
+                    <span class="text-[11px] sm:text-xs font-semibold text-outline uppercase tracking-wider">Pipeline Value</span>
+                    <h3 class="text-xl sm:text-2xl font-bold text-secondary mt-1">$48,250</h3>
+                    <p class="text-[10.5px] sm:text-[11px] text-outline mt-1">Budget estimates</p>
                 </div>
             </div>
 
             <!-- Filter & Search Bar -->
-            <div class="glass-card rounded-2xl p-4 flex flex-col sm:flex-row gap-3 items-center justify-between">
+            <div class="glass-card rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row gap-2.5 sm:gap-3 items-stretch sm:items-center justify-between">
                 <div class="relative w-full sm:max-w-xs">
                     <span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-[18px]">search</span>
                     <input type="text" id="lead-search-input" onkeyup="filterLeads()" placeholder="Search by name, email, or company..." class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl pl-9 pr-3 py-2 text-xs text-on-surface focus:ring-1 focus:ring-secondary-container"/>
                 </div>
 
                 <div class="flex gap-2 w-full sm:w-auto">
-                    <button onclick="setFilter('all')" class="lead-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary-container text-white transition-colors" data-filter="all">All</button>
-                    <button onclick="setFilter('hot')" class="lead-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors" data-filter="hot">🔥 Hot Only</button>
-                    <button onclick="setFilter('warm')" class="lead-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors" data-filter="warm">Warm</button>
+                    <button onclick="setFilter('all')" class="lead-filter-btn flex-1 sm:flex-initial text-center px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-secondary-container text-white transition-colors" data-filter="all">All</button>
+                    <button onclick="setFilter('hot')" class="lead-filter-btn flex-1 sm:flex-initial text-center px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors" data-filter="hot">🔥 Hot</button>
+                    <button onclick="setFilter('warm')" class="lead-filter-btn flex-1 sm:flex-initial text-center px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors" data-filter="warm">Warm</button>
                 </div>
             </div>
 
-            <!-- Leads Table -->
-            <div class="glass-card rounded-2xl overflow-hidden flex flex-col">
-                <div class="overflow-x-auto">
+            <!-- Desktop View: Full Data Table (Hidden on Mobile) -->
+            <div class="hidden md:flex glass-card rounded-2xl overflow-hidden flex-col">
+                <div class="overflow-x-auto w-full">
                     <table class="w-full text-left text-xs border-collapse">
                         <thead>
                             <tr class="border-b border-outline-variant/20 text-outline font-semibold uppercase tracking-wider bg-surface-container-low/40">
@@ -160,10 +161,15 @@
                     </table>
                 </div>
             </div>
+
+            <!-- Mobile View: Modern Touch-Friendly Cards (Visible on Mobile only) -->
+            <div class="md:hidden space-y-3" id="leads-mobile-cards">
+                <!-- Populated dynamically via JS -->
+            </div>
         </div>
     </main>
 
-    <script src="js/app-state.js?v=8.3"></script>
+    <script src="js/app-state.js?v=8.4"></script>
     <script>
         let currentFilter = 'all';
 
@@ -175,6 +181,7 @@
             document.getElementById("hot-leads-count").textContent = leads.filter(l => l.status === 'hot').length;
 
             const tbody = document.getElementById("leads-table-rows");
+            const mobileCards = document.getElementById("leads-mobile-cards");
             const search = (document.getElementById("lead-search-input").value || "").toLowerCase();
 
             const filtered = leads.filter(item => {
@@ -186,54 +193,104 @@
             });
 
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-outline">No leads match your search criteria.</td></tr>`;
+                if (tbody) tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-outline">No leads match your search criteria.</td></tr>`;
+                if (mobileCards) mobileCards.innerHTML = `<div class="p-6 text-center text-outline glass-card rounded-2xl">No leads match your search criteria.</div>`;
                 return;
             }
 
-            tbody.innerHTML = filtered.map(lead => `
-                <tr class="hover:bg-surface-container-low/60 transition-colors">
-                    <td class="p-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-secondary-fixed/50 text-secondary flex items-center justify-center font-bold text-xs uppercase">
-                                ${lead.name.substring(0, 2)}
+            // Desktop Table Rows
+            if (tbody) {
+                tbody.innerHTML = filtered.map(lead => `
+                    <tr class="hover:bg-surface-container-low/60 transition-colors">
+                        <td class="p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-secondary-fixed/50 text-secondary flex items-center justify-center font-bold text-xs uppercase">
+                                    ${lead.name.substring(0, 2)}
+                                </div>
+                                <div>
+                                    <a href="lead-detail.html" class="font-bold text-sm text-on-surface hover:text-secondary">${lead.name}</a>
+                                    <p class="text-[11px] text-outline">${lead.email}</p>
+                                </div>
                             </div>
-                            <div>
-                                <a href="lead-detail.html" class="font-bold text-sm text-on-surface hover:text-secondary">${lead.name}</a>
-                                <p class="text-[11px] text-outline">${lead.email}</p>
+                        </td>
+                        <td class="p-4">
+                            <p class="font-semibold text-on-surface">${lead.company}</p>
+                            <p class="text-[11px] text-outline font-mono">${lead.phone}</p>
+                        </td>
+                        <td class="p-4">
+                            <span class="text-xs text-on-surface">${lead.product}</span>
+                        </td>
+                        <td class="p-4">
+                            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${
+                                lead.status === 'hot' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-800'
+                            }">
+                                ${lead.score}
+                            </span>
+                        </td>
+                        <td class="p-4 font-mono font-bold text-secondary">
+                            ${lead.budget}
+                        </td>
+                        <td class="p-4">
+                            <span class="inline-flex items-center gap-1 text-[11px] ${lead.synced ? 'text-emerald-600 font-semibold' : 'text-outline'}">
+                                <span class="w-1.5 h-1.5 rounded-full ${lead.synced ? 'bg-emerald-500' : 'bg-gray-400'}"></span>
+                                ${lead.synced ? 'HubSpot Synced' : 'Queued'}
+                            </span>
+                        </td>
+                        <td class="p-4 text-right">
+                            <a href="lead-detail.html" class="px-3 py-1.5 bg-surface-container hover:bg-secondary-container hover:text-white rounded-lg text-xs font-semibold text-on-surface transition-colors inline-flex items-center gap-1">
+                                <span>Transcript</span>
+                                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                            </a>
+                        </td>
+                    </tr>
+                `).join("");
+            }
+
+            // Mobile Cards (100% native mobile UI, no horizontal scrolling needed)
+            if (mobileCards) {
+                mobileCards.innerHTML = filtered.map(lead => `
+                    <div class="glass-card rounded-2xl p-4 border border-outline-variant/30 space-y-3 bg-white shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs uppercase flex-shrink-0">
+                                    ${lead.name.substring(0, 2)}
+                                </div>
+                                <div class="min-w-0">
+                                    <a href="lead-detail.html" class="font-bold text-sm text-on-surface hover:text-secondary block truncate">${lead.name}</a>
+                                    <p class="text-[11px] text-outline truncate">${lead.email}</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold flex-shrink-0 ${
+                                lead.status === 'hot' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-800'
+                            }">
+                                ${lead.score}
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs bg-surface-container-low/70 p-2.5 rounded-xl border border-outline-variant/15">
+                            <div class="min-w-0">
+                                <span class="text-[10px] text-outline uppercase font-semibold block">Company & Phone</span>
+                                <span class="font-semibold text-on-surface block truncate">${lead.company}</span>
+                                <span class="text-[11px] text-outline font-mono block">${lead.phone}</span>
+                            </div>
+                            <div class="min-w-0">
+                                <span class="text-[10px] text-outline uppercase font-semibold block">Budget & Interest</span>
+                                <span class="font-bold text-secondary block font-mono">${lead.budget}</span>
+                                <span class="text-[11px] text-on-surface truncate block">${lead.product}</span>
                             </div>
                         </div>
-                    </td>
-                    <td class="p-4">
-                        <p class="font-semibold text-on-surface">${lead.company}</p>
-                        <p class="text-[11px] text-outline font-mono">${lead.phone}</p>
-                    </td>
-                    <td class="p-4">
-                        <span class="text-xs text-on-surface">${lead.product}</span>
-                    </td>
-                    <td class="p-4">
-                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${
-                            lead.status === 'hot' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-800'
-                        }">
-                            ${lead.score}
-                        </span>
-                    </td>
-                    <td class="p-4 font-mono font-bold text-secondary">
-                        ${lead.budget}
-                    </td>
-                    <td class="p-4">
-                        <span class="inline-flex items-center gap-1 text-[11px] ${lead.synced ? 'text-emerald-600 font-semibold' : 'text-outline'}">
-                            <span class="w-1.5 h-1.5 rounded-full ${lead.synced ? 'bg-emerald-500' : 'bg-gray-400'}"></span>
-                            ${lead.synced ? 'HubSpot Synced' : 'Queued'}
-                        </span>
-                    </td>
-                    <td class="p-4 text-right">
-                        <a href="lead-detail.html" class="px-3 py-1.5 bg-surface-container hover:bg-secondary-container hover:text-white rounded-lg text-xs font-semibold text-on-surface transition-colors inline-flex items-center gap-1">
-                            <span>Transcript</span>
-                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                        </a>
-                    </td>
-                </tr>
-            `).join("");
+                        <div class="flex items-center justify-between pt-1">
+                            <span class="inline-flex items-center gap-1.5 text-xs ${lead.synced ? 'text-emerald-600 font-semibold' : 'text-outline'}">
+                                <span class="w-2 h-2 rounded-full ${lead.synced ? 'bg-emerald-500' : 'bg-gray-400'}"></span>
+                                ${lead.synced ? 'HubSpot Synced' : 'Sync Queued'}
+                            </span>
+                            <a href="lead-detail.html" class="py-1.5 px-3 bg-secondary-container hover:bg-secondary text-white rounded-xl text-xs font-semibold transition-all inline-flex items-center gap-1 shadow-sm">
+                                <span>Transcript</span>
+                                <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                `).join("");
+            }
         }
 
         function setFilter(filter) {
