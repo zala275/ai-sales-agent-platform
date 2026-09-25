@@ -338,6 +338,12 @@ const AppState = (() => {
                 ]
             },
             {
+                heading: "Future Monetization (Showcase)",
+                links: [
+                    { id: "billing", href: "billing.html", label: "💳 Payment & SaaS Plans", icon: "payments", badge: "Showcase", showcase: true }
+                ]
+            },
+            {
                 heading: "Live Interactive Demos",
                 links: [
                     { id: "visitor-demo", href: "visitor-demo.html", label: "💬 Test Live Widget", icon: "play_circle", badge: "Live Demo", highlight: true },
