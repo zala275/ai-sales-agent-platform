@@ -404,14 +404,6 @@ const AppState = (() => {
                             </div>
                         </div>
                     </a>
-
-                    <!-- Mobile Close Button (Hidden on Desktop via CSS) -->
-                    <button onclick="AppState.toggleMobileSidebar(false)" class="p-2 text-slate-300 hover:text-white rounded-lg bg-slate-800/80 hover:bg-slate-700 transition-colors flex items-center justify-center cursor-pointer md:hidden" style="width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; background-color: #1e293b; border: 1px solid #334155; border-radius: 8px;" title="Close Menu">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
                 </div>
 
                 <!-- Nav Menu -->
