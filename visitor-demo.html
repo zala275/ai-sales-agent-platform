@@ -143,89 +143,113 @@
                         <div class="w-8 h-8 bg-primary-container rounded-lg flex items-center justify-center">
                             <span class="material-symbols-outlined text-white text-[18px]">change_history</span>
                         </div>
-                        <span class="font-bold text-gray-900 text-base tracking-tight">Acme Corp</span>
+                        <span class="font-bold text-gray-900 text-base tracking-tight">Acme Cloud Solutions</span>
                     </div>
                     <nav class="hidden md:flex gap-8">
-                        <a class="text-sm text-gray-500 hover:text-gray-900 transition-colors" href="#">Products</a>
-                        <a class="text-sm text-gray-500 hover:text-gray-900 transition-colors" href="#">Solutions</a>
-                        <a class="text-sm text-gray-900 font-semibold border-b-2 border-secondary pb-[22px]" href="#">Pricing</a>
-                        <a class="text-sm text-gray-500 hover:text-gray-900 transition-colors" href="#">Resources</a>
+                        <a class="text-sm text-gray-900 font-semibold border-b-2 border-secondary pb-[22px]" href="#">Product</a>
+                        <a class="text-sm text-gray-500 hover:text-gray-900 transition-colors" href="#">Capabilities</a>
+                        <a class="text-sm text-gray-500 hover:text-gray-900 transition-colors" href="#">Integrations</a>
+                        <a class="text-sm text-gray-500 hover:text-gray-900 transition-colors" href="#">Documentation</a>
                     </nav>
                     <div class="flex items-center gap-3">
-                        <button class="text-sm text-gray-600 hover:text-gray-900 transition-colors font-medium">Log In</button>
-                        <button class="bg-primary-container text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-secondary-container transition-colors">Get Started</button>
+                        <button onclick="openWidget(); setTimeout(()=>sendChatMsg('Hi! Tell me what this AI Sales Agent can do.'), 400)" class="text-sm text-gray-600 hover:text-gray-900 transition-colors font-medium">Test AI Live</button>
+                        <button onclick="openWidget()" class="bg-primary-container text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-secondary-container transition-colors flex items-center gap-1.5 shadow-sm">
+                            <span class="material-symbols-outlined text-[16px]">chat</span>
+                            Chat with AI Salesman
+                        </button>
                     </div>
                 </header>
 
-                <!-- Mock Website Content (Pricing Page) -->
+                <!-- Mock Website Content (Product & AI Agent Showcase) -->
                 <div class="max-w-6xl mx-auto px-8 py-16">
-                    <div class="text-center max-w-3xl mx-auto mb-14">
-                        <div class="inline-block px-3 py-1 bg-blue-100 text-secondary text-xs font-semibold rounded-full mb-4 uppercase tracking-wider">Simple Pricing</div>
-                        <h2 class="text-4xl font-bold text-gray-900 mb-4 tracking-tight">Transparent Pricing for Modern Teams</h2>
-                        <p class="text-gray-500 text-base mb-8">Choose the plan that fits your growth. No hidden fees, ever.</p>
-                        <div class="inline-flex bg-gray-100 p-1 rounded-lg">
-                            <button class="px-5 py-2 rounded-md shadow bg-white text-gray-900 text-sm font-medium">Monthly</button>
-                            <button class="px-5 py-2 rounded-md text-gray-500 text-sm font-medium hover:text-gray-700 transition-colors">Annually <span class="text-green-600 font-bold">(Save 20%)</span></button>
+                    <div class="text-center max-w-3xl mx-auto mb-12">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-secondary text-xs font-bold rounded-full mb-4 uppercase tracking-wider">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            Live Autonomous AI Sales Representative Active
                         </div>
-                    </div>
-
-                    <!-- Pricing Cards -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                        <!-- Starter -->
-                        <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col shadow-sm hover:shadow-md transition-shadow">
-                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Starter</h3>
-                            <div class="mb-1"><span class="text-4xl font-extrabold text-gray-900">$29</span><span class="text-gray-400 text-sm">/mo</span></div>
-                            <p class="text-sm text-gray-500 mb-6">For small teams and startups.</p>
-                            <button class="w-full py-2.5 border-2 border-gray-200 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-colors mb-6">Start Free Trial</button>
-                            <ul class="space-y-3 flex-1">
-                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>1 AI Agent</li>
-                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>500 leads/month</li>
-                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>Basic Analytics</li>
-                                <li class="flex gap-2.5 text-sm text-gray-400"><span class="material-symbols-outlined text-gray-300 text-[18px]">cancel</span>CRM Integrations</li>
-                            </ul>
-                        </div>
-
-                        <!-- Professional (Popular) -->
-                        <div class="bg-primary-container border-2 border-secondary-container rounded-2xl p-8 flex flex-col shadow-xl relative transform scale-105">
-                            <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-secondary-container text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow">Most Popular</div>
-                            <h3 class="text-secondary-fixed text-xs font-bold uppercase tracking-wider mb-2">Professional</h3>
-                            <div class="mb-1"><span class="text-4xl font-extrabold text-white">$79</span><span class="text-on-primary-container text-sm">/mo</span></div>
-                            <p class="text-sm text-on-primary-container mb-6">For growing businesses.</p>
-                            <button onclick="AppState && AppState.openPaymentSimulator('professional','Professional Tier',79)" class="w-full py-2.5 bg-secondary-container text-white rounded-xl text-sm font-bold hover:bg-secondary transition-colors mb-6 shadow-lg shadow-secondary/30">
-                                Get Started
+                        <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight leading-tight">
+                            Meet Your 24/7 Autonomous <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">AI Sales Executive</span>
+                        </h2>
+                        <p class="text-gray-600 text-base md:text-lg mb-8 leading-relaxed">
+                            While passive chatbots wait for questions, our autonomous sales agent actively engages website visitors in under 500ms, qualifies buyer intent using BANT, overcomes objections, and converts visitors right here in chat.
+                        </p>
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <button onclick="openWidget(); setTimeout(()=>sendChatMsg('What solutions do you offer?'), 400)" class="px-6 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-blue-500/25 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2">
+                                <span class="material-symbols-outlined text-lg">smart_toy</span>
+                                <span>Try Interactive AI Chat (Bottom Right)</span>
                             </button>
-                            <ul class="space-y-3 flex-1">
-                                <li class="flex gap-2.5 text-sm text-secondary-fixed"><span class="material-symbols-outlined text-secondary-fixed text-[18px]">check_circle</span>5 AI Agents</li>
-                                <li class="flex gap-2.5 text-sm text-secondary-fixed"><span class="material-symbols-outlined text-secondary-fixed text-[18px]">check_circle</span>Unlimited leads</li>
-                                <li class="flex gap-2.5 text-sm text-secondary-fixed"><span class="material-symbols-outlined text-secondary-fixed text-[18px]">check_circle</span>Advanced Analytics</li>
-                                <li class="flex gap-2.5 text-sm text-secondary-fixed"><span class="material-symbols-outlined text-secondary-fixed text-[18px]">check_circle</span>CRM Integrations</li>
-                            </ul>
-                        </div>
-
-                        <!-- Enterprise -->
-                        <div class="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col shadow-sm hover:shadow-md transition-shadow">
-                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">Enterprise</h3>
-                            <div class="mb-1"><span class="text-4xl font-extrabold text-gray-900">Custom</span></div>
-                            <p class="text-sm text-gray-500 mb-6">For large-scale organizations.</p>
-                            <button onclick="openWidget(); setTimeout(()=>sendAutoMsg('I want to learn about the Enterprise plan'),400)" class="w-full py-2.5 border-2 border-gray-200 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-colors mb-6">Contact Sales</button>
-                            <ul class="space-y-3 flex-1">
-                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>Unlimited Agents</li>
-                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>White-label widget</li>
-                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>Dedicated support</li>
-                                <li class="flex gap-2.5 text-sm text-gray-600"><span class="material-symbols-outlined text-green-500 text-[18px]">check_circle</span>Custom integrations</li>
-                            </ul>
+                            <a href="deployment.html" class="px-6 py-3 border-2 border-slate-300 hover:border-slate-400 bg-white text-slate-800 font-bold text-sm rounded-xl transition-all flex items-center gap-2 shadow-xs hover:bg-slate-50">
+                                <span class="material-symbols-outlined text-lg text-slate-600">code</span>
+                                <span>Deploy Free on Your Site</span>
+                            </a>
                         </div>
                     </div>
 
-                    <!-- Social proof -->
-                    <div class="text-center mt-14">
-                        <p class="text-sm text-gray-400 mb-5">Trusted by 2,400+ fast-growing companies</p>
-                        <div class="flex justify-center gap-10 flex-wrap opacity-40 grayscale">
-                            <span class="text-xl font-extrabold text-gray-700">Stripe</span>
-                            <span class="text-xl font-extrabold text-gray-700">Shopify</span>
-                            <span class="text-xl font-extrabold text-gray-700">Notion</span>
-                            <span class="text-xl font-extrabold text-gray-700">Linear</span>
-                            <span class="text-xl font-extrabold text-gray-700">Vercel</span>
+                    <!-- 3 Feature Capability Cards (Replaces Pricing Cards) -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                        <!-- Feature 1 -->
+                        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                    <span class="material-symbols-outlined text-2xl">bolt</span>
+                                </div>
+                                <h3 class="text-slate-900 font-bold text-base mb-2">Sub-500ms Instant Response</h3>
+                                <p class="text-slate-600 text-xs leading-relaxed mb-4">
+                                    Never lose a buyer to waiting. Engages prospects the exact millisecond hesitation is detected with personalized discovery greetings.
+                                </p>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100 flex items-center gap-1.5 text-blue-600 text-xs font-semibold">
+                                <span class="material-symbols-outlined text-base">check_circle</span>
+                                <span>0s Delay • 24/7 Always Active</span>
+                            </div>
+                        </div>
+
+                        <!-- Feature 2 (Highlighted) -->
+                        <div class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white border-2 border-indigo-500/40 rounded-2xl p-6 shadow-xl relative transform md:-translate-y-2 flex flex-col justify-between">
+                            <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-[10px] font-extrabold uppercase tracking-wider rounded-full shadow">
+                                Core Intelligence
+                            </div>
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center mb-4 mt-1">
+                                    <span class="material-symbols-outlined text-2xl">psychology</span>
+                                </div>
+                                <h3 class="text-white font-bold text-base mb-2">BANT Lead Qualification</h3>
+                                <p class="text-slate-300 text-xs leading-relaxed mb-4">
+                                    Consultatively uncovers Budget, Authority, Need, and Timeline like an experienced human sales executive, calculating real ROI live in chat.
+                                </p>
+                            </div>
+                            <div class="pt-4 border-t border-indigo-900/60 flex items-center gap-1.5 text-indigo-300 text-xs font-semibold">
+                                <span class="material-symbols-outlined text-base">verified</span>
+                                <span>Automated Pipeline Scoring</span>
+                            </div>
+                        </div>
+
+                        <!-- Feature 3 -->
+                        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                    <span class="material-symbols-outlined text-2xl">sync_alt</span>
+                                </div>
+                                <h3 class="text-slate-900 font-bold text-base mb-2">1-Click CRM Pipeline Sync</h3>
+                                <p class="text-slate-600 text-xs leading-relaxed mb-4">
+                                    Pushes transcripts, deal size, hot lead flags, and contact details directly into Salesforce, HubSpot, or custom webhook endpoints.
+                                </p>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100 flex items-center gap-1.5 text-emerald-600 text-xs font-semibold">
+                                <span class="material-symbols-outlined text-base">check_circle</span>
+                                <span>Real-Time Bi-Directional Sync</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Proof / Trust -->
+                    <div class="text-center mt-12">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Enterprise-Grade Performance • Free Live Showcase</p>
+                        <div class="flex justify-center gap-8 flex-wrap opacity-50 grayscale text-sm font-bold text-gray-700">
+                            <span>HubSpot Sync</span>
+                            <span>Salesforce Ready</span>
+                            <span>RAG Grounded</span>
+                            <span>Zero Hallucinations</span>
                         </div>
                     </div>
                 </div>
