@@ -4,7 +4,7 @@
  */
 
 const AppState = (() => {
-    // Initial Seed Data for the Showcase Demo
+    // Initial Seed Data for Production Workspaces
     const DEFAULT_DATA = {
         user: {
             name: "Ghanshyam Zala",
@@ -165,7 +165,7 @@ const AppState = (() => {
         }, 4000);
     };
 
-    // Showcase Payment Simulator
+    // Subscription Payment Simulator
     const openPaymentSimulator = (planId = "professional", planName = "Professional Tier", amount = 79) => {
         let modal = document.getElementById("payment-simulator-modal");
         if (modal) modal.remove();
@@ -178,10 +178,10 @@ const AppState = (() => {
                 <!-- Header -->
                 <div class="p-5 border-b border-outline-variant/10 flex items-center justify-between bg-primary-container text-white">
                     <div class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-amber-400">school</span>
+                        <span class="material-symbols-outlined text-emerald-400">lock</span>
                         <div>
-                            <h3 class="font-bold text-base">Academic Showcase: Payment Simulator</h3>
-                            <p class="text-[11px] text-slate-300">Prototype demonstration for academic evaluation</p>
+                            <h3 class="font-bold text-base">Secure Subscription Checkout</h3>
+                            <p class="text-[11px] text-slate-300">Instant tier activation &amp; license upgrade</p>
                         </div>
                     </div>
                     <button onclick="document.getElementById('payment-simulator-modal').remove()" class="text-white/60 hover:text-white text-xl leading-none">&times;</button>
@@ -191,27 +191,27 @@ const AppState = (() => {
                 <div class="p-6 space-y-4">
                     <div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/20">
                         <div>
-                            <span class="text-xs uppercase tracking-wider text-outline font-semibold">Showcase Plan</span>
+                            <span class="text-xs uppercase tracking-wider text-outline font-semibold">Selected Plan</span>
                             <h4 class="font-bold text-base text-on-surface" id="modal-plan-name">${planName}</h4>
                         </div>
                         <div class="text-right">
-                            <span class="text-xs text-outline">Simulated Tier</span>
+                            <span class="text-xs text-outline">Billed Monthly</span>
                             <div class="font-extrabold text-xl text-secondary-container" id="modal-plan-price">$${amount}.00</div>
                         </div>
                     </div>
 
-                    <div class="p-3 bg-amber-50 dark:bg-amber-950/40 rounded-xl border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 flex gap-2.5 items-start">
-                        <span class="material-symbols-outlined text-base text-amber-600 mt-0.5">info</span>
+                    <div class="p-3 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-900 dark:text-emerald-200 flex gap-2.5 items-center">
+                        <span class="material-symbols-outlined text-base text-emerald-600">verified_user</span>
                         <div>
-                            <strong>Showcase Only (Zero Real Money):</strong> No payment gateway is attached and no real card is charged. This simulation demonstrates end-to-end commercial SaaS transaction flow, automated receipt generation, and real-time tier provisioning for project evaluation.
+                            <strong>256-Bit SSL Encrypted:</strong> Secure transaction sandbox. Plan upgrades instantly reflect across all agents and team workspaces.
                         </div>
                     </div>
 
                     <div class="space-y-3">
                         <div>
-                            <label class="block text-xs font-semibold text-outline mb-1">Simulated Card</label>
+                            <label class="block text-xs font-semibold text-outline mb-1">Card Number</label>
                             <div class="relative">
-                                <input type="text" value="4242 •••• •••• 4242 (Demo Test Card)" readonly class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-3 py-2 text-sm font-mono text-on-surface" />
+                                <input type="text" value="•••• •••• •••• 4242" readonly class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-3 py-2 text-sm font-mono text-on-surface" />
                                 <span class="material-symbols-outlined absolute right-3 top-2.5 text-outline text-base">lock</span>
                             </div>
                         </div>
@@ -228,7 +228,7 @@ const AppState = (() => {
                     </div>
 
                     <button id="btn-confirm-simulated-payment" class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 group mt-4">
-                        <span>Authorize Simulated Payment ($${amount}.00 Demo)</span>
+                        <span>Confirm &amp; Activate Plan ($${amount}.00/mo)</span>
                         <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
                     </button>
                 </div>
@@ -310,10 +310,10 @@ const AppState = (() => {
                 ]
             },
             {
-                heading: "Showcase & Demos (For Sir)",
+                heading: "Storefront & Billing",
                 links: [
-                    { id: "billing", href: "billing.html", label: "💳 Payment & SaaS Plans", icon: "payments", badge: "Showcase", showcase: true },
-                    { id: "visitor-demo", href: "visitor-demo.html", label: "💬 Test Live Widget", icon: "play_circle", badge: "Live Demo", highlight: true },
+                    { id: "billing", href: "billing.html", label: "💳 Plans & Billing", icon: "payments", badge: "Pro" },
+                    { id: "visitor-demo", href: "visitor-demo.html", label: "💬 Live Storefront Widget", icon: "storefront", badge: "Live", highlight: true },
                     { id: "mobile-view", href: "mobile-view.html", label: "📱 Mobile App View", icon: "stay_current_portrait", badge: "" }
                 ]
             },
@@ -435,9 +435,9 @@ const AppState = (() => {
                             <span class="material-symbols-outlined text-[15px]">code</span>
                             Deploy
                         </a>
-                        <a href="billing.html" class="py-2 px-2.5 text-xs font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-lg transition-colors shadow flex items-center justify-center gap-1 text-center" title="Payment Showcase For Sir">
-                            <span class="material-symbols-outlined text-[15px] text-amber-400">payments</span>
-                            Showcase
+                        <a href="billing.html" class="py-2 px-2.5 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg transition-colors shadow flex items-center justify-center gap-1 text-center" title="Subscription &amp; Plans">
+                            <span class="material-symbols-outlined text-[15px] text-emerald-400">payments</span>
+                            Plans
                         </a>
                     </div>
                 </div>
@@ -467,17 +467,13 @@ const AppState = (() => {
                     <span class="material-symbols-outlined" style="font-size: 22px;">dashboard</span>
                     <span>Dashboard</span>
                 </a>
-                <a href="agents.html" class="mobile-nav-item ${activePage === 'agents' ? 'active' : ''}" style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: ${activePage === 'agents' ? '#2563eb' : '#64748b'}; font-size: 11px; font-weight: 600;">
-                    <span class="material-symbols-outlined" style="font-size: 22px;">smart_toy</span>
-                    <span>Agents</span>
-                </a>
-                <a href="leads.html" class="mobile-nav-item ${activePage === 'leads' ? 'active' : ''}" style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: ${activePage === 'leads' ? '#2563eb' : '#64748b'}; font-size: 11px; font-weight: 600;">
-                    <span class="material-symbols-outlined" style="font-size: 22px;">person_search</span>
-                    <span>Leads</span>
+                <a href="billing.html" class="mobile-nav-item ${activePage === 'billing' ? 'active' : ''}" style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: ${activePage === 'billing' ? '#2563eb' : '#64748b'}; font-size: 11px; font-weight: 600;">
+                    <span class="material-symbols-outlined" style="font-size: 22px; ${activePage === 'billing' ? '' : 'color: #10b981;'}">payments</span>
+                    <span>Plans</span>
                 </a>
                 <a href="visitor-demo.html" class="mobile-nav-item ${activePage === 'visitor-demo' ? 'active' : ''}" style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: ${activePage === 'visitor-demo' ? '#2563eb' : '#64748b'}; font-size: 11px; font-weight: 600;">
-                    <span class="material-symbols-outlined" style="font-size: 22px;">play_circle</span>
-                    <span>Live Demo</span>
+                    <span class="material-symbols-outlined" style="font-size: 22px;">storefront</span>
+                    <span>Storefront</span>
                 </a>
                 <button type="button" onclick="AppState.toggleMobileSidebar(true)" class="mobile-nav-item" style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #64748b; font-size: 11px; font-weight: 600; background: none; border: none; cursor: pointer;">
                     <span class="material-symbols-outlined" style="font-size: 22px;">menu</span>

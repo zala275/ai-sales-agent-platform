@@ -1258,11 +1258,24 @@ table td {
    ========================================================== */
 
 /* Universal text & container wrapping to prevent horizontal text overflow */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box !important;
 }
 
-p, h1, h2, h3, h4, h5, h6, a, label, div, li, input {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+label,
+div,
+li,
+input {
   overflow-wrap: break-word !important;
   word-wrap: break-word !important;
   word-break: break-word !important;
@@ -1294,12 +1307,20 @@ td * {
   white-space: nowrap !important;
 }
 
-pre, code {
+pre,
+code {
   white-space: pre-wrap !important;
   word-break: break-all !important;
 }
 
-img, svg, video, canvas, audio, iframe, embed, object {
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
   max-width: 100% !important;
   height: auto;
 }
@@ -1322,7 +1343,7 @@ img, svg, video, canvas, audio, iframe, embed, object {
   margin-right: 12px !important;
   flex-shrink: 0 !important;
   z-index: 50 !important;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.18) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18) !important;
   transition: background-color 0.2s, transform 0.1s !important;
 }
 
@@ -1339,6 +1360,7 @@ img, svg, video, canvas, audio, iframe, embed, object {
 
 /* Desktop view: 768px and above */
 @media (min-width: 768px) {
+
   /* Default: Sidebar Open */
   #main-sidebar {
     display: flex !important;
@@ -1449,8 +1471,13 @@ img, svg, video, canvas, audio, iframe, embed, object {
   }
 
   @keyframes slideInDrawer {
-    from { transform: translateX(-100%); }
-    to { transform: translateX(0); }
+    from {
+      transform: translateX(-100%);
+    }
+
+    to {
+      transform: translateX(0);
+    }
   }
 
   /* Dark Backdrop Overlay */
@@ -1500,13 +1527,14 @@ img, svg, video, canvas, audio, iframe, embed, object {
   main,
   #main-content,
   .main-content,
-  body > div > main,
-  body > main {
+  body>div>main,
+  body>main {
     margin-left: 0 !important;
     padding-left: 12px !important;
     padding-right: 12px !important;
     padding-top: 8px !important;
-    padding-bottom: 96px !important; /* Space for bottom nav */
+    padding-bottom: 96px !important;
+    /* Space for bottom nav */
     width: 100% !important;
     max-width: 100vw !important;
     min-width: 0 !important;
@@ -1581,9 +1609,9 @@ img, svg, video, canvas, audio, iframe, embed, object {
   }
 
   table,
-  .overflow-x-auto > table,
-  .table-container > table,
-  .table-scroll > table {
+  .overflow-x-auto>table,
+  .table-container>table,
+  .table-scroll>table {
     min-width: 650px !important;
     display: table !important;
     width: 100% !important;
@@ -1613,18 +1641,25 @@ img, svg, video, canvas, audio, iframe, embed, object {
   }
 
   /* Compact typography on smaller phone screens */
-  h1, .text-3xl, .text-4xl {
+  h1,
+  .text-3xl,
+  .text-4xl {
     font-size: 1.35rem !important;
     line-height: 1.25 !important;
   }
 
-  h2, .text-2xl {
+  h2,
+  .text-2xl {
     font-size: 1.18rem !important;
     line-height: 1.3 !important;
   }
 
   /* Touch buttons comfortable for finger taps */
-  button, a.sidebar-nav-link, select, input[type="button"], input[type="submit"] {
+  button,
+  a.sidebar-nav-link,
+  select,
+  input[type="button"],
+  input[type="submit"] {
     min-height: 38px !important;
   }
 
@@ -1636,10 +1671,12 @@ img, svg, video, canvas, audio, iframe, embed, object {
 
 /* Desktop Leads Viewport Rules (> 768px) */
 @media (min-width: 769px) {
+
   #desktop-leads-table,
   .leads-desktop-table {
     display: flex !important;
   }
+
   #leads-mobile-cards,
   .leads-mobile-cards {
     display: none !important;

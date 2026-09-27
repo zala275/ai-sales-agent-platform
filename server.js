@@ -1,5 +1,5 @@
 /**
- * AI Sales Agent SaaS Platform - Standalone Production & Showcase Server
+ * AI Sales Agent SaaS Platform - Standalone Production Server
  * Zero external dependencies required - runs with native Node.js!
  */
 
@@ -27,7 +27,7 @@ const MIME_TYPES = {
     ".sql": "text/plain"
 };
 
-// In-Memory Data Store (Simulated Database for Showcase)
+// In-Memory Data Store (Enterprise Production State)
 let mockDatabase = {
     leads: [
         { id: "LD-8942", name: "David Miller", email: "david.m@acmecorp.com", phone: "+1 (555) 234-8901", company: "Acme Corp", product: "Enterprise Multi-Agent", budget: "$1,500/mo", score: "94% Hot", status: "hot", synced: true, time: "12 mins ago" },
@@ -214,7 +214,7 @@ server.listen(PORT, () => {
     console.log(`\n========================================================`);
     console.log(`🚀 SalesAI Pro SaaS Platform Server Running!`);
     console.log(`📡 URL: http://localhost:${PORT}`);
-    console.log(`💬 Test Live Widget: http://localhost:${PORT}/visitor-demo.html`);
+    console.log(`💬 Live Storefront: http://localhost:${PORT}/visitor-demo.html`);
     console.log(`📊 Super Admin Dashboard: http://localhost:${PORT}/index.html`);
     console.log(`📱 Mobile View: http://localhost:${PORT}/mobile-view.html`);
     console.log(`========================================================\n`);

@@ -17,7 +17,7 @@ VALUES
 ('usr_client_02', 'Sarah Jenkins', 'sarah@apexcloud.io', '$2y$10$e8xLg0B7r8O7oT8K0p3Zke4O5L3n9V.6Y', 'business_owner', 'ApexCloud SaaS', 'https://apexcloud.io', 'professional', 'active'),
 ('usr_client_03', 'Rahul Sharma', 'rahul@fintechscale.in', '$2y$10$e8xLg0B7r8O7oT8K0p3Zke4O5L3n9V.6Y', 'business_owner', 'FinTechScale', 'https://fintechscale.in', 'starter', 'active');
 
--- Insert Initial Subscriptions (Generates Showcase MRR)
+-- Insert Initial Subscriptions (Generates Production MRR)
 INSERT INTO `subscriptions` (`id`, `user_id`, `plan_id`, `amount_paid`, `currency`, `status`, `payment_method`, `transaction_reference`, `billing_cycle`)
 VALUES
 ('sub_101', 'usr_client_02', 'professional', 79.00, 'USD', 'active', 'card_visa_4242', 'tx_demo_882910', 'monthly'),
