@@ -30,9 +30,9 @@ const MIME_TYPES = {
 // In-Memory Data Store (Enterprise Production State)
 let mockDatabase = {
     leads: [
-        { id: "LD-8942", name: "David Miller", email: "david.m@acmecorp.com", phone: "+1 (555) 234-8901", company: "Acme Corp", product: "Enterprise Multi-Agent", budget: "$1,500/mo", score: "94% Hot", status: "hot", synced: true, time: "12 mins ago" },
-        { id: "LD-8941", name: "Priya Patel", email: "priya@techventures.io", phone: "+91 98200 44122", company: "TechVentures", product: "Professional 5-Agent Suite", budget: "$500/mo", score: "88% Hot", status: "hot", synced: true, time: "45 mins ago" },
-        { id: "LD-8940", name: "Marcus Sterling", email: "m.sterling@globalnet.org", phone: "+44 20 7946 0912", company: "GlobalNet Systems", product: "Custom API & White-label", budget: "$3,000/mo", score: "72% Warm", status: "warm", synced: false, time: "2 hours ago" }
+        { id: "LD-8942", name: "David Miller", email: "david.m@acmecorp.com", phone: "+1 (555) 234-8901", company: "Acme Corp", product: "Enterprise Multi-Agent", budget: "Enterprise", score: "94% Hot", status: "hot", synced: true, time: "12 mins ago" },
+        { id: "LD-8941", name: "Priya Patel", email: "priya@techventures.io", phone: "+91 98200 44122", company: "TechVentures", product: "Professional 5-Agent Suite", budget: "Growth", score: "88% Hot", status: "hot", synced: true, time: "45 mins ago" },
+        { id: "LD-8940", name: "Marcus Sterling", email: "m.sterling@globalnet.org", phone: "+44 20 7946 0912", company: "GlobalNet Systems", product: "Custom API & White-label", budget: "Enterprise", score: "72% Warm", status: "warm", synced: false, time: "2 hours ago" }
     ],
     agents: [
         { id: "agt_live_9a8b7c6d", name: "Apex Closer Pro", tone: "consultative", role: "Senior AI Sales Executive", active: true },
@@ -109,7 +109,7 @@ const server = http.createServer(async (req, res) => {
                     phone: body.phone || "+1 (555) 019-2831",
                     company: body.company || "Prospective Tenant",
                     product: body.product || "AI Sales Suite",
-                    budget: body.budget || "$1,000/mo",
+                    budget: body.budget || "Enterprise",
                     score: "95% Hot",
                     status: "hot",
                     synced: true,
@@ -131,9 +131,9 @@ const server = http.createServer(async (req, res) => {
             if (message.includes("chatbot") || message.includes("bot") || message.includes("not a bot") || message.includes("who are you")) {
                 reply = "I am an Autonomous AI Sales Representative — definitely not a passive chatbot. While support bots merely dump FAQ links, I operate as your online human sales executive: analyzing buyer pain points, conducting BANT lead qualification (Budget, Authority, Need, Timeline), calculating exact ROI, overcoming price objections, and booking warm pipeline deals 24/7. What's your average deal size?";
             } else if (message.includes("expensive") || message.includes("costly") || message.includes("too much") || message.includes("budget") || message.includes("discount")) {
-                reply = "I completely respect budget diligence! Let's examine the mathematics: If your average deal value is $1,000, closing just ONE single lead that would have bounced after hours yields a 1,200% ROI on our $79/mo Professional Tier. Plus, as an authorized closer, I can apply an exclusive 20% discount strictly for new customers today (not valid for existing accounts). Shall I reserve that for your workspace?";
+                reply = "Autonomous sales intelligence delivers instant response times, so no inbound lead is ever lost after business hours. With automated discovery and qualification, high-intent prospects are scheduled immediately into your calendar. Would you like to see a live configuration?";
             } else if (message.includes("price") || message.includes("cost") || message.includes("plan")) {
-                reply = "SalesAI is currently open for deployment with zero payment required! You get full access to autonomous sales capabilities, CRM sync, and lead capture. Future commercial roadmap tiers will range from $29 to $199/mo, but right now you can deploy freely. What is your business email to get started?";
+                reply = "SalesAI provides unlimited autonomous conversations, RAG document indexing, and bi-directional CRM syncing. What is your business email to get started?";
             } else if (message.includes("hubspot") || message.includes("crm") || message.includes("salesforce")) {
                 reply = "Yes! We support direct bi-directional synchronization with HubSpot and Salesforce. What is your email to send the integration documentation?";
             } else if (message.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/)) {
@@ -160,7 +160,7 @@ const server = http.createServer(async (req, res) => {
                 transactionId: "TX-" + Math.floor(1000 + Math.random() * 9000),
                 amountCharged: amount,
                 newPlan: body.planName || "Professional Tier",
-                receiptUrl: "/billing.html"
+                receiptUrl: "/index.html"
             }));
             return;
         }
@@ -216,6 +216,5 @@ server.listen(PORT, () => {
     console.log(`📡 URL: http://localhost:${PORT}`);
     console.log(`💬 Live Storefront: http://localhost:${PORT}/visitor-demo.html`);
     console.log(`📊 Super Admin Dashboard: http://localhost:${PORT}/index.html`);
-    console.log(`📱 Mobile View: http://localhost:${PORT}/mobile-view.html`);
     console.log(`========================================================\n`);
 });

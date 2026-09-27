@@ -39,11 +39,11 @@ VALUES
 -- Insert Sample Captured Leads
 INSERT INTO `leads` (`id`, `agent_id`, `full_name`, `email`, `phone`, `company`, `interest_product`, `budget_estimate`, `status`, `crm_synced`)
 VALUES
-('lead_001', 'agt_live_9a8b7c6d', 'David Miller', 'david.m@acmecorp.com', '+1 (555) 234-8901', 'Acme Corp', 'Enterprise Multi-Agent Plan', '$1,500/mo', 'hot', TRUE),
-('lead_002', 'agt_live_9a8b7c6d', 'Priya Patel', 'priya@techventures.io', '+91 98200 44122', 'TechVentures', 'Professional 5-Agent Suite', '$500/mo', 'hot', TRUE),
-('lead_003', 'agt_live_9a8b7c6d', 'Marcus Sterling', 'm.sterling@globalnet.org', '+44 20 7946 0912', 'GlobalNet Systems', 'Custom API & White-labeling', '$3,000/mo', 'warm', FALSE),
-('lead_004', 'agt_live_9a8b7c6d', 'Elena Rostova', 'elena@novasoft.eu', '+49 30 1234567', 'NovaSoft Berlin', 'Lead Generation Widget', '$250/mo', 'warm', TRUE),
-('lead_005', 'agt_live_9a8b7c6d', 'Kevin Zhou', 'kevin.zhou@nexustrade.cn', '+86 21 6234 5678', 'Nexus Trade', 'Evaluation Trial', 'Undisclosed', 'cold', FALSE);
+('lead_001', 'agt_live_9a8b7c6d', 'David Miller', 'david.m@acmecorp.com', '+1 (555) 234-8901', 'Acme Corp', 'Enterprise Multi-Agent Plan', 'Enterprise Fleet', 'hot', TRUE),
+('lead_002', 'agt_live_9a8b7c6d', 'Priya Patel', 'priya@techventures.io', '+91 98200 44122', 'TechVentures', 'Professional 5-Agent Suite', 'Growth Suite', 'hot', TRUE),
+('lead_003', 'agt_live_9a8b7c6d', 'Marcus Sterling', 'm.sterling@globalnet.org', '+44 20 7946 0912', 'GlobalNet Systems', 'Custom API & White-labeling', 'Custom Architecture', 'warm', FALSE),
+('lead_004', 'agt_live_9a8b7c6d', 'Elena Rostova', 'elena@novasoft.eu', '+49 30 1234567', 'NovaSoft Berlin', 'Lead Generation Widget', 'Standard Tier', 'warm', TRUE),
+('lead_005', 'agt_live_9a8b7c6d', 'Kevin Zhou', 'kevin.zhou@nexustrade.cn', '+86 21 6234 5678', 'Nexus Trade', 'Evaluation Exploration', 'Standard Tier', 'cold', FALSE);
 
 -- Insert Sample Conversation & Transcript
 INSERT INTO `conversations` (`id`, `agent_id`, `visitor_session_id`, `visitor_ip`, `visitor_country`, `visitor_device`, `lead_captured`, `intent_score`, `sentiment`)
@@ -52,10 +52,10 @@ VALUES
 
 INSERT INTO `messages` (`id`, `conversation_id`, `sender`, `message_text`)
 VALUES
-('msg_01', 'conv_9821', 'agent', 'Hello! Welcome to ApexCloud. Are you looking to scale your infrastructure or explore our Enterprise pricing today?'),
+('msg_01', 'conv_9821', 'agent', 'Hello! Welcome to ApexCloud. Are you looking to scale your infrastructure or explore our Enterprise sales solutions today?'),
 ('msg_02', 'conv_9821', 'visitor', 'Hi, we currently handle 50k visitors a month and need an AI that can answer technical questions and book demos.'),
 ('msg_03', 'conv_9821', 'agent', 'ApexCloud is built exactly for that volume! Our AI sales agent can ingest your technical API docs, answer complex architecture questions, and automatically qualify inbound leads before routing them to your calendar.'),
-('msg_04', 'conv_9821', 'visitor', 'Does it integrate with HubSpot? What is the cost?'),
-('msg_05', 'conv_9821', 'agent', 'Yes, we have 1-click bi-directional HubSpot sync! For your volume, our Professional Plan at $79/mo covers up to 5 agents and 1,000 captured leads. I can send you our detailed integration guide and a demo invite right now—what is your business email?'),
+('msg_04', 'conv_9821', 'visitor', 'Does it integrate with HubSpot? How does the qualification work?'),
+('msg_05', 'conv_9821', 'agent', 'Yes, we have 1-click bi-directional HubSpot sync! Our platform natively orchestrates multi-agent routing and automated captured lead synchronization. I can send you our detailed integration guide and a demo invite right now—what is your business email?'),
 ('msg_06', 'conv_9821', 'visitor', 'Great, send it to david.m@acmecorp.com or call me at +1 (555) 234-8901. I am David Miller, Head of Growth at Acme Corp.'),
-('msg_07', 'conv_9821', 'agent', 'Thank you David! I have applied your 20% discount (exclusive to new customers only • not valid for existing accounts) and unlocked the full HubSpot integration guide and custom pricing proposal right here in chat. Have a great day!');
+('msg_07', 'conv_9821', 'agent', 'Thank you David! I have scheduled your enterprise consultation and unlocked the full HubSpot integration guide and architecture walkthrough right here in chat. Have a great day!');

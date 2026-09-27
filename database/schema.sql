@@ -185,9 +185,9 @@ ON DUPLICATE KEY UPDATE `name`=VALUES(`name`);
 -- Seed High-Intent Leads
 INSERT INTO `leads` (`id`, `agent_id`, `full_name`, `email`, `phone`, `company`, `interest_product`, `budget_estimate`, `status`, `crm_synced`)
 VALUES 
-    ('LD-8942', 'agt_live_9a8b7c6d', 'David Miller', 'david.m@acmecorp.com', '+1 (555) 234-8901', 'Acme Corp', 'Enterprise Multi-Agent', '$1,500/mo', 'hot', TRUE),
-    ('LD-8941', 'agt_live_9a8b7c6d', 'Priya Patel', 'priya@techventures.io', '+91 98200 44122', 'TechVentures', 'Professional 5-Agent Suite', '$500/mo', 'hot', TRUE),
-    ('LD-8940', 'agt_live_3f2b1a9c', 'Marcus Sterling', 'm.sterling@globalnet.org', '+44 20 7946 0912', 'GlobalNet Systems', 'Custom API & White-label', '$3,000/mo', 'warm', FALSE)
+    ('LD-8942', 'agt_live_9a8b7c6d', 'David Miller', 'david.m@acmecorp.com', '+1 (555) 234-8901', 'Acme Corp', 'Enterprise Multi-Agent', 'Enterprise Fleet', 'hot', TRUE),
+    ('LD-8941', 'agt_live_9a8b7c6d', 'Priya Patel', 'priya@techventures.io', '+91 98200 44122', 'TechVentures', 'Professional 5-Agent Suite', 'Growth Suite', 'hot', TRUE),
+    ('LD-8940', 'agt_live_3f2b1a9c', 'Marcus Sterling', 'm.sterling@globalnet.org', '+44 20 7946 0912', 'GlobalNet Systems', 'Custom API & White-label', 'Custom Architecture', 'warm', FALSE)
 ON DUPLICATE KEY UPDATE `full_name`=VALUES(`full_name`);
 
 -- Seed A/B Experiment

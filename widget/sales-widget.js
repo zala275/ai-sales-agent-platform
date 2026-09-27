@@ -19,12 +19,12 @@
         },
         {
             keywords: ["expensive", "costly", "too much", "high price", "budget", "discount"],
-            response: "Great news: SalesAI is currently open for deployment during our platform launch! You can deploy your autonomous sales executive with zero subscription fees and full capabilities. For future commercial scaling, our planned roadmap tiers will begin at $29/mo, but right now everything is completely free to launch. Shall we configure your agent?",
+            response: "SalesAI is an autonomous online sales representative platform. You can configure and deploy your sales agent directly with full capabilities, RAG knowledge ingestion, and automated lead capture. Would you like me to show you how to configure your agent?",
             intent: "objection_handling"
         },
         {
             keywords: ["pricing", "cost", "plan", "price", "how much", "rate"],
-            response: "SalesAI is currently open for deployment with zero payment or credit card required! You get unlimited autonomous conversations, CRM sync, and lead capture today. For future roadmap scaling, commercial tiers ($29 Starter, $79 Pro, $199 Enterprise) will be introduced, but everything is free right now. Would you like me to guide you through deploying your free agent?",
+            response: "SalesAI provides unlimited autonomous conversations, bi-directional CRM synchronization, and intelligent lead capture. You can deploy it directly onto any website with a simple embed code. Shall I guide you through setup?",
             intent: "pricing"
         },
         {
@@ -265,7 +265,7 @@
                 const email = emailMatch ? emailMatch[0] : "visitor@company.com";
                 const phone = phoneMatch ? phoneMatch[0] : "+1 (555) 019-2831";
 
-                replyText = `🎉 Thank you! I have saved your contact details (${email}). An exclusive 20% discount (strictly for new customers only • not valid for existing accounts) and your full product pricing breakdown have been unlocked right here in chat!`;
+                replyText = `🎉 Thank you! I have saved your contact details (${email}). Your enterprise consultation session is confirmed and our technical specialist will follow up shortly!`;
 
                 // If AppState exists in global scope (e.g. on demo page), sync lead directly to dashboard!
                 if (window.AppState && typeof window.AppState.captureLead === "function") {
@@ -275,7 +275,7 @@
                         phone: phone,
                         company: email.split("@")[1].split(".")[0].toUpperCase() + " Corp",
                         product: "Enterprise Cloud Infrastructure",
-                        budget: "$1,500/mo"
+                        budget: "Enterprise"
                     });
                 }
             } else {

@@ -104,7 +104,7 @@
             <!-- Nav Menu -->
             <div class="flex-1 overflow-y-auto py-2 px-2 space-y-1 custom-scrollbar">
                 
-            <div class="pt-3 pb-1">
+                        <div class="pt-3 pb-1">
                 <div class="sidebar-section-heading text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">
                     Core Platform
                 </div>
@@ -116,7 +116,16 @@
                             <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 ">dashboard</span>
                             <span class="truncate">Dashboard</span>
                         </div>
-                        
+                    </a>
+                </li>
+
+                <li>
+                    <a href="visitor-demo.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-r-lg transition-colors text-[13.5px] group text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium">
+                        <div class="flex items-center gap-2.5 truncate">
+                            <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 ">storefront</span>
+                            <span class="truncate">Live Storefront</span>
+                        </div>
+                        <span class="badge text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-bold">Live</span>
                     </a>
                 </li>
             
@@ -136,46 +145,6 @@
                             <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 ">analytics</span>
                             <span class="truncate">Analytics & Funnels</span>
                         </div>
-                        
-                    </a>
-                </li>
-            
-                </ul>
-            </div>
-        
-            <div class="pt-3 pb-1">
-                <div class="sidebar-section-heading text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">
-                    Storefront & Billing
-                </div>
-                <ul class="space-y-0.5">
-        
-                <li>
-                    <a href="billing.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-r-lg transition-colors text-[13.5px] group text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium">
-                        <div class="flex items-center gap-2.5 truncate">
-                            <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 text-emerald-400">payments</span>
-                            <span class="truncate">💳 Plans &amp; Billing</span>
-                        </div>
-                        <span class="badge text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-bold">Pro</span>
-                    </a>
-                </li>
-            
-                <li>
-                    <a href="visitor-demo.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-r-lg transition-colors text-[13.5px] group text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium">
-                        <div class="flex items-center gap-2.5 truncate">
-                            <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 ">storefront</span>
-                            <span class="truncate">💬 Live Storefront Widget</span>
-                        </div>
-                        <span class="badge text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-bold">Live</span>
-                    </a>
-                </li>
-            
-                <li>
-                    <a href="mobile-view.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-r-lg transition-colors text-[13.5px] group text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium">
-                        <div class="flex items-center gap-2.5 truncate">
-                            <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 ">stay_current_portrait</span>
-                            <span class="truncate">📱 Mobile App View</span>
-                        </div>
-                        
                     </a>
                 </li>
             
@@ -351,16 +320,10 @@
                     <span class="text-[9px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold">Ready</span>
                 </div>
                 <p class="text-[11.5px] text-slate-300 mb-2 leading-tight">Embed your autonomous sales executive on any website in seconds.</p>
-                <div class="flex gap-2">
-                    <a href="deployment.html" class="flex-1 py-2 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors shadow flex items-center justify-center gap-1 text-center">
-                        <span class="material-symbols-outlined text-[15px]">code</span>
-                        Deploy
-                    </a>
-                    <a href="billing.html" class="py-2 px-2.5 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg transition-colors shadow flex items-center justify-center gap-1 text-center" title="Subscription &amp; Plans">
-                        <span class="material-symbols-outlined text-[15px] text-emerald-400">payments</span>
-                        Plans
-                    </a>
-                </div>
+                <a href="deployment.html" class="w-full py-2 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors shadow flex items-center justify-center gap-1 text-center">
+                    <span class="material-symbols-outlined text-[15px]">code</span>
+                    Deploy Agent
+                </a>
             </div>
 
             <!-- User Footer -->
@@ -383,14 +346,18 @@
         </aside>
 
         <!-- Native-Feeling Mobile Bottom Navigation Bar (Screens < 768px) -->
-        <nav id="mobile-bottom-nav" class="md:hidden" style="display: flex; position: fixed; bottom: 0; left: 0; right: 0; height: 64px; background: #ffffff; border-top: 1px solid #e2e8f0; z-index: 9000; align-items: center; justify-content: space-around; box-shadow: 0 -4px 16px rgba(15,23,42,0.08); padding-bottom: env(safe-area-inset-bottom, 0px);">
+                <nav id="mobile-bottom-nav" class="md:hidden" style="display: flex; position: fixed; bottom: 0; left: 0; right: 0; height: 64px; background: #ffffff; border-top: 1px solid #e2e8f0; z-index: 9000; align-items: center; justify-content: space-around; box-shadow: 0 -4px 16px rgba(15,23,42,0.08); padding-bottom: env(safe-area-inset-bottom, 0px);">
             <a href="index.html" class="mobile-nav-item " style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #64748b; font-size: 11px; font-weight: 600;">
                 <span class="material-symbols-outlined" style="font-size: 22px;">dashboard</span>
                 <span>Dashboard</span>
             </a>
-            <a href="billing.html" class="mobile-nav-item " style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #64748b; font-size: 11px; font-weight: 600;">
-                <span class="material-symbols-outlined" style="font-size: 22px; color: #10b981;">payments</span>
-                <span>Plans</span>
+            <a href="agents.html" class="mobile-nav-item " style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #64748b; font-size: 11px; font-weight: 600;">
+                <span class="material-symbols-outlined" style="font-size: 22px;">smart_toy</span>
+                <span>Agents</span>
+            </a>
+            <a href="leads.html" class="mobile-nav-item " style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #64748b; font-size: 11px; font-weight: 600;">
+                <span class="material-symbols-outlined" style="font-size: 22px;">person_search</span>
+                <span>Leads</span>
             </a>
             <a href="visitor-demo.html" class="mobile-nav-item " style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #64748b; font-size: 11px; font-weight: 600;">
                 <span class="material-symbols-outlined" style="font-size: 22px;">storefront</span>
@@ -543,11 +510,11 @@
                                 </a>
                                 <a href="#faq" class="category-card glass-card p-5 rounded-xl flex gap-4 group hover:shadow-md">
                                     <div class="w-11 h-11 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 flex-shrink-0 group-hover:bg-amber-600 group-hover:text-white transition-all">
-                                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">payments</span>
+                                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">manage_accounts</span>
                                     </div>
                                     <div>
-                                        <h4 class="text-sm font-semibold text-on-surface mb-1">Account & Billing</h4>
-                                        <p class="text-xs text-outline">Subscription plans, invoices, payment methods.</p>
+                                        <h4 class="text-sm font-semibold text-on-surface mb-1">Account &amp; Access</h4>
+                                        <p class="text-xs text-outline">Workspace access, team roles, and member permissions.</p>
                                         <p class="text-xs text-amber-600 font-semibold mt-2">29 articles →</p>
                                     </div>
                                 </a>
@@ -605,13 +572,13 @@
                                     </div>
                                 </div>
 
-                                <div class="faq-item glass-card rounded-xl overflow-hidden" data-tags="billing plan upgrade downgrade change">
+                                <div class="faq-item glass-card rounded-xl overflow-hidden" data-tags="scale agent configure deploy quota">
                                     <button onclick="toggleFAQ(this)" class="w-full flex justify-between items-center p-4 text-left hover:bg-surface-container-low transition-colors">
-                                        <span class="text-sm font-semibold text-on-surface">How do I upgrade or change my billing plan?</span>
+                                        <span class="text-sm font-semibold text-on-surface">How do I scale or configure my sales agents?</span>
                                         <span class="material-symbols-outlined faq-icon text-outline text-[20px] flex-shrink-0 ml-3">expand_more</span>
                                     </button>
                                     <div class="faq-answer px-4 pb-4 text-sm text-on-surface-variant">
-                                        <p>SalesAI is open to test, configure, and embed on your website with zero barriers. No credit card or payment gateway is required.</p>
+                                        <p>SalesAI allows you to configure multiple autonomous agents, customize system prompts and knowledge bases, and deploy across unlimited domains with zero restrictions.</p>
                                         <a href="deployment.html" class="inline-flex items-center gap-1 mt-2 text-secondary-container text-xs font-semibold hover:underline">
                                             Deploy Agent <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
                                         </a>
@@ -866,10 +833,10 @@
         // AI Chat Simulation
         const chatResponses = {
             'widget': 'To install the widget: Go to <strong>JS Deployment</strong> → copy your snippet → paste before the &lt;/body&gt; tag. It\'s live in seconds! <a href="deployment.html" class="text-secondary-container underline">Get your snippet →</a>',
-            'pricing': 'SalesAI is open to test, customize, and deploy on your site! <a href="deployment.html" class="text-secondary-container underline">Deploy agent →</a>',
+            'pricing': 'SalesAI platform features and autonomous agents are fully unlocked with Pro Edition access! <a href="deployment.html" class="text-secondary-container underline">Deploy agent →</a>',
             'crm': 'Connect your CRM in <strong>CRM Data Sync</strong>. We support Salesforce, HubSpot, Pipedrive, and Zoho. The OAuth flow takes about 2 minutes. Leads sync every 5 minutes automatically. <a href="integrations.html" class="text-secondary-container underline">Connect now →</a>',
             'agent': 'Create an AI Agent in <strong>Agents Studio</strong> → click "+ New Agent" → configure persona, tone, and knowledge sources. Deploy with one click! <a href="agents.html" class="text-secondary-container underline">Go to Studio →</a>',
-            'billing': 'SalesAI is currently completely free with zero billing or payment requirements. <a href="deployment.html" class="text-secondary-container underline">Get your free code →</a>',
+            'billing': 'SalesAI platform access is fully open. You can create agents and deploy widgets directly without any payment barriers. <a href="deployment.html" class="text-secondary-container underline">Get your snippet →</a>',
             'default': 'Great question! I\'ve checked our knowledge base and here\'s what I found. For detailed guidance, you can also browse our topic categories above or email us at <strong>support@salesai.pro</strong> for a response within 4 hours.'
         };
 

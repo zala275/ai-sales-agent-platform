@@ -68,7 +68,7 @@
             <!-- Nav Menu -->
             <div class="flex-1 overflow-y-auto py-2 px-2 space-y-1 custom-scrollbar">
                 
-            <div class="pt-3 pb-1">
+                        <div class="pt-3 pb-1">
                 <div class="sidebar-section-heading text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">
                     Core Platform
                 </div>
@@ -80,7 +80,16 @@
                             <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 ">dashboard</span>
                             <span class="truncate">Dashboard</span>
                         </div>
-                        
+                    </a>
+                </li>
+
+                <li>
+                    <a href="visitor-demo.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-r-lg transition-colors text-[13.5px] group text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium">
+                        <div class="flex items-center gap-2.5 truncate">
+                            <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 ">storefront</span>
+                            <span class="truncate">Live Storefront</span>
+                        </div>
+                        <span class="badge text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-bold">Live</span>
                     </a>
                 </li>
             
@@ -90,7 +99,7 @@
                             <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 ">rocket_launch</span>
                             <span class="truncate">Customer Onboarding</span>
                         </div>
-                        <span class="badge text-[10px] px-2 py-0.5 rounded-full bg-blue-500 text-white font-bold">New</span>
+                        <span class="badge text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-bold">New</span>
                     </a>
                 </li>
             
@@ -100,46 +109,6 @@
                             <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 ">analytics</span>
                             <span class="truncate">Analytics & Funnels</span>
                         </div>
-                        
-                    </a>
-                </li>
-            
-                </ul>
-            </div>
-        
-            <div class="pt-3 pb-1">
-                <div class="sidebar-section-heading text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">
-                    Storefront & Billing
-                </div>
-                <ul class="space-y-0.5">
-        
-                <li>
-                    <a href="billing.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-r-lg transition-colors text-[13.5px] group text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium">
-                        <div class="flex items-center gap-2.5 truncate">
-                            <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 text-emerald-400">payments</span>
-                            <span class="truncate">💳 Plans &amp; Billing</span>
-                        </div>
-                        <span class="badge text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-bold">Pro</span>
-                    </a>
-                </li>
-            
-                <li>
-                    <a href="visitor-demo.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-r-lg transition-colors text-[13.5px] group text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium">
-                        <div class="flex items-center gap-2.5 truncate">
-                            <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 ">storefront</span>
-                            <span class="truncate">💬 Live Storefront Widget</span>
-                        </div>
-                        <span class="badge text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-200 border border-slate-700 font-bold">Live</span>
-                    </a>
-                </li>
-            
-                <li>
-                    <a href="mobile-view.html" class="sidebar-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-r-lg transition-colors text-[13.5px] group text-slate-300 hover:text-white hover:bg-slate-800/80 font-medium">
-                        <div class="flex items-center gap-2.5 truncate">
-                            <span class="material-symbols-outlined text-[20px] transition-transform group-hover:scale-105 ">stay_current_portrait</span>
-                            <span class="truncate">📱 Mobile App View</span>
-                        </div>
-                        
                     </a>
                 </li>
             
@@ -315,16 +284,10 @@
                     <span class="text-[9px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold">Ready</span>
                 </div>
                 <p class="text-[11.5px] text-slate-300 mb-2 leading-tight">Embed your autonomous sales executive on any website in seconds.</p>
-                <div class="flex gap-2">
-                    <a href="deployment.html" class="flex-1 py-2 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors shadow flex items-center justify-center gap-1 text-center">
-                        <span class="material-symbols-outlined text-[15px]">code</span>
-                        Deploy
-                    </a>
-                    <a href="billing.html" class="py-2 px-2.5 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg transition-colors shadow flex items-center justify-center gap-1 text-center" title="Subscription &amp; Plans">
-                        <span class="material-symbols-outlined text-[15px] text-emerald-400">payments</span>
-                        Plans
-                    </a>
-                </div>
+                <a href="deployment.html" class="w-full py-2 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors shadow flex items-center justify-center gap-1 text-center">
+                    <span class="material-symbols-outlined text-[15px]">code</span>
+                    Deploy Agent
+                </a>
             </div>
 
             <!-- User Footer -->
@@ -347,14 +310,18 @@
         </aside>
 
         <!-- Native-Feeling Mobile Bottom Navigation Bar (Screens < 768px) -->
-        <nav id="mobile-bottom-nav" class="md:hidden" style="display: flex; position: fixed; bottom: 0; left: 0; right: 0; height: 64px; background: #ffffff; border-top: 1px solid #e2e8f0; z-index: 9000; align-items: center; justify-content: space-around; box-shadow: 0 -4px 16px rgba(15,23,42,0.08); padding-bottom: env(safe-area-inset-bottom, 0px);">
+                <nav id="mobile-bottom-nav" class="md:hidden" style="display: flex; position: fixed; bottom: 0; left: 0; right: 0; height: 64px; background: #ffffff; border-top: 1px solid #e2e8f0; z-index: 9000; align-items: center; justify-content: space-around; box-shadow: 0 -4px 16px rgba(15,23,42,0.08); padding-bottom: env(safe-area-inset-bottom, 0px);">
             <a href="index.html" class="mobile-nav-item " style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #64748b; font-size: 11px; font-weight: 600;">
                 <span class="material-symbols-outlined" style="font-size: 22px;">dashboard</span>
                 <span>Dashboard</span>
             </a>
-            <a href="billing.html" class="mobile-nav-item " style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #64748b; font-size: 11px; font-weight: 600;">
-                <span class="material-symbols-outlined" style="font-size: 22px; color: #10b981;">payments</span>
-                <span>Plans</span>
+            <a href="agents.html" class="mobile-nav-item " style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #64748b; font-size: 11px; font-weight: 600;">
+                <span class="material-symbols-outlined" style="font-size: 22px;">smart_toy</span>
+                <span>Agents</span>
+            </a>
+            <a href="leads.html" class="mobile-nav-item " style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #64748b; font-size: 11px; font-weight: 600;">
+                <span class="material-symbols-outlined" style="font-size: 22px;">person_search</span>
+                <span>Leads</span>
             </a>
             <a href="visitor-demo.html" class="mobile-nav-item " style="display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: #64748b; font-size: 11px; font-weight: 600;">
                 <span class="material-symbols-outlined" style="font-size: 22px;">storefront</span>
@@ -427,8 +394,8 @@
                                     <div class="w-2.5 h-2.5 rounded-full hidden plan-radio-dot"></div>
                                 </div>
                             </div>
-                            <p class="text-2xl font-extrabold text-emerald-600 mb-0.5">Free<span class="text-xs font-normal text-outline"> / unlimited</span></p>
-                            <p class="text-xs text-outline mb-5">Speed-to-lead & BANT qualifying</p>
+                            <p class="text-lg font-bold text-secondary mb-0.5">Speed-to-Lead<span class="text-xs font-normal text-outline"> · Active</span></p>
+                            <p class="text-xs text-outline mb-5">Sub-500ms lead qualification</p>
                             <ul class="space-y-2.5 flex-1 mb-5">
                                 <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Sub-500ms Instant Greeting</li>
                                 <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Lead Email & Contact Capture</li>
@@ -449,7 +416,7 @@
                                     <div class="w-2.5 h-2.5 rounded-full bg-secondary-container plan-radio-dot"></div>
                                 </div>
                             </div>
-                            <p class="text-2xl font-extrabold text-emerald-600 mb-0.5">Free<span class="text-xs font-normal text-outline"> / unlimited</span></p>
+                            <p class="text-lg font-bold text-secondary-container mb-0.5">Autonomous Closer<span class="text-xs font-normal text-outline"> · Active</span></p>
                             <p class="text-xs text-outline mb-5">Consultative discovery & objections</p>
                             <ul class="space-y-2.5 flex-1 mb-5">
                                 <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Autonomous Objection Handling</li>
@@ -470,7 +437,7 @@
                                     <div class="w-2.5 h-2.5 rounded-full hidden plan-radio-dot"></div>
                                 </div>
                             </div>
-                            <p class="text-2xl font-extrabold text-emerald-600 mb-0.5">Free<span class="text-xs font-normal text-outline"> / unlimited</span></p>
+                            <p class="text-lg font-bold text-secondary mb-0.5">Enterprise Fleet<span class="text-xs font-normal text-outline"> · Active</span></p>
                             <p class="text-xs text-outline mb-5">Complex RFPs & multi-agent routing</p>
                             <ul class="space-y-2.5 flex-1 mb-5">
                                 <li class="flex gap-2 text-xs text-on-surface-variant"><span class="material-symbols-outlined text-green-500 text-[16px]">check_circle</span>Multi-Agent Team Orchestration</li>
@@ -711,7 +678,7 @@
         let selectedPlanPrice = 79;
 
         const STEPS = [
-            { label: 'Choose Plan', icon: 'payments' },
+            { label: 'Agent Persona', icon: 'psychology' },
             { label: 'Company Setup', icon: 'business' },
             { label: 'Create AI Agent', icon: 'smart_toy' },
             { label: 'Deploy & Go Live', icon: 'rocket_launch' },
