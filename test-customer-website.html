@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApexTech Electronics - Live E-Commerce Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0b0f19; color: #f8fafc; min-height: 100vh; }
+        
+        header { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border-b: 1px solid rgba(255,255,255,0.08); padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+        .logo { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav a { color: #94a3b8; text-decoration: none; margin-left: 24px; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        nav a:hover { color: #38bdf8; }
+        
+        .hero { text-align: center; padding: 80px 20px 50px; max-width: 800px; margin: 0 auto; }
+        .hero h1 { font-size: 42px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; background: linear-gradient(to right, #ffffff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 16px; color: #94a3b8; margin-bottom: 30px; line-height: 1.6; }
+        .badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); color: #38bdf8; font-size: 12px; font-weight: 700; padding: 6px 14px; rounded-full; border-radius: 9999px; margin-bottom: 20px; }
+        
+        .products-grid { max-width: 1100px; margin: 40px auto 80px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .card { background: #131b2e; border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 24px; transition: transform 0.3s, border-color 0.3s; position: relative; overflow: hidden; }
+        .card:hover { transform: translateY(-4px); border-color: rgba(56, 189, 248, 0.4); }
+        .card-img { width: 100%; height: 160px; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 44px; margin-bottom: 18px; }
+        .card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+        .card p { font-size: 13px; color: #94a3b8; line-height: 1.5; margin-bottom: 18px; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06); }
+        .status-in-stock { color: #34d399; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+        .ask-ai-btn { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 8px 16px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .ask-ai-btn:hover { background: #38bdf8; color: #000; }
+        
+        .footer-note { text-align: center; color: #64748b; font-size: 13px; padding-bottom: 60px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">⚡ ApexTech Store</div>
+        <nav>
+            <a href="#">Products</a>
+            <a href="#">Specs & FAQs</a>
+            <a href="#">Support</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <div class="badge">● Live E-Commerce Storefront Demo</div>
+        <h1>Next-Generation Audio & Smart Gear</h1>
+        <p>Browse our catalog below. Have any questions about specs, warranty, or delivery? <strong>Ask our AI Sales Specialist in the bottom-right corner!</strong></p>
+    </div>
+
+    <div class="products-grid">
+        <!-- Product 1 -->
+        <div class="card">
+            <div class="card-img">🎧</div>
+            <h3>Apex Pro Wireless Headphones</h3>
+            <p>Active Noise Cancelling (ANC), 40-hour battery life, lossless spatial audio, Bluetooth 5.3 with multi-device pairing.</p>
+            <div class="card-footer">
+                <span class="status-in-stock">● In Stock (Matte Black & Silver)</span>
+                <button class="ask-ai-btn" onclick="openAndAsk('What are the specs and battery life of Apex Pro Headphones?')">Ask AI</button>
+            </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="card">
+            <div class="card-img">⌚</div>
+            <h3>Apex Ultra Smartwatch 2</h3>
+            <p>Titanium casing, sapphire crystal display, ECG heart rate monitor, dual-frequency GPS, and 100m water resistance.</p>
+            <div class="card-footer">
+                <span class="status-in-stock">● In Stock (Sizes 44mm & 48mm)</span>
+                <button class="ask-ai-btn" onclick="openAndAsk('Is the Apex Ultra Smartwatch waterproof for swimming?')">Ask AI</button>
+            </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="card">
+            <div class="card-img">🔊</div>
+            <h3>Apex Studio Soundbar</h3>
+            <p>Dolby Atmos 7.1 surround sound with wireless subwoofer, HDMI eARC, optical input, and seamless TV synchronization.</p>
+            <div class="card-footer">
+                <span class="status-in-stock">● In Stock (Express Shipping Available)</span>
+                <button class="ask-ai-btn" onclick="openAndAsk('How many days does delivery take for the Apex Soundbar?')">Ask AI</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        💡 This is a live demonstration website powered by your <strong>AI Sales Agent Platform</strong>.
+    </div>
+
+    <!-- AI SALES AGENT WIDGET INTEGRATION -->
+    <script src="widget/sales-widget.js?id=agt_live_9a8b7c6d"></script>
+    
+    <script>
+        function openAndAsk(question) {
+            const btn = document.getElementById('sales-agent-launcher');
+            const widget = document.getElementById('sales-agent-widget');
+            if (widget && widget.style.display === 'none') {
+                btn.click();
+            }
+            const input = document.getElementById('sales-agent-input');
+            if (input) {
+                input.value = question;
+                input.focus();
+            }
+        }
+    </script>
+</body>
+</html>
