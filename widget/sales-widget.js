@@ -48,6 +48,11 @@
             intent: "catalog_soundbar"
         },
         {
+            keywords: ["charger", "adapter", "gan", "100w", "power delivery", "fast charge"],
+            response: "The Apex GaN III Fast Charger 100W delivers 100W Power Delivery 3.0 via 3x USB-C and 1x USB-A ports. It rapidly powers MacBooks, laptops, iPhones, and Android devices simultaneously with Thermal Guard protection!",
+            intent: "catalog_charger"
+        },
+        {
             keywords: ["shipping", "delivery", "arrive", "dispatch", "days", "time", "track", "courier", "fast"],
             response: "Standard Express Delivery takes 2 to 4 business days nationwide! Orders placed before 3:00 PM are dispatched on the same day. Tracking details are automatically sent to your email as soon as the order ships.",
             intent: "shipping_policy"
