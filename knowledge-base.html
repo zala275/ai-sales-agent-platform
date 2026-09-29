@@ -609,17 +609,25 @@
                 <!-- Tab 3: FAQ QA -->
                 <div id="source-tab-content-faq" class="space-y-3 hidden">
                     <div>
-                        <label class="block text-xs font-semibold text-outline mb-1">Customer Question</label>
-                        <input type="text" id="faq-q-input" placeholder="e.g., What is your return and warranty policy?" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-sm text-on-surface focus:ring-1 focus:ring-secondary-container"/>
+                        <label class="block text-xs font-semibold text-outline mb-1.5">Quick Templates</label>
+                        <div class="flex flex-wrap gap-1.5">
+                            <button type="button" onclick="setFaqTemplate('warranty')" class="px-2.5 py-1 bg-surface-container hover:bg-secondary-container/10 border border-outline-variant/30 rounded-lg text-[10.5px] font-semibold text-secondary-container transition-colors">📦 Warranty &amp; Return</button>
+                            <button type="button" onclick="setFaqTemplate('shipping')" class="px-2.5 py-1 bg-surface-container hover:bg-secondary-container/10 border border-outline-variant/30 rounded-lg text-[10.5px] font-semibold text-secondary-container transition-colors">🚚 Express Shipping</button>
+                            <button type="button" onclick="setFaqTemplate('support')" class="px-2.5 py-1 bg-surface-container hover:bg-secondary-container/10 border border-outline-variant/30 rounded-lg text-[10.5px] font-semibold text-secondary-container transition-colors">💬 Human Support</button>
+                        </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-outline mb-1">AI Answer</label>
-                        <textarea id="faq-a-input" rows="2" placeholder="e.g., We provide 30-day free returns and 2-year replacement warranty." class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-xs text-on-surface focus:ring-1 focus:ring-secondary-container"></textarea>
+                        <label class="block text-xs font-semibold text-outline mb-1">Customer Question *</label>
+                        <input type="text" id="faq-q-input" value="What is your return, exchange, and warranty policy?" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-xs text-on-surface focus:ring-1 focus:ring-secondary-container font-medium"/>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-outline mb-1">AI Agent Answer *</label>
+                        <textarea id="faq-a-input" rows="2" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-3 py-2 text-xs text-on-surface focus:ring-1 focus:ring-secondary-container">We offer a 30-day hassle-free return policy with instant replacements and a 2-Year Full Hardware Replacement Warranty on all items.</textarea>
                     </div>
                 </div>
 
                 <div class="p-3 bg-surface-container-low rounded-xl text-xs text-outline space-y-1">
-                    <p><strong>RAG Processing:</strong> Document text will be chunked into 500-token semantic segments, converted to vector embeddings, and synced to your live AI sales agent in real time.</p>
+                    <p><strong>RAG Processing:</strong> Knowledge will be chunked into 500-token semantic segments, converted to vector embeddings, and synced to your live AI sales agent in real time.</p>
                 </div>
 
                 <button type="button" id="btn-submit-ingestion" onclick="addNewSource()" class="w-full py-2.5 bg-secondary-container hover:bg-secondary text-white rounded-xl text-xs font-bold shadow-md transition-colors flex items-center justify-center gap-1.5">
@@ -634,6 +642,28 @@
     <script>
         let currentTab = 'pdf';
         let currentFileName = 'testing_catalog.pdf';
+
+        const FAQ_TEMPLATES = {
+            warranty: {
+                q: "What is your return, exchange, and warranty policy?",
+                a: "We offer a 30-day hassle-free return policy with instant replacements and a 2-Year Full Hardware Replacement Warranty on all items."
+            },
+            shipping: {
+                q: "How fast is delivery and shipping?",
+                a: "Standard Express shipping delivers in 2 to 4 business days nationwide. Same-day dispatch applies to orders placed before 3:00 PM."
+            },
+            support: {
+                q: "How can I contact a human sales or technical specialist?",
+                a: "You can request human escalation directly in chat by typing your email or phone number, or email our team at support@apextech.com."
+            }
+        };
+
+        function setFaqTemplate(type) {
+            if (FAQ_TEMPLATES[type]) {
+                document.getElementById('faq-q-input').value = FAQ_TEMPLATES[type].q;
+                document.getElementById('faq-a-input').value = FAQ_TEMPLATES[type].a;
+            }
+        }
 
         function switchSourceTab(tab) {
             currentTab = tab;
@@ -664,7 +694,7 @@
             const modal = document.getElementById("source-modal");
             modal.classList.remove("hidden");
             modal.classList.add("flex");
-            switchSourceTab('pdf'); // Open directly to PDF/Docs!
+            switchSourceTab('pdf');
         }
 
         function closeAddSourceModal() {
@@ -675,7 +705,7 @@
 
         function addNewSource() {
             const btn = document.getElementById('btn-submit-ingestion');
-            btn.innerHTML = `<span class="inline-block animate-spin mr-1">⚙</span> Vectorizing Document...`;
+            btn.innerHTML = `<span class="inline-block animate-spin mr-1">⚙</span> Vectorizing &amp; Indexing...`;
             btn.disabled = true;
 
             setTimeout(() => {
@@ -683,13 +713,95 @@
                 btn.disabled = false;
                 closeAddSourceModal();
 
+                const tbody = document.getElementById('sources-table-body');
+                let newRowHtml = '';
+
                 if (currentTab === 'pdf') {
-                    AppState.showToast("Catalog Ingested Successfully! 🎉", `Chunked and indexed 1,280 new vectors from ${currentFileName}. AI Agent is now answering from this catalog.`);
-                } else if (currentTab === 'url') {
-                    const url = document.getElementById("new-source-url").value;
-                    AppState.showToast("Store Crawl Complete!", `Crawled and indexed 24 new product vector chunks from ${url}`);
+                    newRowHtml = `
+                        <tr class="bg-blue-50/50 dark:bg-blue-950/20 hover:bg-blue-50 transition-colors animate-fade-in">
+                            <td class="p-4 flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-xl bg-red-100 text-red-600 flex items-center justify-center text-lg flex-shrink-0">
+                                    <span class="material-symbols-outlined text-xl">picture_as_pdf</span>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-sm text-on-surface">${currentFileName}</p>
+                                    <p class="text-[11px] text-emerald-600 font-semibold">Newly Ingested • 4.5 KB · 4 Products</p>
+                                </div>
+                            </td>
+                            <td class="p-4">
+                                <span class="font-bold text-on-surface">1,280 Vectors</span>
+                                <p class="text-[10px] text-outline">14 semantic chunks</p>
+                            </td>
+                            <td class="p-4">
+                                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-semibold flex items-center gap-1 w-max">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Synced
+                                </span>
+                            </td>
+                            <td class="p-4 text-right">
+                                <button onclick="AppState.showToast('Document Inspected', 'Chunk analysis ready.')" class="text-secondary hover:underline font-semibold">View Chunks</button>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('afterbegin', newRowHtml);
+                    AppState.showToast("Catalog Ingested Successfully! 🎉", `Indexed 1,280 new vectors from ${currentFileName}. AI Agent is now answering from this catalog.`);
+                } else if (currentTab === 'faq') {
+                    const q = document.getElementById('faq-q-input').value || "Frequently Asked Question";
+                    newRowHtml = `
+                        <tr class="bg-purple-50/50 dark:bg-purple-950/20 hover:bg-purple-50 transition-colors animate-fade-in">
+                            <td class="p-4 flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-lg flex-shrink-0">
+                                    <span class="material-symbols-outlined text-xl">quiz</span>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-sm text-on-surface">${q}</p>
+                                    <p class="text-[11px] text-purple-700 font-semibold">Custom FAQ QA Pair · Active</p>
+                                </div>
+                            </td>
+                            <td class="p-4">
+                                <span class="font-bold text-on-surface">320 Vectors</span>
+                                <p class="text-[10px] text-outline">4 semantic chunks</p>
+                            </td>
+                            <td class="p-4">
+                                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-semibold flex items-center gap-1 w-max">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Synced
+                                </span>
+                            </td>
+                            <td class="p-4 text-right">
+                                <button onclick="AppState.showToast('FAQ Saved', 'FAQ active in agent memory.')" class="text-secondary hover:underline font-semibold">Edit FAQ</button>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('afterbegin', newRowHtml);
+                    AppState.showToast("FAQ Ingested Successfully! 💬", `Added QA pair to AI agent memory. Agent will answer this question automatically.`);
                 } else {
-                    AppState.showToast("FAQ Ingested!", `Added new question & answer pair to AI knowledge memory.`);
+                    const url = document.getElementById("new-source-url").value;
+                    newRowHtml = `
+                        <tr class="bg-emerald-50/50 dark:bg-emerald-950/20 hover:bg-emerald-50 transition-colors animate-fade-in">
+                            <td class="p-4 flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-xl bg-blue-100 text-secondary flex items-center justify-center text-lg flex-shrink-0">
+                                    <span class="material-symbols-outlined text-xl">language</span>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-sm text-on-surface">${url}</p>
+                                    <p class="text-[11px] text-emerald-700 font-semibold">Live Web Crawl • Auto-sync</p>
+                                </div>
+                            </td>
+                            <td class="p-4">
+                                <span class="font-bold text-on-surface">1,840 Vectors</span>
+                                <p class="text-[10px] text-outline">22 semantic chunks</p>
+                            </td>
+                            <td class="p-4">
+                                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-semibold flex items-center gap-1 w-max">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Synced
+                                </span>
+                            </td>
+                            <td class="p-4 text-right">
+                                <button onclick="AppState.showToast('Crawl Refreshed', 'Synced latest pages.')" class="text-secondary hover:underline font-semibold">Recrawl</button>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('afterbegin', newRowHtml);
+                    AppState.showToast("Store Crawl Complete! 🌐", `Crawled and indexed 24 new product vector chunks from ${url}`);
                 }
             }, 1000);
         }
