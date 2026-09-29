@@ -288,8 +288,29 @@
         chatWindow.style.display = "none";
     };
 
+    // Dynamic Knowledge Cache from Platform API
+    let dynamicStoreKnowledge = [...SALES_RESPONSES];
+
+    // Fetch latest uploaded knowledge on startup
+    fetch("https://ai-sales-agent-platform.onrender.com/api/knowledge")
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && data.items && data.items.length) {
+                data.items.forEach(newItem => {
+                    dynamicStoreKnowledge.unshift({
+                        keywords: newItem.keywords || [],
+                        response: newItem.answer || newItem.content,
+                        intent: newItem.title || "uploaded_knowledge"
+                    });
+                });
+            }
+        })
+        .catch(err => {
+            console.log("SalesAI widget running in offline standalone mode.");
+        });
+
     // Chat Message Processing & Lead Extraction
-    form.onsubmit = (e) => {
+    form.onsubmit = async (e) => {
         e.preventDefault();
         const text = input.value.trim();
         if (!text) return;
@@ -306,36 +327,21 @@
         const emailMatch = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
         const phoneMatch = text.match(/(\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9})/);
 
-        setTimeout(() => {
-            let replyText = "";
-            let isLeadCaptured = false;
+        if (emailMatch || phoneMatch) {
+            const email = emailMatch ? emailMatch[0] : "shopper@store.com";
+            const phone = phoneMatch ? phoneMatch[0] : "+91 9876543210";
 
-            if (emailMatch || phoneMatch) {
-                isLeadCaptured = true;
-                const email = emailMatch ? emailMatch[0] : "shopper@store.com";
-                const phone = phoneMatch ? phoneMatch[0] : "+91 9876543210";
+            const replyText = `🎉 Thank you! I have recorded your contact details (${email || phone}). Our store specialist will follow up with complete product information and assistance shortly!`;
 
-                replyText = `🎉 Thank you! I have recorded your contact details (${email || phone}). Our store specialist will follow up with complete product information and assistance shortly!`;
-
-                // If AppState exists in global scope (e.g. on demo page), sync lead directly to dashboard!
-                if (window.AppState && typeof window.AppState.captureLead === "function") {
-                    window.AppState.captureLead({
-                        name: "Shopify Visitor (" + (email.includes("@") ? email.split("@")[0] : "Customer") + ")",
-                        email: email,
-                        phone: phone,
-                        company: "Shopify Store Lead",
-                        product: "Storefront Product Inquiry",
-                        budget: "Retail / E-Commerce"
-                    });
-                }
-            } else {
-                const lower = text.toLowerCase();
-                const matched = SALES_RESPONSES.find(item => item.keywords.some(k => lower.includes(k)));
-                if (matched) {
-                    replyText = matched.response;
-                } else {
-                    replyText = "That's a great question! I'm here to assist with all product details, sizing, delivery times, and stock availability. Could you let me know which item you're looking for, or leave your email so our store team can help you right away?";
-                }
+            if (window.AppState && typeof window.AppState.captureLead === "function") {
+                window.AppState.captureLead({
+                    name: "Shopify Visitor (" + (email.includes("@") ? email.split("@")[0] : "Customer") + ")",
+                    email: email,
+                    phone: phone,
+                    company: "Shopify Store Lead",
+                    product: "Storefront Product Inquiry",
+                    budget: "Retail / E-Commerce"
+                });
             }
 
             const agentBubble = document.createElement("div");
@@ -343,6 +349,65 @@
             agentBubble.innerHTML = replyText;
             messages.appendChild(agentBubble);
             messages.scrollTop = messages.scrollHeight;
-        }, 600);
+            return;
+        }
+
+        // Try Live API first with fast 1.2s timeout fallback
+        let replyText = "";
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 1200);
+
+            const res = await fetch("https://ai-sales-agent-platform.onrender.com/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: text, agent_id: agentKey }),
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+
+            if (res.ok) {
+                const data = await res.json();
+                if (data && data.reply) {
+                    replyText = data.reply;
+                }
+            }
+        } catch (apiErr) {
+            // Server offline or slower than 1.2s - smoothly fall back to local scoring
+        }
+
+        // Local Smart Relevance Scoring if no API response
+        if (!replyText) {
+            const lower = text.toLowerCase();
+            let bestMatch = null;
+            let highestScore = 0;
+
+            for (const item of dynamicStoreKnowledge) {
+                let score = 0;
+                for (const k of item.keywords) {
+                    if (lower.includes(k)) {
+                        score += (k.length > 4 ? 3 : 2);
+                    }
+                }
+                if (score > highestScore) {
+                    highestScore = score;
+                    bestMatch = item;
+                }
+            }
+
+            if (bestMatch && highestScore >= 2) {
+                replyText = bestMatch.response;
+            } else if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey")) {
+                replyText = "Hello! 👋 Welcome to our store! Ask me anything about our products, sizing, express delivery, or 30-day return policy. How can I help you today?";
+            } else {
+                replyText = "That's a great question! I'm here to assist with all product details, sizing, delivery times, and stock availability. Could you let me know which item you're looking for, or share your question with a bit more detail?";
+            }
+        }
+
+        const agentBubble = document.createElement("div");
+        agentBubble.className = "salesai-bubble-agent";
+        agentBubble.innerHTML = replyText;
+        messages.appendChild(agentBubble);
+        messages.scrollTop = messages.scrollHeight;
     };
 })();

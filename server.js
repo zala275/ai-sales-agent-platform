@@ -38,7 +38,93 @@ let mockDatabase = {
         { id: "agt_live_9a8b7c6d", name: "Apex Closer Pro", tone: "consultative", role: "Senior AI Sales Executive", active: true },
         { id: "agt_live_3f2b1a9c", name: "Stitch Inbound AI", tone: "persuasive", role: "Growth Specialist", active: true }
     ],
-    mrr: 18450
+    mrr: 18450,
+    knowledge: [
+        {
+            id: "kn_headphones",
+            title: "Apex Pro Wireless Headphones",
+            keywords: ["headphone", "audio", "earphone", "anc", "music", "apex pro", "sound"],
+            answer: "Our Apex Pro Wireless Headphones feature 40dB Active Noise Cancellation (ANC), 40-hour battery life (60h standard), Bluetooth 5.3, and lossless 40mm dynamic drivers. Available in Matte Black and Pearl Silver with a 2-Year Warranty!",
+            source: "testing_catalog.pdf"
+        },
+        {
+            id: "kn_watch",
+            title: "Apex Ultra Smartwatch 2",
+            keywords: ["watch", "smartwatch", "swim", "swimming", "waterproof", "gps", "battery", "titanium"],
+            answer: "The Apex Ultra Smartwatch 2 features an aerospace titanium chassis, sapphire crystal AMOLED display, and 100m (10 ATM) water resistance — perfectly safe for swimming and diving! Includes ECG, heart rate tracking, and 14-day battery life.",
+            source: "testing_catalog.pdf"
+        },
+        {
+            id: "kn_soundbar",
+            title: "Apex Studio Soundbar 7.1",
+            keywords: ["soundbar", "speaker", "sound", "dolby", "tv", "atmos", "theater", "subwoofer"],
+            answer: "The Apex Studio Soundbar features 500W peak power, Dolby Atmos 7.1 surround sound, a wireless 8-inch subwoofer, and HDMI eARC connectivity for cinematic home theater audio!",
+            source: "testing_catalog.pdf"
+        },
+        {
+            id: "kn_charger",
+            title: "Apex GaN III Fast Charger 100W",
+            keywords: ["charger", "adapter", "gan", "100w", "power delivery", "fast charge", "usb-c", "macbook", "phone"],
+            answer: "The Apex GaN III Fast Charger 100W delivers 100W Power Delivery 3.0 via 3x USB-C and 1x USB-A ports. It rapidly powers MacBooks, laptops, iPhones, and Android devices simultaneously with Thermal Guard protection!",
+            source: "testing_catalog.pdf"
+        },
+        {
+            id: "kn_tshirt",
+            title: "Premium Organic Cotton T-Shirt",
+            keywords: ["shirt", "t-shirt", "tshirt", "tee", "top", "clothes", "clothing", "apparel", "cotton", "fabric"],
+            answer: "Our t-shirts are crafted from 100% premium combed organic cotton (180 GSM). They are pre-shrunk, breathable, ultra-soft, and designed for lasting everyday comfort with double-stitched hems.",
+            source: "store_inventory"
+        },
+        {
+            id: "kn_sizing",
+            title: "Apparel Sizing & Fit",
+            keywords: ["size", "sizing", "fit", "measurement", "small", "medium", "large", "xl", "xxl", "xs", "chart"],
+            answer: "Our apparel follows standard regular fit sizing (XS, S, M, L, XL, XXL). For a standard fit, order your regular size. If you prefer a trendy oversized streetwear look, we recommend sizing up one size!",
+            source: "store_inventory"
+        },
+        {
+            id: "kn_shipping",
+            title: "Shipping & Delivery Policy",
+            keywords: ["shipping", "delivery", "arrive", "dispatch", "days", "time", "track", "courier", "fast", "deliver"],
+            answer: "Standard Express Delivery takes 2 to 4 business days nationwide! Orders placed before 3:00 PM are dispatched on the same day. Tracking details are automatically sent to your email as soon as the order ships.",
+            source: "testing_catalog.pdf"
+        },
+        {
+            id: "kn_return",
+            title: "Return & Refund Policy",
+            keywords: ["return", "refund", "exchange", "replace", "cancel", "money back", "30-day"],
+            answer: "We offer a 30-day risk-free return and exchange policy! If you need a different size, color, or a full refund, our return process is 100% hassle-free with complimentary doorstep pickup.",
+            source: "testing_catalog.pdf"
+        },
+        {
+            id: "kn_warranty",
+            title: "2-Year Hardware Warranty",
+            keywords: ["warranty", "guarantee", "defect", "broken", "repair", "replacement"],
+            answer: "All products come with our official 2-Year Full Hardware & Quality Replacement Warranty covering manufacturing defects and hardware anomalies with zero deductible fees.",
+            source: "testing_catalog.pdf"
+        },
+        {
+            id: "kn_discount",
+            title: "Discounts & Promo Codes",
+            keywords: ["discount", "coupon", "code", "promo", "offer", "sale", "deal", "cheap"],
+            answer: "Yes! We offer a special 15% discount code for new visitors. Would you like me to apply it to your order? Just type your email or phone number and I'll send it over right now!",
+            source: "store_promotions"
+        },
+        {
+            id: "kn_payment",
+            title: "Accepted Payment Methods",
+            keywords: ["payment", "pay", "cod", "upi", "card", "visa", "mastercard", "cash"],
+            answer: "We accept all secure payment methods: Credit/Debit Cards, Net Banking, UPI, Apple Pay, Google Pay, and Cash on Delivery (COD) where eligible at checkout.",
+            source: "checkout_policy"
+        },
+        {
+            id: "kn_products",
+            title: "General Store Product Collection",
+            keywords: ["product", "products", "item", "items", "catalog", "collection", "stock", "sell", "buy", "store", "what do you have", "show"],
+            answer: "We offer premium electronics (Apex Pro Headphones, Apex Ultra Smartwatch, Apex Studio Soundbar, and 100W GaN Chargers) as well as premium organic cotton apparel! Which product would you like more details on?",
+            source: "testing_catalog.pdf"
+        }
+    ]
 };
 
 // Helper: Parse JSON Body
@@ -122,29 +208,108 @@ const server = http.createServer(async (req, res) => {
             }
         }
 
-        // 3. AI Sales Chat Endpoint (Autonomous Online Salesman)
+        // 3. Dynamic Knowledge Base API (Ingestion & Search)
+        if (pathname === "/api/knowledge") {
+            if (req.method === "GET") {
+                res.writeHead(200);
+                res.end(JSON.stringify({
+                    success: true,
+                    count: mockDatabase.knowledge.length,
+                    items: mockDatabase.knowledge
+                }));
+                return;
+            } else if (req.method === "POST") {
+                const body = await parseJsonBody(req);
+                const title = body.title || "Uploaded Document";
+                const content = body.content || body.answer || "";
+                const source = body.source || "knowledge_upload";
+                
+                // Extract keywords from title and content
+                const rawWords = (title + " " + content).toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(w => w.length > 2);
+                const uniqueKeywords = [...new Set(rawWords)];
+
+                const newKnowledgeItem = {
+                    id: "kn_" + Date.now(),
+                    title: title,
+                    keywords: body.keywords && body.keywords.length ? body.keywords : uniqueKeywords.slice(0, 15),
+                    answer: content,
+                    source: source,
+                    vectors: 1280,
+                    indexedAt: new Date().toISOString()
+                };
+
+                mockDatabase.knowledge.unshift(newKnowledgeItem);
+
+                res.writeHead(201);
+                res.end(JSON.stringify({
+                    success: true,
+                    message: "Document successfully ingested and indexed into AI Knowledge Base!",
+                    item: newKnowledgeItem,
+                    totalKnowledgeItems: mockDatabase.knowledge.length
+                }));
+                return;
+            }
+        }
+
+        // 4. AI Sales Chat Endpoint (Dynamic Knowledge & Semantic Matching)
         if (pathname === "/api/chat" && req.method === "POST") {
             const body = await parseJsonBody(req);
-            const message = (body.message || "").toLowerCase();
-            let reply = "Hello! I am your autonomous AI Sales Representative — not a passive chatbot. I work as your online human sales executive: consulting on pipeline growth, calculating ROI, overcoming objections, and tailoring high-converting proposals. What kind of business are you scaling today?";
+            const userMsg = (body.message || "").trim();
+            const lower = userMsg.toLowerCase();
 
-            if (message.includes("chatbot") || message.includes("bot") || message.includes("not a bot") || message.includes("who are you")) {
-                reply = "I am an Autonomous AI Sales Representative — definitely not a passive chatbot. While support bots merely dump FAQ links, I operate as your online human sales executive: analyzing buyer pain points, conducting BANT lead qualification (Budget, Authority, Need, Timeline), calculating exact ROI, overcoming price objections, and booking warm pipeline deals 24/7. What's your average deal size?";
-            } else if (message.includes("expensive") || message.includes("costly") || message.includes("too much") || message.includes("budget") || message.includes("discount")) {
-                reply = "Autonomous sales intelligence delivers instant response times, so no inbound lead is ever lost after business hours. With automated discovery and qualification, high-intent prospects are scheduled immediately into your calendar. Would you like to see a live configuration?";
-            } else if (message.includes("price") || message.includes("cost") || message.includes("plan")) {
-                reply = "SalesAI provides unlimited autonomous conversations, RAG document indexing, and bi-directional CRM syncing. What is your business email to get started?";
-            } else if (message.includes("hubspot") || message.includes("crm") || message.includes("salesforce")) {
-                reply = "Yes! We support direct bi-directional synchronization with HubSpot and Salesforce. What is your email to send the integration documentation?";
-            } else if (message.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/)) {
-                reply = "🎉 Fantastic! I have captured your contact information, qualified your lead as Hot (95%), and synchronized your deal into our pipeline. An exclusive 20% discount strictly for new customers (not valid for existing accounts) and your custom pricing proposal are unlocked right here in chat!";
+            // Lead capture check
+            const emailMatch = userMsg.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+            const phoneMatch = userMsg.match(/(\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9})/);
+
+            let reply = "";
+            let matchedSource = "Store Knowledge Base";
+
+            if (emailMatch || phoneMatch) {
+                const capturedEmail = emailMatch ? emailMatch[0] : "";
+                const capturedPhone = phoneMatch ? phoneMatch[0] : "";
+                reply = `🎉 Thank you! I have saved your contact details (${capturedEmail || capturedPhone}). Our product specialist will follow up shortly with full details and your exclusive order discount!`;
+                matchedSource = "Lead Capture Engine";
+            } else {
+                // Score against all knowledge items in memory
+                const words = lower.replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(w => w.length > 2);
+                let bestMatch = null;
+                let highestScore = 0;
+
+                for (const item of mockDatabase.knowledge) {
+                    let score = 0;
+                    // Exact keyword matches
+                    for (const kw of item.keywords) {
+                        if (lower.includes(kw)) {
+                            score += (kw.length > 4 ? 3 : 2);
+                        }
+                    }
+                    // Title match bonus
+                    if (lower.includes(item.title.toLowerCase())) {
+                        score += 5;
+                    }
+                    if (score > highestScore) {
+                        highestScore = score;
+                        bestMatch = item;
+                    }
+                }
+
+                if (bestMatch && highestScore >= 2) {
+                    reply = bestMatch.answer;
+                    matchedSource = bestMatch.title + " (" + bestMatch.source + ")";
+                } else if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey")) {
+                    reply = "Hello! 👋 Welcome to our store. I am your AI Shopping & Product Specialist. Ask me anything about our products, sizing, shipping, or returns. How can I help you today?";
+                    matchedSource = "Greeting Protocol";
+                } else {
+                    reply = "That's a great question! I'm here to assist with all product details, sizing, delivery times, and stock availability. Could you tell me which specific item you're looking for, or share your question in a bit more detail?";
+                    matchedSource = "Storefront Assistant";
+                }
             }
 
             res.writeHead(200);
             res.end(JSON.stringify({
                 reply,
                 agent_id: body.agent_id || "agt_live_9a8b7c6d",
-                sources_cited: ["ApexCloud Pricing Matrix", "RAG Vector Store Chunk #18", "BANT Qualification Engine"]
+                sources_cited: [matchedSource]
             }));
             return;
         }
