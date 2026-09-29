@@ -13,8 +13,8 @@
     // Knowledge & Responses for Autonomous Sales Dialogue (E-Commerce & Product Specialist)
     const SALES_RESPONSES = [
         {
-            keywords: ["product", "item", "catalog", "collection", "stock", "sell", "buy", "store", "what do you have", "show"],
-            response: "We have our latest featured collection available right here in our store! You can browse our products on the homepage, check sizes and colors, and place your order securely. Are you looking for a specific item, size, or style today?",
+            keywords: ["product", "products", "item", "items", "catalog", "collection", "stock", "sell", "buy", "store", "what do you have", "show", "what is your product", "all products"],
+            response: "We offer premium electronics (Apex Pro Headphones, Apex Ultra Smartwatch, Apex Studio Soundbar, and 100W GaN Fast Chargers) as well as premium organic cotton apparel! Which product would you like more details on?",
             intent: "product_discovery"
         },
         {
@@ -352,56 +352,33 @@
             return;
         }
 
-        // Try Live API first with fast 1.2s timeout fallback
+        // Intelligent Relevance Scoring Engine (Direct Client NLP Execution)
         let replyText = "";
-        try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 1200);
+        const lower = text.toLowerCase();
+        let bestMatch = null;
+        let highestScore = 0;
 
-            const res = await fetch("https://ai-sales-agent-platform.onrender.com/api/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: text, agent_id: agentKey }),
-                signal: controller.signal
-            });
-            clearTimeout(timeoutId);
-
-            if (res.ok) {
-                const data = await res.json();
-                if (data && data.reply) {
-                    replyText = data.reply;
+        for (const item of dynamicStoreKnowledge) {
+            let score = 0;
+            for (const k of item.keywords) {
+                if (lower.includes(k)) {
+                    score += (k.includes(" ") ? 6 : (k.length > 4 ? 3 : 2));
                 }
             }
-        } catch (apiErr) {
-            // Server offline or slower than 1.2s - smoothly fall back to local scoring
+            if (score > highestScore) {
+                highestScore = score;
+                bestMatch = item;
+            }
         }
 
-        // Local Smart Relevance Scoring if no API response
-        if (!replyText) {
-            const lower = text.toLowerCase();
-            let bestMatch = null;
-            let highestScore = 0;
-
-            for (const item of dynamicStoreKnowledge) {
-                let score = 0;
-                for (const k of item.keywords) {
-                    if (lower.includes(k)) {
-                        score += (k.length > 4 ? 3 : 2);
-                    }
-                }
-                if (score > highestScore) {
-                    highestScore = score;
-                    bestMatch = item;
-                }
-            }
-
-            if (bestMatch && highestScore >= 2) {
-                replyText = bestMatch.response;
-            } else if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey")) {
-                replyText = "Hello! 👋 Welcome to our store! Ask me anything about our products, sizing, express delivery, or 30-day return policy. How can I help you today?";
-            } else {
-                replyText = "That's a great question! I'm here to assist with all product details, sizing, delivery times, and stock availability. Could you let me know which item you're looking for, or share your question with a bit more detail?";
-            }
+        if (bestMatch && highestScore >= 2) {
+            replyText = bestMatch.response;
+        } else if (lower.includes("product") || lower.includes("sell") || lower.includes("what is your product") || lower.includes("items")) {
+            replyText = "We offer premium electronics (Apex Pro Headphones, Apex Ultra Smartwatch, Apex Studio Soundbar, and 100W GaN Fast Chargers) as well as premium organic cotton apparel! Which product would you like more details on?";
+        } else if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey")) {
+            replyText = "Hello! 👋 Welcome to our store! Ask me anything about our products, sizing, express delivery, or 30-day return policy. How can I help you today?";
+        } else {
+            replyText = "That's a great question! I'm here to assist with all product details, sizing, delivery times, and stock availability. Could you let me know which item you're looking for, or share your question with a bit more detail?";
         }
 
         const agentBubble = document.createElement("div");
