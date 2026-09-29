@@ -10,37 +10,82 @@
     const primaryColor = (currentScript && currentScript.getAttribute("data-primary-color")) || "#2170e4";
     const position = (currentScript && currentScript.getAttribute("data-position")) || "bottom-right";
 
-    // Knowledge & Responses for Autonomous Sales Dialogue (Online Human Salesman)
+    // Knowledge & Responses for Autonomous Sales Dialogue (E-Commerce & Product Specialist)
     const SALES_RESPONSES = [
         {
-            keywords: ["chatbot", "bot", "not a bot", "human", "who are you", "what are you"],
-            response: "I am an Autonomous AI Sales Representative — definitely not a passive chatbot. While support bots merely dump FAQ links, I operate as your online human sales executive: analyzing buyer pain points, conducting BANT lead qualification (Budget, Authority, Need, Timeline), calculating exact ROI, overcoming price objections, and booking warm pipeline deals 24/7. What's your average deal size?",
-            intent: "consultative_positioning"
+            keywords: ["product", "item", "catalog", "collection", "stock", "sell", "buy", "store", "what do you have", "show"],
+            response: "We have our latest featured collection available right here in our store! You can browse our products on the homepage, check sizes and colors, and place your order securely. Are you looking for a specific item, size, or style today?",
+            intent: "product_discovery"
         },
         {
-            keywords: ["expensive", "costly", "too much", "high price", "budget", "discount"],
-            response: "SalesAI is an autonomous online sales representative platform. You can configure and deploy your sales agent directly with full capabilities, RAG knowledge ingestion, and automated lead capture. Would you like me to show you how to configure your agent?",
-            intent: "objection_handling"
+            keywords: ["shirt", "t-shirt", "tshirt", "tee", "top", "clothes", "clothing", "apparel", "wear", "fabric", "material", "cotton"],
+            response: "Our t-shirts are crafted from 100% premium combed organic cotton (180 GSM). They are pre-shrunk, breathable, ultra-soft, and designed for lasting everyday comfort. Available in multiple colorways with reinforced double-stitched hems. Would you like size details?",
+            intent: "product_specs"
         },
         {
-            keywords: ["pricing", "cost", "plan", "price", "how much", "rate"],
-            response: "SalesAI provides unlimited autonomous conversations, bi-directional CRM synchronization, and intelligent lead capture. You can deploy it directly onto any website with a simple embed code. Shall I guide you through setup?",
-            intent: "pricing"
+            keywords: ["size", "fit", "measurement", "small", "medium", "large", "xl", "xxl", "xs", "chart"],
+            response: "Our apparel follows standard regular fit sizing (XS, S, M, L, XL, XXL). For a standard fit, order your regular size. If you prefer a trendy oversized streetwear look, we recommend sizing up one size! Which size do you usually wear?",
+            intent: "sizing"
         },
         {
-            keywords: ["hubspot", "crm", "salesforce", "integrate", "integration", "webhook"],
-            response: "Yes! We support 1-click bi-directional sync with HubSpot, Salesforce, Zoho, and custom webhooks. All qualified leads, conversation transcripts, and BANT scores are pushed to your pipeline in real time.",
+            keywords: ["color", "colour", "shade", "black", "red", "green", "grey", "white"],
+            response: "We have multiple fresh colors in stock, including Terracotta Coral, Forest Green, Charcoal Slate, and Classic Black. All colors use eco-friendly, fade-resistant dyes that stay vibrant wash after wash.",
+            intent: "colors"
+        },
+        {
+            keywords: ["headphone", "audio", "earphone", "anc", "music"],
+            response: "Our Apex Pro Wireless Headphones feature 40dB Active Noise Cancellation (ANC), 40-hour battery life (60h standard), Bluetooth 5.3, and lossless audio drivers. In stock in Matte Black and Pearl Silver with a 2-Year Warranty!",
+            intent: "catalog_electronics"
+        },
+        {
+            keywords: ["watch", "smartwatch", "swim", "waterproof", "gps"],
+            response: "The Apex Ultra Smartwatch 2 features an aerospace titanium chassis, sapphire crystal AMOLED display, and 100m (10 ATM) water resistance — perfectly safe for swimming and diving! Includes ECG, heart rate, and 14-day battery life.",
+            intent: "catalog_wearable"
+        },
+        {
+            keywords: ["soundbar", "speaker", "sound", "dolby", "tv"],
+            response: "The Apex Studio Soundbar features 500W peak power, Dolby Atmos 7.1 surround sound, a wireless 8-inch subwoofer, and HDMI eARC connectivity for cinematic home theater audio!",
+            intent: "catalog_soundbar"
+        },
+        {
+            keywords: ["shipping", "delivery", "arrive", "dispatch", "days", "time", "track", "courier", "fast"],
+            response: "Standard Express Delivery takes 2 to 4 business days nationwide! Orders placed before 3:00 PM are dispatched on the same day. Tracking details are automatically sent to your email as soon as the order ships.",
+            intent: "shipping_policy"
+        },
+        {
+            keywords: ["return", "refund", "exchange", "replace", "cancel", "money back"],
+            response: "We offer a 30-day risk-free return and exchange policy! If you need a different size, color, or a full refund, our return process is 100% hassle-free with complimentary pickup.",
+            intent: "return_policy"
+        },
+        {
+            keywords: ["warranty", "guarantee"],
+            response: "All products come with our official 2-Year Full Hardware & Quality Replacement Warranty covering manufacturing defects and hardware anomalies with zero deductible fees.",
+            intent: "warranty"
+        },
+        {
+            keywords: ["discount", "coupon", "code", "promo", "offer", "sale", "deal", "cheap"],
+            response: "Yes! We offer a special 15% discount code for new visitors. Would you like me to apply it to your order? Just type your email or phone number and I'll send it over right now!",
+            intent: "discount"
+        },
+        {
+            keywords: ["payment", "pay", "cod", "upi", "card", "visa", "mastercard"],
+            response: "We accept all secure payment methods: Credit/Debit Cards, Net Banking, UPI, Apple Pay, Google Pay, and Cash on Delivery (COD) where eligible at checkout.",
+            intent: "payment"
+        },
+        {
+            keywords: ["hello", "hi", "hey", "good morning", "good evening", "namaste", "help"],
+            response: "Hello! Welcome to our store! 👋 How can I help you today? Feel free to ask me anything about our products, sizing, delivery times, or return policies!",
+            intent: "greeting"
+        },
+        {
+            keywords: ["chatbot", "bot", "not a bot", "human", "who are you", "what are you", "alex"],
+            response: "I am your AI Sales & Shopping Assistant! Unlike basic chatbots, I am trained directly on our store's products, inventory, and policies to help you find the perfect item and answer all questions 24/7.",
+            intent: "identity"
+        },
+        {
+            keywords: ["hubspot", "crm", "salesforce", "integrate", "integration"],
+            response: "Yes! For business integrations, our platform provides 1-click bi-directional sync with HubSpot, Salesforce, Zoho, and webhooks so all customer inquiries and leads are automatically synchronized.",
             intent: "integration"
-        },
-        {
-            keywords: ["demo", "schedule", "call", "talk", "sales", "rep", "close", "buy"],
-            response: "I can present your tailored pricing proposal, ROI analysis, and full product specifications directly here in chat! Plus, I can apply our 20% discount (strictly for new customers only • not applicable for existing accounts). What's your business email?",
-            intent: "demo_request"
-        },
-        {
-            keywords: ["accuracy", "rag", "hallucination", "safe", "pdf", "train"],
-            response: "Our platform uses RAG (Retrieval-Augmented Generation) with strict document-grounded vector search. Your agent only answers using your verified PDFs and website data, eliminating hallucinations with 99.2% accuracy.",
-            intent: "technical"
         }
     ];
 
@@ -201,12 +246,12 @@
 
             <div class="salesai-msg-list" id="salesai-messages">
                 <div class="salesai-bubble-agent">
-                    👋 Welcome! I'm Alex, your Senior AI Sales Representative. Rather than a passive chatbot, I work as your online human sales executive: consulting on pipeline growth, calculating ROI, overcoming objections, and tailoring high-converting proposals. What kind of business are you scaling today?
+                    👋 Welcome to our store! I'm Alex, your AI Sales &amp; Shopping Specialist. Ask me anything about our products, sizing, express delivery, or 30-day return policy. How can I help you today?
                 </div>
             </div>
 
             <form class="salesai-input-area" id="salesai-form">
-                <input type="text" id="salesai-input" placeholder="Ask about pricing, features, or integrations..." autocomplete="off"/>
+                <input type="text" id="salesai-input" placeholder="Ask about products, sizes, shipping..." autocomplete="off"/>
                 <button type="submit" class="salesai-send-btn">Send</button>
             </form>
         </div>
@@ -262,20 +307,20 @@
 
             if (emailMatch || phoneMatch) {
                 isLeadCaptured = true;
-                const email = emailMatch ? emailMatch[0] : "visitor@company.com";
-                const phone = phoneMatch ? phoneMatch[0] : "+1 (555) 019-2831";
+                const email = emailMatch ? emailMatch[0] : "shopper@store.com";
+                const phone = phoneMatch ? phoneMatch[0] : "+91 9876543210";
 
-                replyText = `🎉 Thank you! I have saved your contact details (${email}). Your enterprise consultation session is confirmed and our technical specialist will follow up shortly!`;
+                replyText = `🎉 Thank you! I have recorded your contact details (${email || phone}). Our store specialist will follow up with complete product information and assistance shortly!`;
 
                 // If AppState exists in global scope (e.g. on demo page), sync lead directly to dashboard!
                 if (window.AppState && typeof window.AppState.captureLead === "function") {
                     window.AppState.captureLead({
-                        name: "Website Visitor (" + email.split("@")[0] + ")",
+                        name: "Shopify Visitor (" + (email.includes("@") ? email.split("@")[0] : "Customer") + ")",
                         email: email,
                         phone: phone,
-                        company: email.split("@")[1].split(".")[0].toUpperCase() + " Corp",
-                        product: "Enterprise Cloud Infrastructure",
-                        budget: "Enterprise"
+                        company: "Shopify Store Lead",
+                        product: "Storefront Product Inquiry",
+                        budget: "Retail / E-Commerce"
                     });
                 }
             } else {
@@ -284,7 +329,7 @@
                 if (matched) {
                     replyText = matched.response;
                 } else {
-                    replyText = "We can certainly help with that! Our autonomous sales platform automates customer onboarding, qualifies high-intent buyers, and syncs directly into your CRM. What is your business email so I can send our custom quote?";
+                    replyText = "That's a great question! I'm here to assist with all product details, sizing, delivery times, and stock availability. Could you let me know which item you're looking for, or leave your email so our store team can help you right away?";
                 }
             }
 
