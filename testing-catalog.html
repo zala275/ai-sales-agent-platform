@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Testing Catalog - ApexTech Electronics</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm 20mm 15mm;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+        body {
+            color: #1e293b;
+            background: #ffffff;
+            line-height: 1.5;
+            font-size: 13px;
+        }
+        .header {
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .header-title h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+        .header-title p {
+            color: #2563eb;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+        .header-meta {
+            text-align: right;
+            font-size: 11px;
+            color: #64748b;
+        }
+        .intro-box {
+            background: #f1f5f9;
+            border-left: 4px solid #2563eb;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            font-size: 12px;
+            color: #334155;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 25px 0 15px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .product-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            background: #fafafa;
+            page-break-inside: avoid;
+        }
+        .product-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 6px;
+        }
+        .product-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .product-tag {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .product-desc {
+            font-size: 12px;
+            color: #475569;
+            margin-bottom: 10px;
+        }
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 16px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+        }
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+        }
+        .spec-label {
+            color: #64748b;
+            font-weight: 600;
+        }
+        .spec-value {
+            color: #0f172a;
+            font-weight: 600;
+        }
+        .faq-item {
+            margin-bottom: 12px;
+            page-break-inside: avoid;
+        }
+        .faq-q {
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 12px;
+            margin-bottom: 2px;
+        }
+        .faq-a {
+            color: #475569;
+            font-size: 11.5px;
+        }
+        .footer {
+            margin-top: 35px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-title">
+            <h1>ApexTech Electronics</h1>
+            <p>Official Product Specifications &amp; Catalog</p>
+        </div>
+        <div class="header-meta">
+            <p><strong>Document ID:</strong> CAT-2026-TEST</p>
+            <p><strong>Version:</strong> 2.4 (Testing Edition)</p>
+            <p><strong>Authorized for AI Ingestion</strong></p>
+        </div>
+    </div>
+
+    <div class="intro-box">
+        This document serves as the verified technical knowledge base for ApexTech products. AI Sales Agents reference this catalog to handle customer inquiries, technical specifications, warranty claims, and shipping policies.
+    </div>
+
+    <div class="section-title">📦 Featured Product Lineup</div>
+
+    <!-- Product 1 -->
+    <div class="product-card">
+        <div class="product-head">
+            <span class="product-name">1. Apex Pro Wireless Headphones</span>
+            <span class="product-tag">Best Seller · Audio</span>
+        </div>
+        <p class="product-desc">Flagship over-ear headphones featuring Hybrid Active Noise Cancellation (ANC), custom 40mm graphene dynamic drivers, and memory-foam protein leather ear cushions designed for all-day comfort.</p>
+        <div class="specs-grid">
+            <div class="spec-item"><span class="spec-label">Battery Life:</span><span class="spec-value">40 Hours (ANC On) / 60 Hours (Standard)</span></div>
+            <div class="spec-item"><span class="spec-label">Noise Cancellation:</span><span class="spec-value">Up to 40dB Depth with 4 Microphones</span></div>
+            <div class="spec-item"><span class="spec-label">Connectivity:</span><span class="spec-value">Bluetooth 5.3 + 3.5mm Lossless Cable</span></div>
+            <div class="spec-item"><span class="spec-label">Fast Charge:</span><span class="spec-value">10 Mins Charge = 5 Hours Playback</span></div>
+            <div class="spec-item"><span class="spec-label">Colors Available:</span><span class="spec-value">Matte Black, Pearl Silver, Midnight Navy</span></div>
+            <div class="spec-item"><span class="spec-label">Warranty:</span><span class="spec-value">2 Years Replacement Warranty</span></div>
+        </div>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product-card">
+        <div class="product-head">
+            <span class="product-name">2. Apex Ultra Smartwatch 2</span>
+            <span class="product-tag">Wearable · Water 100m</span>
+        </div>
+        <p class="product-desc">Ultra-durable tactical and fitness smartwatch built with an aerospace-grade titanium chassis and a scratch-resistant sapphire crystal AMOLED touchscreen.</p>
+        <div class="specs-grid">
+            <div class="spec-item"><span class="spec-label">Water Resistance:</span><span class="spec-value">100m (10 ATM - Safe for Swimming &amp; Diving)</span></div>
+            <div class="spec-item"><span class="spec-label">Battery Endurance:</span><span class="spec-value">Up to 14 Days Typical / 36 Hours Full GPS</span></div>
+            <div class="spec-item"><span class="spec-label">Display:</span><span class="spec-value">1.9-inch Sapphire AMOLED (1000 Nits Peak)</span></div>
+            <div class="spec-item"><span class="spec-label">Health Sensors:</span><span class="spec-value">ECG Heart Monitor, SpO2, Body Temp, Sleep</span></div>
+            <div class="spec-item"><span class="spec-label">Case Sizes:</span><span class="spec-value">44mm and 48mm Options</span></div>
+            <div class="spec-item"><span class="spec-label">Compatibility:</span><span class="spec-value">iOS 14+ and Android 9.0+</span></div>
+        </div>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product-card">
+        <div class="product-head">
+            <span class="product-name">3. Apex Studio Soundbar 7.1</span>
+            <span class="product-tag">Home Theater · Dolby Atmos</span>
+        </div>
+        <p class="product-desc">Premium cinematic soundbar with 9 built-in acoustic drivers, dedicated up-firing spatial height channels, and an included 8-inch wireless downward-firing subwoofer.</p>
+        <div class="specs-grid">
+            <div class="spec-item"><span class="spec-label">Audio Formats:</span><span class="spec-value">Dolby Atmos, DTS:X, Lossless 7.1 Surround</span></div>
+            <div class="spec-item"><span class="spec-label">Total Power Output:</span><span class="spec-value">500 Watts Peak System Power</span></div>
+            <div class="spec-item"><span class="spec-label">Inputs / Outputs:</span><span class="spec-value">HDMI eARC, Optical Toslink, Bluetooth 5.2, AUX</span></div>
+            <div class="spec-item"><span class="spec-label">Subwoofer:</span><span class="spec-value">Wireless 8-inch Subwoofer (Auto-Pairing)</span></div>
+            <div class="spec-item"><span class="spec-label">Voice Control:</span><span class="spec-value">Works with Google Assistant, Alexa, Apple AirPlay 2</span></div>
+            <div class="spec-item"><span class="spec-label">Dimensions:</span><span class="spec-value">980mm x 65mm x 108mm</span></div>
+        </div>
+    </div>
+
+    <!-- Product 4 -->
+    <div class="product-card">
+        <div class="product-head">
+            <span class="product-name">4. Apex GaN III Fast Charger 100W</span>
+            <span class="product-tag">Accessories · GaN III</span>
+        </div>
+        <p class="product-desc">Ultra-compact pocket-sized wall charger powered by high-efficiency Gallium Nitride (GaN III) semiconductors capable of charging high-power laptops and phones simultaneously.</p>
+        <div class="specs-grid">
+            <div class="spec-item"><span class="spec-label">Total Output:</span><span class="spec-value">100W Max Fast Delivery (Power Delivery 3.0)</span></div>
+            <div class="spec-item"><span class="spec-label">Ports Configuration:</span><span class="spec-value">3x USB-C + 1x USB-A QuickCharge 4.0</span></div>
+            <div class="spec-item"><span class="spec-label">Safety:</span><span class="spec-value">Active Temperature Guard &amp; Surge Suppression</span></div>
+            <div class="spec-item"><span class="spec-label">Supported Devices:</span><span class="spec-value">MacBook Pro, iPhone, iPad, Samsung Galaxy, Laptops</span></div>
+        </div>
+    </div>
+
+    <div class="section-title">🚚 Shipping, Warranty &amp; Return Policies</div>
+
+    <div class="faq-item">
+        <p class="faq-q">Q1: How long does shipping and delivery take?</p>
+        <p class="faq-a">Standard Express shipping takes 2 to 4 business days nationwide. Same-day dispatch is provided for all orders placed before 3:00 PM. International express shipping delivers in 5 to 7 business days.</p>
+    </div>
+
+    <div class="faq-item">
+        <p class="faq-q">Q2: What is the return and exchange policy?</p>
+        <p class="faq-a">ApexTech offers a 30-day hassle-free return window. If the product does not meet expectations or requires a different size/color, full refunds or immediate replacements are processed within 48 hours of return delivery.</p>
+    </div>
+
+    <div class="faq-item">
+        <p class="faq-q">Q3: How does the warranty work?</p>
+        <p class="faq-a">All electronics include a standard 2-Year Full Hardware Replacement Warranty covering internal driver defects, battery anomalies, and hardware malfunctions with zero deductible fees.</p>
+    </div>
+
+    <div class="footer">
+        ApexTech Electronics Inc. · Knowledge Base Document for AI Sales Agent Demonstration · Powered by SalesAI Platform
+    </div>
+
+</body>
+</html>
