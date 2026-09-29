@@ -10,87 +10,127 @@
     const primaryColor = (currentScript && currentScript.getAttribute("data-primary-color")) || "#2170e4";
     const position = (currentScript && currentScript.getAttribute("data-position")) || "bottom-right";
 
-    // Knowledge & Responses for Autonomous Sales Dialogue (E-Commerce & Product Specialist)
+    // Comprehensive Knowledge Base for Autonomous E-Commerce Sales & Shopping Dialogue
     const SALES_RESPONSES = [
         {
-            keywords: ["product", "products", "item", "items", "catalog", "collection", "stock", "sell", "buy", "store", "what do you have", "show", "what is your product", "all products"],
-            response: "We offer premium electronics (Apex Pro Headphones, Apex Ultra Smartwatch, Apex Studio Soundbar, and 100W GaN Fast Chargers) as well as premium organic cotton apparel! Which product would you like more details on?",
-            intent: "product_discovery"
+            keywords: ["product", "products", "item", "items", "catalog", "collection", "stock", "sell", "buy", "store", "what do you have", "what are your products", "what is your product", "all products", "list", "show me"],
+            response: "We specialize in premium lifestyle electronics and apparel: 1) Apex Pro Wireless ANC Headphones ($199), 2) Apex Ultra Smartwatch 2 ($299), 3) Apex Studio Soundbar 7.1 ($399), 4) Apex GaN III 100W Fast Charger ($49), and 5) Premium Organic Cotton T-Shirts ($29). Which one can I tell you more about?",
+            intent: "products_catalog"
         },
         {
-            keywords: ["shirt", "t-shirt", "tshirt", "tee", "top", "clothes", "clothing", "apparel", "wear", "fabric", "material", "cotton"],
-            response: "Our t-shirts are crafted from 100% premium combed organic cotton (180 GSM). They are pre-shrunk, breathable, ultra-soft, and designed for lasting everyday comfort. Available in multiple colorways with reinforced double-stitched hems. Would you like size details?",
-            intent: "product_specs"
+            keywords: ["headphone", "headphones", "earphone", "earphones", "earbud", "earbuds", "audio", "anc", "noise cancel", "noise cancelling", "sound quality", "bass", "mic", "calling", "music", "over ear", "apex pro"],
+            response: "Our Apex Pro Wireless Headphones ($199) feature 40dB Active Noise Cancellation (ANC), 40-hour battery life (60h standard), Bluetooth 5.3, and custom 40mm graphene drivers for studio-grade audio. In stock in Matte Black and Pearl Silver with a 2-Year Warranty!",
+            intent: "catalog_headphones"
         },
         {
-            keywords: ["size", "fit", "measurement", "small", "medium", "large", "xl", "xxl", "xs", "chart"],
-            response: "Our apparel follows standard regular fit sizing (XS, S, M, L, XL, XXL). For a standard fit, order your regular size. If you prefer a trendy oversized streetwear look, we recommend sizing up one size! Which size do you usually wear?",
-            intent: "sizing"
+            keywords: ["watch", "smartwatch", "wearable", "apex ultra", "smart watch", "fitness tracker", "gps", "heart rate", "ecg", "step", "sleep tracker"],
+            response: "The Apex Ultra Smartwatch 2 ($299) is crafted with an aerospace titanium case, sapphire crystal AMOLED display, and 100m (10 ATM) water resistance. Features dual-frequency GPS, health sensors (ECG, SpO2, heart rate), and up to 14 days of battery life!",
+            intent: "catalog_smartwatch"
         },
         {
-            keywords: ["color", "colour", "shade", "black", "red", "green", "grey", "white"],
-            response: "We have multiple fresh colors in stock, including Terracotta Coral, Forest Green, Charcoal Slate, and Classic Black. All colors use eco-friendly, fade-resistant dyes that stay vibrant wash after wash.",
-            intent: "colors"
+            keywords: ["waterproof", "water resistant", "swim", "swimming", "shower", "bath", "rain", "diving", "pool", "water", "sweat", "gym"],
+            response: "Yes! The Apex Ultra Smartwatch 2 has a 100-meter (10 ATM) water-resistance rating, making it completely safe for swimming, pool workouts, rain, and showering! Our headphones also feature IPX5 sweat-resistance for intense gym sessions.",
+            intent: "waterproof_swimming"
         },
         {
-            keywords: ["headphone", "audio", "earphone", "anc", "music"],
-            response: "Our Apex Pro Wireless Headphones feature 40dB Active Noise Cancellation (ANC), 40-hour battery life (60h standard), Bluetooth 5.3, and lossless audio drivers. In stock in Matte Black and Pearl Silver with a 2-Year Warranty!",
-            intent: "catalog_electronics"
+            keywords: ["battery", "charge", "charging", "battery life", "how long does battery last", "standby", "runtime", "hours"],
+            response: "Battery life across our products: Apex Pro Headphones last 40 hours with ANC enabled (60 hours standard), the Apex Ultra Smartwatch lasts up to 14 days on a single charge, and our 100W GaN Charger fast-charges devices from 0 to 80% in just 30 minutes!",
+            intent: "battery_life"
         },
         {
-            keywords: ["watch", "smartwatch", "swim", "waterproof", "gps"],
-            response: "The Apex Ultra Smartwatch 2 features an aerospace titanium chassis, sapphire crystal AMOLED display, and 100m (10 ATM) water resistance — perfectly safe for swimming and diving! Includes ECG, heart rate, and 14-day battery life.",
-            intent: "catalog_wearable"
-        },
-        {
-            keywords: ["soundbar", "speaker", "sound", "dolby", "tv"],
-            response: "The Apex Studio Soundbar features 500W peak power, Dolby Atmos 7.1 surround sound, a wireless 8-inch subwoofer, and HDMI eARC connectivity for cinematic home theater audio!",
+            keywords: ["soundbar", "sound bar", "speaker", "subwoofer", "home theater", "tv sound", "dolby", "atmos", "500w", "cinema", "living room"],
+            response: "The Apex Studio Soundbar 7.1 ($399) packs 500W peak power, upward-firing Dolby Atmos speakers, a wireless 8-inch auto-pairing subwoofer, and HDMI eARC connectivity for theater-grade surround sound at home!",
             intent: "catalog_soundbar"
         },
         {
-            keywords: ["charger", "adapter", "gan", "100w", "power delivery", "fast charge"],
-            response: "The Apex GaN III Fast Charger 100W delivers 100W Power Delivery 3.0 via 3x USB-C and 1x USB-A ports. It rapidly powers MacBooks, laptops, iPhones, and Android devices simultaneously with Thermal Guard protection!",
+            keywords: ["charger", "adapter", "gan", "100w", "fast charger", "fast charge", "wall plug", "usb c", "power delivery", "pd 3.0", "cable"],
+            response: "The Apex GaN III Fast Charger 100W ($49) utilizes advanced gallium nitride semiconductors. It has 3x USB-C and 1x USB-A ports to rapidly charge MacBooks, laptops, iPhones, and Android phones simultaneously with built-in thermal surge protection!",
             intent: "catalog_charger"
         },
         {
-            keywords: ["shipping", "delivery", "arrive", "dispatch", "days", "time", "track", "courier", "fast"],
-            response: "Standard Express Delivery takes 2 to 4 business days nationwide! Orders placed before 3:00 PM are dispatched on the same day. Tracking details are automatically sent to your email as soon as the order ships.",
-            intent: "shipping_policy"
+            keywords: ["iphone", "android", "mac", "macbook", "windows", "laptop", "pc", "compatible", "compatibility", "connect", "work with", "pair", "ipad"],
+            response: "All our electronics are 100% universal! The Apex Pro Headphones and Apex Studio Soundbar connect seamlessly via Bluetooth 5.3 and aux/HDMI to iPhone, Android, Mac, and Windows. The smartwatch pairs with both iOS (Apple) and Android devices.",
+            intent: "compatibility"
         },
         {
-            keywords: ["return", "refund", "exchange", "replace", "cancel", "money back"],
-            response: "We offer a 30-day risk-free return and exchange policy! If you need a different size, color, or a full refund, our return process is 100% hassle-free with complimentary pickup.",
-            intent: "return_policy"
+            keywords: ["shirt", "t-shirt", "tshirt", "tee", "clothes", "clothing", "apparel", "wear", "cotton", "fabric", "material", "organic cotton", "gsm", "cloth"],
+            response: "Our tees are made from 100% combed organic cotton (180 GSM). They are pre-shrunk, super soft, breathable, and double-stitched for everyday durability. They stay soft and retain their shape wash after wash!",
+            intent: "apparel_material"
         },
         {
-            keywords: ["warranty", "guarantee"],
-            response: "All products come with our official 2-Year Full Hardware & Quality Replacement Warranty covering manufacturing defects and hardware anomalies with zero deductible fees.",
+            keywords: ["size", "sizes", "fit", "fitting", "small", "medium", "large", "xl", "xxl", "xs", "chart", "measure", "measurements", "tight", "loose", "oversized", "oversize"],
+            response: "We offer standard regular fit sizing from XS to XXL. If you like a true-to-size standard fit, order your regular size. If you love a trendy streetwear oversized fit, we suggest ordering one size up! We also offer free size exchanges if needed.",
+            intent: "sizing"
+        },
+        {
+            keywords: ["color", "colour", "colors", "colours", "shade", "shades", "black", "red", "green", "grey", "white", "coral"],
+            response: "Our products come in curated premium colorways: Headphones in Matte Black & Pearl Silver; Apparel in Terracotta Coral, Forest Green, Charcoal Slate, and Classic Black using eco-friendly, non-fading reactive dyes.",
+            intent: "colors"
+        },
+        {
+            keywords: ["wash", "washing", "shrink", "shrinking", "iron", "dry clean", "machine wash", "laundry"],
+            response: "Our organic cotton t-shirts are pre-shrunk during manufacturing! For best longevity, machine wash cold (30°C) with like colors, do not bleach, and tumble dry low or hang dry to maintain perfect shape.",
+            intent: "washing_care"
+        },
+        {
+            keywords: ["shipping", "delivery", "deliver", "ship", "arrive", "dispatch", "how long", "when will it come", "courier", "fedex", "tracking", "track order", "fast delivery", "urgent"],
+            response: "Standard Express Delivery takes 2 to 4 business days nationwide! Orders placed before 3:00 PM are dispatched on the same day. Full tracking details are sent immediately to your email/SMS as soon as your parcel ships.",
+            intent: "shipping_delivery"
+        },
+        {
+            keywords: ["international", "worldwide", "abroad", "foreign", "canada", "usa", "uk", "overseas", "global"],
+            response: "Yes, we ship internationally! International express delivery typically takes 5 to 7 business days, and duties/taxes are calculated transparently at checkout with end-to-end package tracking.",
+            intent: "international_shipping"
+        },
+        {
+            keywords: ["return", "returns", "refund", "refunds", "exchange", "exchanges", "replace", "replacement", "cancel", "cancellation", "money back", "don't like", "wrong item", "damaged", "broken"],
+            response: "We offer a 30-day risk-free return and exchange policy! If you receive the wrong size, color, or simply change your mind, our team arranges a free doorstep courier pickup and processes a 100% full refund or instant replacement within 48 hours.",
+            intent: "returns_refunds"
+        },
+        {
+            keywords: ["warranty", "guarantee", "defect", "defective", "break", "repair", "claim", "coverage"],
+            response: "All our electronic products are backed by our official 2-Year Comprehensive Hardware Replacement Warranty covering manufacturing anomalies, speaker drivers, sensors, and battery health with zero deductible fees!",
             intent: "warranty"
         },
         {
-            keywords: ["discount", "coupon", "code", "promo", "offer", "sale", "deal", "cheap"],
-            response: "Yes! We offer a special 15% discount code for new visitors. Would you like me to apply it to your order? Just type your email or phone number and I'll send it over right now!",
-            intent: "discount"
+            keywords: ["discount", "discounts", "coupon", "coupons", "promo", "promo code", "code", "offer", "offers", "sale", "deal", "cheap", "cheaper", "save", "best price"],
+            response: "Yes! We have an exclusive 15% discount for new shoppers today! Would you like me to apply it to your order? Just type your email address or phone number and I'll send your coupon code right away!",
+            intent: "discounts_offers"
         },
         {
-            keywords: ["payment", "pay", "cod", "upi", "card", "visa", "mastercard"],
-            response: "We accept all secure payment methods: Credit/Debit Cards, Net Banking, UPI, Apple Pay, Google Pay, and Cash on Delivery (COD) where eligible at checkout.",
-            intent: "payment"
+            keywords: ["payment", "pay", "payment methods", "cod", "cash on delivery", "upi", "google pay", "apple pay", "card", "credit card", "debit card", "emi", "net banking"],
+            response: "We support all secure payment gateways: Credit/Debit Cards (Visa, Mastercard, Amex), UPI (Google Pay, PhonePe, Paytm), Net Banking, Apple Pay, and Cash on Delivery (COD) at checkout!",
+            intent: "payments"
         },
         {
-            keywords: ["hello", "hi", "hey", "good morning", "good evening", "namaste", "help"],
-            response: "Hello! Welcome to our store! 👋 How can I help you today? Feel free to ask me anything about our products, sizing, delivery times, or return policies!",
-            intent: "greeting"
+            keywords: ["gift", "present", "birthday", "anniversary", "boyfriend", "girlfriend", "brother", "sister", "husband", "wife", "friend", "recommend", "suggestion", "best item"],
+            response: "Great gifts depend on their lifestyle: For music lovers, our Apex Pro ANC Headphones ($199) are an absolute crowd-pleaser; for fitness enthusiasts, the Apex Ultra Smartwatch ($299) is top-tier; and our 100% Organic Cotton Tees ($29) make an easy everyday favorite!",
+            intent: "gifts"
         },
         {
-            keywords: ["chatbot", "bot", "not a bot", "human", "who are you", "what are you", "alex"],
-            response: "I am your AI Sales & Shopping Assistant! Unlike basic chatbots, I am trained directly on our store's products, inventory, and policies to help you find the perfect item and answer all questions 24/7.",
+            keywords: ["human", "real person", "agent", "talk to human", "representative", "contact", "phone", "email", "support number", "call", "helpdesk"],
+            response: "Our support specialists are always happy to help! You can leave your email or phone number right here and a human representative will reach out shortly, or you can contact our support team at support@apextech.com.",
+            intent: "human_support"
+        },
+        {
+            keywords: ["genuine", "authentic", "fake", "original", "trust", "scam", "safe to buy", "why buy from you", "reviews"],
+            response: "All items sold in our store are 100% authentic, brand-new, and sealed in official factory packaging. Every purchase is protected by our 30-day money-back guarantee, secure SSL checkout, and our official 2-year warranty!",
+            intent: "authenticity"
+        },
+        {
+            keywords: ["hello", "hi", "hey", "good morning", "good evening", "good afternoon", "namaste", "how are you", "what's up", "yo"],
+            response: "Hello! Welcome to our store! 👋 I'm Alex, your AI shopping specialist. I'm here to help you find the right product, check sizing, track orders, or answer any policy questions. What can I help you find today?",
+            intent: "greetings"
+        },
+        {
+            keywords: ["thank you", "thanks", "thx", "appreciate", "helpful", "good bot", "great", "awesome", "perfect", "cool", "ok", "okay"],
+            response: "You're very welcome! 😊 Feel free to ask if you need anything else, or type your email if you'd like our 15% discount code applied to your order. Happy shopping!",
+            intent: "gratitude"
+        },
+        {
+            keywords: ["who are you", "what are you", "what do you do", "bot", "chatbot", "ai", "are you ai"],
+            response: "I am your AI Shopping & Sales Specialist! I'm trained on our store's complete product specs, sizing guides, stock availability, and shipping policies to help you make the best purchase 24/7.",
             intent: "identity"
-        },
-        {
-            keywords: ["hubspot", "crm", "salesforce", "integrate", "integration"],
-            response: "Yes! For business integrations, our platform provides 1-click bi-directional sync with HubSpot, Salesforce, Zoho, and webhooks so all customer inquiries and leads are automatically synchronized.",
-            intent: "integration"
         }
     ];
 
@@ -354,15 +394,22 @@
 
         // Intelligent Relevance Scoring Engine (Direct Client NLP Execution)
         let replyText = "";
-        const lower = text.toLowerCase();
+        const cleanText = text.toLowerCase().replace(/[^a-z0-9\s]/g, " ");
+        const words = cleanText.split(/\s+/).filter(w => w.length > 1);
         let bestMatch = null;
         let highestScore = 0;
+
+        const HIGH_WEIGHT = ["battery", "waterproof", "swimming", "swim", "soundbar", "charger", "headphone", "headphones", "smartwatch", "t-shirt", "tshirt", "sizing", "discount", "coupon", "refund", "return", "warranty", "genuine", "gift"];
 
         for (const item of dynamicStoreKnowledge) {
             let score = 0;
             for (const k of item.keywords) {
-                if (lower.includes(k)) {
-                    score += (k.includes(" ") ? 6 : (k.length > 4 ? 3 : 2));
+                let weight = HIGH_WEIGHT.includes(k) ? 10 : 3;
+                if (k.includes(" ")) {
+                    if (cleanText.includes(k)) score += (weight + 6);
+                } else {
+                    if (words.includes(k)) score += weight;
+                    else if (cleanText.includes(k) && k.length > 3) score += (weight / 2);
                 }
             }
             if (score > highestScore) {
@@ -371,14 +418,14 @@
             }
         }
 
-        if (bestMatch && highestScore >= 2) {
+        if (bestMatch && highestScore >= 3) {
             replyText = bestMatch.response;
-        } else if (lower.includes("product") || lower.includes("sell") || lower.includes("what is your product") || lower.includes("items")) {
-            replyText = "We offer premium electronics (Apex Pro Headphones, Apex Ultra Smartwatch, Apex Studio Soundbar, and 100W GaN Fast Chargers) as well as premium organic cotton apparel! Which product would you like more details on?";
-        } else if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey")) {
-            replyText = "Hello! 👋 Welcome to our store! Ask me anything about our products, sizing, express delivery, or 30-day return policy. How can I help you today?";
+        } else if (cleanText.includes("product") || cleanText.includes("sell") || cleanText.includes("what is your product") || cleanText.includes("items")) {
+            replyText = "We specialize in premium lifestyle electronics and apparel: 1) Apex Pro Wireless ANC Headphones ($199), 2) Apex Ultra Smartwatch 2 ($299), 3) Apex Studio Soundbar 7.1 ($399), 4) Apex GaN III 100W Fast Charger ($49), and 5) Premium Organic Cotton T-Shirts ($29). Which one can I tell you more about?";
+        } else if (cleanText.includes("hello") || cleanText.includes("hi") || cleanText.includes("hey")) {
+            replyText = "Hello! Welcome to our store! 👋 I'm Alex, your AI shopping specialist. I'm here to help you find the right product, check sizing, track orders, or answer any policy questions. What can I help you find today?";
         } else {
-            replyText = "That's a great question! I'm here to assist with all product details, sizing, delivery times, and stock availability. Could you let me know which item you're looking for, or share your question with a bit more detail?";
+            replyText = "That's a great question! I'm here to assist with our electronics, organic apparel, sizing recommendations, express shipping, and 30-day returns. Could you let me know which specific product or policy you'd like more details on?";
         }
 
         const agentBubble = document.createElement("div");
