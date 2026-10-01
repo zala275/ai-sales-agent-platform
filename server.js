@@ -285,24 +285,33 @@ const server = http.createServer(async (req, res) => {
             } else {
                 // 1. Try Google Gemini Generative AI
                 try {
-                    const systemContext = `You are Alex, an expert AI shopping assistant for ApexTech store. Store Catalog: Apex Pro Wireless Headphones ($199, 40dB ANC, 40h battery, Bluetooth 5.3), Apex Ultra Smartwatch 2 ($299, 100m water resistant, 14-day battery, titanium), Apex Studio Soundbar 7.1 ($399, 500W Dolby Atmos), Apex GaN III 100W Fast Charger ($49), Organic cotton t-shirts ($29, pre-shrunk, XS-XXL). Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers. Answer conversationally, concisely (2-3 sentences), helpfully, and naturally like an expert human store sales specialist. If user asks about unrelated topics, answer pleasantly and relate back to store shopping.`;
+                    const systemContext = `You are Alex, an expert AI shopping assistant for ApexTech store. Store Catalog: Apex Pro Wireless Headphones ($199, 40dB ANC, 40h battery, Bluetooth 5.3, Matte Black and Pearl Silver), Apex Ultra Smartwatch 2 ($299, 100m water resistant, 14-day battery, titanium), Apex Studio Soundbar 7.1 ($399, 500W Dolby Atmos), Apex GaN III 100W Fast Charger ($49), Organic cotton t-shirts ($29, pre-shrunk, XS-XXL, 100% organic cotton, machine washable cold). Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers with coupon WELCOME15. Answer conversationally, concisely (2-3 sentences), helpfully, and naturally like an expert human store sales specialist. If user asks about unrelated topics, answer pleasantly and relate back to store shopping.`;
 
-                    const geminiRes = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "x-goog-api-key": geminiKey
-                        },
-                        body: JSON.stringify({
-                            system_instruction: { parts: [{ text: systemContext }] },
-                            contents: [{ role: "user", parts: [{ text: userMsg }] }]
-                        })
-                    });
+                    const candidateModels = ["gemini-3.5-flash-lite", "gemini-flash-lite-latest", "gemini-3.1-flash-lite"];
+                    for (const model of candidateModels) {
+                        try {
+                            const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "x-goog-api-key": geminiKey
+                                },
+                                body: JSON.stringify({
+                                    system_instruction: { parts: [{ text: systemContext }] },
+                                    contents: [{ role: "user", parts: [{ text: userMsg }] }]
+                                })
+                            });
 
-                    if (geminiRes.ok) {
-                        const gData = await geminiRes.json();
-                        if (gData.candidates && gData.candidates[0] && gData.candidates[0].content && gData.candidates[0].content.parts[0]) {
-                            reply = gData.candidates[0].content.parts[0].text.trim();
+                            if (geminiRes.ok) {
+                                const gData = await geminiRes.json();
+                                if (gData.candidates && gData.candidates[0] && gData.candidates[0].content && gData.candidates[0].content.parts[0]) {
+                                    reply = gData.candidates[0].content.parts[0].text.trim();
+                                    matchedSource = `Google Gemini (${model})`;
+                                    break;
+                                }
+                            }
+                        } catch (mErr) {
+                            // try next model
                         }
                     }
                 } catch (gErr) {

@@ -407,49 +407,59 @@
 
         let replyText = "";
 
-        // 1. Live Google Gemini 3.5 Flash Generative AI (Answers Literally Anything)
+        // 1. Live Google Gemini Generative AI (Answers Literally Anything Instantly)
         try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 4500);
+            const timeoutId = setTimeout(() => controller.abort(), 12000);
 
-            const systemContext = "You are Alex, an expert AI shopping specialist for ApexTech store. Store Catalog: Apex Pro Wireless Headphones ($199, 40dB ANC, 40h battery, Bluetooth 5.3), Apex Ultra Smartwatch 2 ($299, 100m water resistant, 14-day battery, titanium), Apex Studio Soundbar 7.1 ($399, 500W Dolby Atmos), Apex GaN III 100W Fast Charger ($49), Organic cotton t-shirts ($29, pre-shrunk, XS-XXL). Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers. Answer any question conversationally, concisely (2-3 sentences max), helpfully, and naturally like an expert human store sales specialist. If user asks about unrelated topics, answer pleasantly and relate back to store shopping.";
+            const systemContext = "You are Alex, an expert AI shopping specialist for ApexTech store. Store Catalog: Apex Pro Wireless Headphones ($199, 40dB ANC, 40h battery, Bluetooth 5.3, Matte Black and Pearl Silver), Apex Ultra Smartwatch 2 ($299, 100m water resistant, 14-day battery, titanium), Apex Studio Soundbar 7.1 ($399, 500W Dolby Atmos), Apex GaN III 100W Fast Charger ($49), Organic cotton t-shirts ($29, pre-shrunk, XS-XXL, 100% organic cotton, machine washable cold). Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers with coupon WELCOME15. Answer any question conversationally, concisely (2-3 sentences max), helpfully, and naturally like an expert human store sales specialist. If user asks about unrelated topics, answer pleasantly and relate back to store shopping.";
 
-            let apiEndpoint = "";
-            let apiHeaders = { "Content-Type": "application/json" };
-            let apiBody = {};
+            const candidateModels = ["gemini-3.5-flash-lite", "gemini-flash-lite-latest", "gemini-3.1-flash-lite"];
 
             if (geminiApiKey) {
-                apiEndpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent";
-                apiHeaders["x-goog-api-key"] = geminiApiKey;
-                apiBody = {
-                    system_instruction: { parts: [{ text: systemContext }] },
-                    contents: [{ role: "user", parts: [{ text: text }] }]
-                };
+                for (const model of candidateModels) {
+                    try {
+                        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "x-goog-api-key": geminiApiKey
+                            },
+                            body: JSON.stringify({
+                                system_instruction: { parts: [{ text: systemContext }] },
+                                contents: [{ role: "user", parts: [{ text: text }] }]
+                            }),
+                            signal: controller.signal
+                        });
+
+                        if (res.ok) {
+                            const gData = await res.json();
+                            if (gData.candidates && gData.candidates[0] && gData.candidates[0].content && gData.candidates[0].content.parts[0]) {
+                                replyText = gData.candidates[0].content.parts[0].text.trim()
+                                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                                    .replace(/\n\n/g, '<br/><br/>')
+                                    .replace(/\n/g, '<br/>');
+                                break;
+                            }
+                        }
+                    } catch (mErr) {
+                        if (controller.signal.aborted) break;
+                    }
+                }
             } else {
-                apiEndpoint = "https://ai-sales-agent-platform.onrender.com/api/chat";
-                apiBody = { message: text, agent_id: agentKey };
-            }
-
-            const res = await fetch(apiEndpoint, {
-                method: "POST",
-                headers: apiHeaders,
-                body: JSON.stringify(apiBody),
-                signal: controller.signal
-            });
-            clearTimeout(timeoutId);
-
-            if (res.ok) {
-                const gData = await res.json();
-                if (gData.reply) {
-                    replyText = gData.reply;
-                } else if (gData.candidates && gData.candidates[0] && gData.candidates[0].content && gData.candidates[0].content.parts[0]) {
-                    replyText = gData.candidates[0].content.parts[0].text.trim()
-                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                        .replace(/\n\n/g, '<br/><br/>')
-                        .replace(/\n/g, '<br/>');
+                const res = await fetch("https://ai-sales-agent-platform.onrender.com/api/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: text, agent_id: agentKey }),
+                    signal: controller.signal
+                });
+                if (res.ok) {
+                    const gData = await res.json();
+                    if (gData.reply) replyText = gData.reply;
                 }
             }
+            clearTimeout(timeoutId);
         } catch (gErr) {
             console.log("Gemini API fallback triggered:", gErr);
         }
