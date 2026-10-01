@@ -12,6 +12,7 @@
     const defaultGeminiB64 = "QVEuQWI4Uk42SzZoT0Z4WjVBc0VRUjVwUGg5T3RadkRfcUdQQ3pyWUU2Rll4dTRMb0FEOUE=";
     const geminiApiKey = (scriptElem && scriptElem.getAttribute("data-gemini-key")) || (window.GEMINI_API_KEY || (typeof atob === "function" ? atob(defaultGeminiB64) : ""));
     const chatHistory = [];
+    let userSubmittedDetails = false;
 
     // Comprehensive Knowledge Base for Autonomous E-Commerce Sales & Shopping Dialogue
     const SALES_RESPONSES = [
@@ -505,6 +506,7 @@
         const capturedAge = ageMatch ? (ageMatch[1] || ageMatch[2]) : "";
 
         if (capturedEmail || capturedPhone || capturedAge) {
+            if (capturedEmail) userSubmittedDetails = true;
             if (window.AppState && typeof window.AppState.captureLead === "function") {
                 window.AppState.captureLead({
                     name: "Shopify Visitor (" + (capturedEmail ? capturedEmail.split("@")[0] : "Customer") + ")",
@@ -554,10 +556,9 @@ MULTILINGUAL INTELLIGENCE (AUTO-DETECT):
 - ALWAYS respond in the EXACT SAME LANGUAGE the user writes or speaks, translating all product details, prices, and closing prompts naturally and fluently into their native language!
 
 CRITICAL SALES CONVERSATION RULES:
-1. Product inquiries & recommendations: Answer conversationally, concisely (2-3 sentences max), helpfully, and enthusiastically using the store catalog in the customer's language. AT THE END of every product answer or recommendation, proactively invite them to order with their 15% WELCOME15 discount, and ask for their details (Email address and Age) translated into that language:
-   "Would you like me to prepare your order with your 15% discount (WELCOME15)? If so, could you share your email address and your age?"
-2. BUY / ORDER INTENT: Whenever the customer decides to buy, asks how to purchase, says they want a product, agrees on a product, or indicates they want to order, celebrate their choice and explicitly ask for their details (Email address and Age) so you can prepare their order and send their direct checkout link with their 15% WELCOME15 discount applied in their language:
-   Example: "Awesome choice! To prepare your order with your 15% discount (WELCOME15) and send your checkout confirmation link, could you please share your email address and your age?"
+1. PRODUCT INQUIRIES & RECOMMENDATIONS (NO DETAILS REQUESTED): Answer conversationally, concisely (2-3 sentences max), helpfully, and enthusiastically using the store catalog in the customer's language. Focus purely on answering their questions, explaining features, specs, sizes, and pricing. You may mention the 15% discount code WELCOME15 if relevant, but STRICTLY DO NOT ask for their email address, age, or personal contact details during general browsing or product questions!
+2. BUY / PURCHASE CONFIRMATION (ONLY ASK DETAILS HERE AT THE VERY END): ONLY ask for their email address and age AFTER the customer explicitly confirms they want to buy, says "I want to buy", "I'll take it", "how do I buy", "order this", "checkout", or agrees to purchase a product. At that moment, celebrate their purchase decision and ask for their details (Email address and Age) translated into their language:
+   Example: "Awesome choice! To lock in your 15% discount (WELCOME15) and prepare your checkout confirmation link, could you please share your email address and your age?"
 3. AFTER DETAILS PROVIDED: When the customer shares their email and age, thank them warmly, confirm that their details and 15% WELCOME15 discount are locked in, and invite them to proceed with payment or checkout!
 4. Unrelated topics: Answer pleasantly and relate back to store shopping.`;
 
@@ -667,9 +668,9 @@ CRITICAL SALES CONVERSATION RULES:
         agentBubble.className = "salesai-bubble-agent";
         agentBubble.innerHTML = replyText;
 
-        // Render interactive email & age capture card if prompt asks for details
+        // Render interactive email & age capture card if prompt asks for details upon buy confirmation
         const lowerReply = replyText.toLowerCase();
-        if (lowerReply.includes("email") && (lowerReply.includes("age") || lowerReply.includes("checkout") || lowerReply.includes("order")) && !capturedEmail) {
+        if (lowerReply.includes("email") && (lowerReply.includes("age") || lowerReply.includes("checkout") || lowerReply.includes("order")) && !userSubmittedDetails && !capturedEmail) {
             const card = document.createElement("div");
             card.style.marginTop = "12px";
             card.style.padding = "12px";
@@ -702,6 +703,7 @@ CRITICAL SALES CONVERSATION RULES:
                     emailInp.focus();
                     return;
                 }
+                userSubmittedDetails = true;
                 input.value = `My email is ${em}${ag ? ` and my age is ${ag}` : ""}`;
                 form.dispatchEvent(new Event("submit"));
                 card.remove();
