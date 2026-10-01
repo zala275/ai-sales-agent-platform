@@ -420,7 +420,8 @@ Store Catalog:
 Store Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers with coupon WELCOME15.
 
 CRITICAL SALES CONVERSATION RULES:
-1. Product inquiries: Answer conversationally, concisely (2-3 sentences max), helpfully, and naturally like an expert human store sales specialist.
+1. Product inquiries & recommendations: Answer conversationally, concisely (2-3 sentences max), helpfully, and enthusiastically. AT THE END of every product answer or recommendation, proactively invite them to order with their 15% WELCOME15 discount, and ask for their details:
+   "Would you like me to prepare your order with your 15% discount (WELCOME15)? If so, could you share your email address and your age?"
 2. BUY / ORDER INTENT: Whenever the customer decides to buy, asks how to purchase, says they want a product, agrees on a product, or indicates they want to order, celebrate their choice and explicitly ask for their details (Email address and Age) so you can prepare their order and send their direct checkout link with their 15% WELCOME15 discount applied:
    Example: "Awesome choice! To prepare your order with your 15% discount (WELCOME15) and send your checkout confirmation link, could you please share your email address and your age?"
 3. AFTER DETAILS PROVIDED: When the customer shares their email and age, thank them warmly, confirm that their details and 15% WELCOME15 discount are locked in, and invite them to proceed with payment or checkout!
@@ -531,6 +532,49 @@ CRITICAL SALES CONVERSATION RULES:
         const agentBubble = document.createElement("div");
         agentBubble.className = "salesai-bubble-agent";
         agentBubble.innerHTML = replyText;
+
+        // Render interactive email & age capture card if prompt asks for details
+        const lowerReply = replyText.toLowerCase();
+        if (lowerReply.includes("email") && (lowerReply.includes("age") || lowerReply.includes("checkout") || lowerReply.includes("order")) && !capturedEmail) {
+            const card = document.createElement("div");
+            card.style.marginTop = "12px";
+            card.style.padding = "12px";
+            card.style.background = "#ffffff";
+            card.style.border = "1px solid #cbd5e1";
+            card.style.borderRadius = "10px";
+            card.style.display = "flex";
+            card.style.flexDirection = "column";
+            card.style.gap = "8px";
+            card.style.boxShadow = "0 3px 10px rgba(0,0,0,0.06)";
+            card.innerHTML = `
+                <div style="font-size:11px;font-weight:700;color:#1e293b;text-transform:uppercase;letter-spacing:0.5px;display:flex;align-items:center;gap:5px;">
+                    <span>🏷️</span> Apply 15% Off (WELCOME15) &amp; Order
+                </div>
+                <input type="email" class="salesai-inline-email" placeholder="Your Email Address" style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;outline:none;" />
+                <input type="number" class="salesai-inline-age" placeholder="Your Age (e.g. 25)" style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;outline:none;" />
+                <button type="button" class="salesai-inline-submit" style="background:#2563eb;color:#ffffff;border:none;padding:9px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;transition:background 0.2s;">
+                    Lock In 15% Off &amp; Get Checkout Link →
+                </button>
+            `;
+            const submitBtn = card.querySelector(".salesai-inline-submit");
+            const emailInp = card.querySelector(".salesai-inline-email");
+            const ageInp = card.querySelector(".salesai-inline-age");
+
+            submitBtn.onclick = () => {
+                const em = emailInp.value.trim();
+                const ag = ageInp.value.trim();
+                if (!em || !em.includes("@")) {
+                    emailInp.style.borderColor = "#ef4444";
+                    emailInp.focus();
+                    return;
+                }
+                input.value = `My email is ${em}${ag ? ` and my age is ${ag}` : ""}`;
+                form.dispatchEvent(new Event("submit"));
+                card.remove();
+            };
+            agentBubble.appendChild(card);
+        }
+
         messages.appendChild(agentBubble);
         messages.scrollTop = messages.scrollHeight;
     };
