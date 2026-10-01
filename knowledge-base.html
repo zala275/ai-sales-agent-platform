@@ -7,6 +7,12 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        if (typeof pdfjsLib !== "undefined") {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+        }
+    </script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -680,13 +686,45 @@
             });
         }
 
-        function handleFileSelect(input) {
+        let uploadedFileObj = null;
+        let extractedPdfText = "";
+
+        async function handleFileSelect(input) {
             if (input.files && input.files[0]) {
-                const file = input.files[0];
-                currentFileName = file.name;
-                const sizeKb = (file.size / 1024).toFixed(1);
-                document.getElementById('selected-filename').textContent = file.name;
-                document.getElementById('selected-filesize').textContent = `Ready to Ingest (${sizeKb} KB · Selected)`;
+                uploadedFileObj = input.files[0];
+                currentFileName = uploadedFileObj.name;
+                const sizeKb = (uploadedFileObj.size / 1024).toFixed(1);
+                document.getElementById('selected-filename').textContent = uploadedFileObj.name;
+                document.getElementById('selected-filesize').textContent = `Reading Document (${sizeKb} KB)...`;
+
+                try {
+                    if (uploadedFileObj.type === "application/pdf" || uploadedFileObj.name.toLowerCase().endsWith(".pdf")) {
+                        const arrayBuffer = await uploadedFileObj.arrayBuffer();
+                        if (typeof pdfjsLib !== "undefined") {
+                            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                            let fullText = "";
+                            for (let p = 1; p <= pdf.numPages; p++) {
+                                const page = await pdf.getPage(p);
+                                const textContent = await page.getTextContent();
+                                const pageStr = textContent.items.map(item => item.str).join(" ");
+                                fullText += pageStr + "\n";
+                            }
+                            extractedPdfText = fullText.trim();
+                            const wordCount = extractedPdfText.split(/\s+/).filter(w => w.length).length;
+                            document.getElementById('selected-filesize').textContent = `Ready to Ingest (${sizeKb} KB · ${pdf.numPages} Pages · ${wordCount} Words)`;
+                        } else {
+                            extractedPdfText = await uploadedFileObj.text();
+                            document.getElementById('selected-filesize').textContent = `Ready to Ingest (${sizeKb} KB · Text Extracted)`;
+                        }
+                    } else {
+                        extractedPdfText = await uploadedFileObj.text();
+                        const wordCount = extractedPdfText.split(/\s+/).filter(w => w.length).length;
+                        document.getElementById('selected-filesize').textContent = `Ready to Ingest (${sizeKb} KB · ${wordCount} Words)`;
+                    }
+                } catch (e) {
+                    console.log("File read error:", e);
+                    document.getElementById('selected-filesize').textContent = `Ready to Ingest (${sizeKb} KB · Ready)`;
+                }
             }
         }
 
@@ -717,8 +755,16 @@
             if (currentTab === 'pdf') {
                 payload.title = currentFileName;
                 payload.source = currentFileName;
-                // If testing_catalog.pdf or standard catalog, provide rich multi-product content
-                payload.content = "Apex Pro Wireless Headphones (40dB ANC, 40h battery, Bluetooth 5.3). Apex Ultra Smartwatch 2 (100m water resistant for swimming, 14-day battery, titanium frame). Apex Studio Soundbar 7.1 (500W, Dolby Atmos, wireless subwoofer). Apex GaN III Fast Charger 100W (3x USB-C, 1x USB-A). Express delivery in 2-4 business days. 30-day hassle-free returns. 2-Year warranty.";
+                payload.content = extractedPdfText || "Catalog PDF content ingested.";
+                
+                // Save locally so the customer widget picks up this new catalog immediately
+                try {
+                    localStorage.setItem("salesai_uploaded_catalog", JSON.stringify({
+                        filename: currentFileName,
+                        content: payload.content,
+                        timestamp: Date.now()
+                    }));
+                } catch (lsErr) {}
             } else if (currentTab === 'faq') {
                 const q = document.getElementById('faq-q-input').value || "Frequently Asked Question";
                 const a = document.getElementById('faq-a-input').value || "Store Answer";

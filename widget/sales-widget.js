@@ -278,18 +278,24 @@
         <div id="salesai-chat-window">
             <div class="salesai-header">
                 <div style="display: flex; align-items: center; gap: 10px;">
-                    <div style="width: 34px; height: 34px; border-radius: 10px; background: ${primaryColor}; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px;">
-                        ✦
+                    <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #2563eb, #6366f1); display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(37,99,235,0.35); flex-shrink: 0;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="8" width="18" height="12" rx="4"/>
+                            <path d="M12 2v6"/>
+                            <circle cx="8.5" cy="13" r="1.5" fill="#ffffff"/>
+                            <circle cx="15.5" cy="13" r="1.5" fill="#ffffff"/>
+                            <path d="M9.5 17h5"/>
+                        </svg>
                     </div>
                     <div>
-                        <div style="font-weight: bold; font-size: 14px;">Apex Sales Closer</div>
-                        <div style="font-size: 11px; opacity: 0.75; display: flex; align-items: center; gap: 4px;">
-                            <span style="display: inline-block; width: 6px; height: 6px; border-radius: 3px; background: #10b981;"></span>
-                            Online & Ready to Assist
+                        <div style="font-weight: bold; font-size: 14px; letter-spacing: -0.2px;">Alex · AI Sales Specialist</div>
+                        <div style="font-size: 11px; opacity: 0.85; display: flex; align-items: center; gap: 5px;">
+                            <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10b981; box-shadow: 0 0 6px #10b981;"></span>
+                            Online &amp; Ready to Assist
                         </div>
                     </div>
                 </div>
-                <button id="salesai-close-btn" style="background: none; border: none; color: #ffffff; font-size: 20px; cursor: pointer;">&times;</button>
+                <button id="salesai-close-btn" style="background: none; border: none; color: #ffffff; font-size: 20px; cursor: pointer; opacity: 0.8; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">&times;</button>
             </div>
 
             <div class="salesai-msg-list" id="salesai-messages">
@@ -305,8 +311,12 @@
         </div>
 
         <button id="salesai-launcher-btn" aria-label="Open Sales Chat">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="8" width="18" height="12" rx="4"/>
+                <path d="M12 2v6"/>
+                <circle cx="8.5" cy="13" r="1.5" fill="#ffffff"/>
+                <circle cx="15.5" cy="13" r="1.5" fill="#ffffff"/>
+                <path d="M9.5 17h5"/>
             </svg>
         </button>
     `;
@@ -331,21 +341,45 @@
         chatWindow.style.display = "none";
     };
 
-    // Dynamic Knowledge Cache from Platform API
+    // Dynamic Knowledge Cache from Platform API and Uploaded Catalogs
     let dynamicStoreKnowledge = [...SALES_RESPONSES];
+    let uploadedCatalogContent = "";
 
-    // Fetch latest uploaded knowledge on startup
-    fetch("https://ai-sales-agent-platform.onrender.com/api/knowledge")
+    // 1. Read locally cached/uploaded catalog from browser localStorage
+    try {
+        const localCat = localStorage.getItem("salesai_uploaded_catalog");
+        if (localCat) {
+            const parsed = JSON.parse(localCat);
+            if (parsed && parsed.content) {
+                uploadedCatalogContent = parsed.content;
+                console.log("[SalesAI] Loaded uploaded catalog:", parsed.filename);
+            }
+        }
+    } catch (e) {}
+
+    // 2. Fetch latest uploaded knowledge from server
+    const knowledgeEndpoint = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") 
+        ? "/api/knowledge" 
+        : "https://ai-sales-agent-platform.onrender.com/api/knowledge";
+
+    fetch(knowledgeEndpoint)
         .then(res => res.json())
         .then(data => {
             if (data.success && data.items && data.items.length) {
+                const catalogItems = [];
                 data.items.forEach(newItem => {
                     dynamicStoreKnowledge.unshift({
                         keywords: newItem.keywords || [],
                         response: newItem.answer || newItem.content,
                         intent: newItem.title || "uploaded_knowledge"
                     });
+                    if (newItem.answer || newItem.content) {
+                        catalogItems.push(`${newItem.title || 'Product'}: ${newItem.answer || newItem.content}`);
+                    }
                 });
+                if (catalogItems.length) {
+                    uploadedCatalogContent = catalogItems.join("\n\n");
+                }
             }
         })
         .catch(err => {
@@ -409,18 +443,22 @@
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 12000);
 
-            const systemContext = `You are Alex, an expert AI shopping specialist and sales closer for ApexTech store. 
-Store Catalog: 
+            const catalogPrompt = uploadedCatalogContent 
+                ? `UPLOADED STORE CATALOG & PRODUCT DETAILS (STRICTLY GROUND YOUR PRODUCT ANSWERS IN THIS CATALOG):\n${uploadedCatalogContent.slice(0, 15000)}`
+                : `Store Catalog:
 - Apex Pro Wireless Headphones ($199, 40dB ANC, 40h battery, Bluetooth 5.3, Matte Black and Pearl Silver)
 - Apex Ultra Smartwatch 2 ($299, 100m water resistant, 14-day battery, titanium)
 - Apex Studio Soundbar 7.1 ($399, 500W Dolby Atmos)
 - Apex GaN III 100W Fast Charger ($49)
-- Organic cotton t-shirts ($29, pre-shrunk, XS-XXL, 100% organic cotton, machine washable cold)
+- Organic cotton t-shirts ($29, pre-shrunk, XS-XXL, 100% organic cotton, machine washable cold)`;
+
+            const systemContext = `You are Alex, an expert AI shopping specialist and sales closer for the store. 
+${catalogPrompt}
 
 Store Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers with coupon WELCOME15.
 
 CRITICAL SALES CONVERSATION RULES:
-1. Product inquiries & recommendations: Answer conversationally, concisely (2-3 sentences max), helpfully, and enthusiastically. AT THE END of every product answer or recommendation, proactively invite them to order with their 15% WELCOME15 discount, and ask for their details:
+1. Product inquiries & recommendations: Answer conversationally, concisely (2-3 sentences max), helpfully, and enthusiastically using the store catalog. AT THE END of every product answer or recommendation, proactively invite them to order with their 15% WELCOME15 discount, and ask for their details:
    "Would you like me to prepare your order with your 15% discount (WELCOME15)? If so, could you share your email address and your age?"
 2. BUY / ORDER INTENT: Whenever the customer decides to buy, asks how to purchase, says they want a product, agrees on a product, or indicates they want to order, celebrate their choice and explicitly ask for their details (Email address and Age) so you can prepare their order and send their direct checkout link with their 15% WELCOME15 discount applied:
    Example: "Awesome choice! To prepare your order with your 15% discount (WELCOME15) and send your checkout confirmation link, could you please share your email address and your age?"
