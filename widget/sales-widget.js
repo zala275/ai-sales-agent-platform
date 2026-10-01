@@ -268,6 +268,34 @@
         .salesai-send-btn:active {
             transform: scale(0.96);
         }
+        .salesai-mic-btn {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        .salesai-mic-btn:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        .salesai-mic-btn.listening {
+            background: #ef4444;
+            color: #ffffff;
+            border-color: #dc2626;
+            animation: pulse-mic 1.2s infinite;
+        }
+        @keyframes pulse-mic {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+            50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+        }
     `;
     document.head.appendChild(style);
 
@@ -306,6 +334,14 @@
 
             <form class="salesai-input-area" id="salesai-form">
                 <input type="text" id="salesai-input" placeholder="Ask about products, sizes, shipping..." autocomplete="off"/>
+                <button type="button" id="salesai-mic-btn" class="salesai-mic-btn" title="Speak question (Voice Input)" aria-label="Voice Input">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="23"/>
+                        <line x1="8" y1="23" x2="16" y2="23"/>
+                    </svg>
+                </button>
                 <button type="submit" class="salesai-send-btn">Send</button>
             </form>
         </div>
@@ -340,6 +376,62 @@
     closeBtn.onclick = () => {
         chatWindow.style.display = "none";
     };
+
+    // Voice Input Handler (Speech-to-Text via Web Speech API)
+    const micBtn = document.getElementById("salesai-mic-btn");
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (micBtn) {
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = navigator.language || "en-US";
+
+            let isListening = false;
+
+            micBtn.onclick = () => {
+                if (isListening) {
+                    recognition.stop();
+                    return;
+                }
+                try {
+                    recognition.start();
+                    isListening = true;
+                    micBtn.classList.add("listening");
+                    input.placeholder = "Listening... Speak your question now!";
+                } catch (recErr) {
+                    console.warn("Speech recognition start failed:", recErr);
+                }
+            };
+
+            recognition.onresult = (event) => {
+                const speechResult = event.results[0][0].transcript;
+                input.value = speechResult;
+                input.focus();
+                setTimeout(() => {
+                    form.dispatchEvent(new Event("submit"));
+                }, 300);
+            };
+
+            recognition.onerror = (event) => {
+                console.log("Speech recognition error:", event.error);
+                isListening = false;
+                micBtn.classList.remove("listening");
+                input.placeholder = "Ask about products, sizes, shipping...";
+            };
+
+            recognition.onend = () => {
+                isListening = false;
+                micBtn.classList.remove("listening");
+                input.placeholder = "Ask about products, sizes, shipping...";
+            };
+        } else {
+            micBtn.onclick = () => {
+                alert("Voice input is supported in Google Chrome, Microsoft Edge, and Safari.");
+            };
+        }
+    }
 
     // Dynamic Knowledge Cache from Platform API and Uploaded Catalogs
     let dynamicStoreKnowledge = [...SALES_RESPONSES];
@@ -457,10 +549,14 @@ ${catalogPrompt}
 
 Store Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers with coupon WELCOME15.
 
+MULTILINGUAL INTELLIGENCE (AUTO-DETECT):
+- Automatically detect the customer's language (Spanish, Hindi, French, German, Japanese, Gujarati, Arabic, etc.).
+- ALWAYS respond in the EXACT SAME LANGUAGE the user writes or speaks, translating all product details, prices, and closing prompts naturally and fluently into their native language!
+
 CRITICAL SALES CONVERSATION RULES:
-1. Product inquiries & recommendations: Answer conversationally, concisely (2-3 sentences max), helpfully, and enthusiastically using the store catalog. AT THE END of every product answer or recommendation, proactively invite them to order with their 15% WELCOME15 discount, and ask for their details:
+1. Product inquiries & recommendations: Answer conversationally, concisely (2-3 sentences max), helpfully, and enthusiastically using the store catalog in the customer's language. AT THE END of every product answer or recommendation, proactively invite them to order with their 15% WELCOME15 discount, and ask for their details (Email address and Age) translated into that language:
    "Would you like me to prepare your order with your 15% discount (WELCOME15)? If so, could you share your email address and your age?"
-2. BUY / ORDER INTENT: Whenever the customer decides to buy, asks how to purchase, says they want a product, agrees on a product, or indicates they want to order, celebrate their choice and explicitly ask for their details (Email address and Age) so you can prepare their order and send their direct checkout link with their 15% WELCOME15 discount applied:
+2. BUY / ORDER INTENT: Whenever the customer decides to buy, asks how to purchase, says they want a product, agrees on a product, or indicates they want to order, celebrate their choice and explicitly ask for their details (Email address and Age) so you can prepare their order and send their direct checkout link with their 15% WELCOME15 discount applied in their language:
    Example: "Awesome choice! To prepare your order with your 15% discount (WELCOME15) and send your checkout confirmation link, could you please share your email address and your age?"
 3. AFTER DETAILS PROVIDED: When the customer shares their email and age, thank them warmly, confirm that their details and 15% WELCOME15 discount are locked in, and invite them to proceed with payment or checkout!
 4. Unrelated topics: Answer pleasantly and relate back to store shopping.`;
