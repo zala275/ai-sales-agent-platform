@@ -11,6 +11,7 @@
     const position = (scriptElem && scriptElem.getAttribute("data-position")) || "bottom-right";
     const defaultGeminiB64 = "QVEuQWI4Uk42SzZoT0Z4WjVBc0VRUjVwUGg5T3RadkRfcUdQQ3pyWUU2Rll4dTRMb0FEOUE=";
     const geminiApiKey = (scriptElem && scriptElem.getAttribute("data-gemini-key")) || (window.GEMINI_API_KEY || (typeof atob === "function" ? atob(defaultGeminiB64) : ""));
+    const chatHistory = [];
 
     // Comprehensive Knowledge Base for Autonomous E-Commerce Sales & Shopping Dialogue
     const SALES_RESPONSES = [
@@ -365,33 +366,29 @@
         input.value = "";
         messages.scrollTop = messages.scrollHeight;
 
-        // Check for Lead Submission (Email / Phone)
+        // Record to multi-turn conversation history
+        chatHistory.push({ role: "user", parts: [{ text: text }] });
+
+        // Check for Lead Submission (Email / Phone / Age)
         const emailMatch = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
         const phoneMatch = text.match(/(\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9})/);
+        const ageMatch = text.match(/\b(?:age\s*(?:is|:)?\s*(\d{1,2})|(\d{1,2})\s*(?:years?\s*old|yo))\b/i) || text.match(/\b(?:i am|i'm)\s*(\d{1,2})\b/i);
 
-        if (emailMatch || phoneMatch) {
-            const email = emailMatch ? emailMatch[0] : "shopper@store.com";
-            const phone = phoneMatch ? phoneMatch[0] : "+91 9876543210";
+        const capturedEmail = emailMatch ? emailMatch[0] : "";
+        const capturedPhone = phoneMatch ? phoneMatch[0] : "";
+        const capturedAge = ageMatch ? (ageMatch[1] || ageMatch[2]) : "";
 
-            const replyText = `🎉 Thank you! I have recorded your contact details (${email || phone}). Our store specialist will follow up with complete product information and assistance shortly!`;
-
+        if (capturedEmail || capturedPhone || capturedAge) {
             if (window.AppState && typeof window.AppState.captureLead === "function") {
                 window.AppState.captureLead({
-                    name: "Shopify Visitor (" + (email.includes("@") ? email.split("@")[0] : "Customer") + ")",
-                    email: email,
-                    phone: phone,
-                    company: "Shopify Store Lead",
-                    product: "Storefront Product Inquiry",
+                    name: "Shopify Visitor (" + (capturedEmail ? capturedEmail.split("@")[0] : "Customer") + ")",
+                    email: capturedEmail || "shopper@store.com",
+                    phone: capturedPhone || "+1 (555) 019-2831",
+                    company: capturedAge ? `Customer (Age: ${capturedAge})` : "Shopify Store Lead",
+                    product: "Storefront Product Order",
                     budget: "Retail / E-Commerce"
                 });
             }
-
-            const agentBubble = document.createElement("div");
-            agentBubble.className = "salesai-bubble-agent";
-            agentBubble.innerHTML = replyText;
-            messages.appendChild(agentBubble);
-            messages.scrollTop = messages.scrollHeight;
-            return;
         }
 
         // Show typing indicator
@@ -407,12 +404,27 @@
 
         let replyText = "";
 
-        // 1. Live Google Gemini Generative AI (Answers Literally Anything Instantly)
+        // 1. Live Google Gemini Generative AI (Answers Anything & Closes Sales)
         try {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 12000);
 
-            const systemContext = "You are Alex, an expert AI shopping specialist for ApexTech store. Store Catalog: Apex Pro Wireless Headphones ($199, 40dB ANC, 40h battery, Bluetooth 5.3, Matte Black and Pearl Silver), Apex Ultra Smartwatch 2 ($299, 100m water resistant, 14-day battery, titanium), Apex Studio Soundbar 7.1 ($399, 500W Dolby Atmos), Apex GaN III 100W Fast Charger ($49), Organic cotton t-shirts ($29, pre-shrunk, XS-XXL, 100% organic cotton, machine washable cold). Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers with coupon WELCOME15. Answer any question conversationally, concisely (2-3 sentences max), helpfully, and naturally like an expert human store sales specialist. If user asks about unrelated topics, answer pleasantly and relate back to store shopping.";
+            const systemContext = `You are Alex, an expert AI shopping specialist and sales closer for ApexTech store. 
+Store Catalog: 
+- Apex Pro Wireless Headphones ($199, 40dB ANC, 40h battery, Bluetooth 5.3, Matte Black and Pearl Silver)
+- Apex Ultra Smartwatch 2 ($299, 100m water resistant, 14-day battery, titanium)
+- Apex Studio Soundbar 7.1 ($399, 500W Dolby Atmos)
+- Apex GaN III 100W Fast Charger ($49)
+- Organic cotton t-shirts ($29, pre-shrunk, XS-XXL, 100% organic cotton, machine washable cold)
+
+Store Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers with coupon WELCOME15.
+
+CRITICAL SALES CONVERSATION RULES:
+1. Product inquiries: Answer conversationally, concisely (2-3 sentences max), helpfully, and naturally like an expert human store sales specialist.
+2. BUY / ORDER INTENT: Whenever the customer decides to buy, asks how to purchase, says they want a product, agrees on a product, or indicates they want to order, celebrate their choice and explicitly ask for their details (Email address and Age) so you can prepare their order and send their direct checkout link with their 15% WELCOME15 discount applied:
+   Example: "Awesome choice! To prepare your order with your 15% discount (WELCOME15) and send your checkout confirmation link, could you please share your email address and your age?"
+3. AFTER DETAILS PROVIDED: When the customer shares their email and age, thank them warmly, confirm that their details and 15% WELCOME15 discount are locked in, and invite them to proceed with payment or checkout!
+4. Unrelated topics: Answer pleasantly and relate back to store shopping.`;
 
             const candidateModels = ["gemini-3.5-flash-lite", "gemini-flash-lite-latest", "gemini-3.1-flash-lite"];
 
@@ -427,7 +439,7 @@
                             },
                             body: JSON.stringify({
                                 system_instruction: { parts: [{ text: systemContext }] },
-                                contents: [{ role: "user", parts: [{ text: text }] }]
+                                contents: chatHistory.slice(-10)
                             }),
                             signal: controller.signal
                         });
@@ -435,7 +447,9 @@
                         if (res.ok) {
                             const gData = await res.json();
                             if (gData.candidates && gData.candidates[0] && gData.candidates[0].content && gData.candidates[0].content.parts[0]) {
-                                replyText = gData.candidates[0].content.parts[0].text.trim()
+                                const rawReply = gData.candidates[0].content.parts[0].text.trim();
+                                chatHistory.push({ role: "model", parts: [{ text: rawReply }] });
+                                replyText = rawReply
                                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                                     .replace(/\*(.*?)\*/g, '<em>$1</em>')
                                     .replace(/\n\n/g, '<br/><br/>')
@@ -451,12 +465,15 @@
                 const res = await fetch("https://ai-sales-agent-platform.onrender.com/api/chat", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: text, agent_id: agentKey }),
+                    body: JSON.stringify({ message: text, agent_id: agentKey, history: chatHistory.slice(-10) }),
                     signal: controller.signal
                 });
                 if (res.ok) {
                     const gData = await res.json();
-                    if (gData.reply) replyText = gData.reply;
+                    if (gData.reply) {
+                        replyText = gData.reply;
+                        chatHistory.push({ role: "model", parts: [{ text: replyText }] });
+                    }
                 }
             }
             clearTimeout(timeoutId);
@@ -475,33 +492,39 @@
             let bestMatch = null;
             let highestScore = 0;
 
-            const HIGH_WEIGHT = ["battery", "waterproof", "swimming", "swim", "soundbar", "charger", "headphone", "headphones", "smartwatch", "t-shirt", "tshirt", "sizing", "discount", "coupon", "refund", "return", "warranty", "genuine", "gift"];
+            if (capturedEmail || capturedAge) {
+                replyText = `🎉 Thank you! I have saved your details${capturedEmail ? ` (${capturedEmail})` : ""}${capturedAge ? ` [Age: ${capturedAge}]` : ""}. Your 15% discount code <strong>WELCOME15</strong> is locked in and your order has been prepared!`;
+            } else if (cleanText.includes("buy") || cleanText.includes("purchase") || cleanText.includes("order") || cleanText.includes("take it")) {
+                replyText = "Awesome choice! To prepare your order with your 15% discount (<strong>WELCOME15</strong>) and send your checkout confirmation link, could you please share your <strong>email address</strong> and your <strong>age</strong>?";
+            } else {
+                const HIGH_WEIGHT = ["battery", "waterproof", "swimming", "swim", "soundbar", "charger", "headphone", "headphones", "smartwatch", "t-shirt", "tshirt", "sizing", "discount", "coupon", "refund", "return", "warranty", "genuine", "gift"];
 
-            for (const item of dynamicStoreKnowledge) {
-                let score = 0;
-                for (const k of item.keywords) {
-                    let weight = HIGH_WEIGHT.includes(k) ? 10 : 3;
-                    if (k.includes(" ")) {
-                        if (cleanText.includes(k)) score += (weight + 6);
-                    } else {
-                        if (words.includes(k)) score += weight;
-                        else if (cleanText.includes(k) && k.length > 3) score += (weight / 2);
+                for (const item of dynamicStoreKnowledge) {
+                    let score = 0;
+                    for (const k of item.keywords) {
+                        let weight = HIGH_WEIGHT.includes(k) ? 10 : 3;
+                        if (k.includes(" ")) {
+                            if (cleanText.includes(k)) score += (weight + 6);
+                        } else {
+                            if (words.includes(k)) score += weight;
+                            else if (cleanText.includes(k) && k.length > 3) score += (weight / 2);
+                        }
+                    }
+                    if (score > highestScore) {
+                        highestScore = score;
+                        bestMatch = item;
                     }
                 }
-                if (score > highestScore) {
-                    highestScore = score;
-                    bestMatch = item;
-                }
-            }
 
-            if (bestMatch && highestScore >= 3) {
-                replyText = bestMatch.response;
-            } else if (cleanText.includes("product") || cleanText.includes("sell") || cleanText.includes("what is your product") || cleanText.includes("items")) {
-                replyText = "We specialize in premium lifestyle electronics and apparel: 1) Apex Pro Wireless ANC Headphones ($199), 2) Apex Ultra Smartwatch 2 ($299), 3) Apex Studio Soundbar 7.1 ($399), 4) Apex GaN III 100W Fast Charger ($49), and 5) Premium Organic Cotton T-Shirts ($29). Which one can I tell you more about?";
-            } else if (cleanText.includes("hello") || cleanText.includes("hi") || cleanText.includes("hey")) {
-                replyText = "Hello! Welcome to our store! 👋 I'm Alex, your AI shopping specialist. I'm here to help you find the right product, check sizing, track orders, or answer any policy questions. What can I help you find today?";
-            } else {
-                replyText = "That's a great question! I'm here to assist with our electronics, organic apparel, sizing recommendations, express shipping, and 30-day returns. Could you let me know which specific product or policy you'd like more details on?";
+                if (bestMatch && highestScore >= 3) {
+                    replyText = bestMatch.response;
+                } else if (cleanText.includes("product") || cleanText.includes("sell") || cleanText.includes("what is your product") || cleanText.includes("items")) {
+                    replyText = "We specialize in premium lifestyle electronics and apparel: 1) Apex Pro Wireless ANC Headphones ($199), 2) Apex Ultra Smartwatch 2 ($299), 3) Apex Studio Soundbar 7.1 ($399), 4) Apex GaN III 100W Fast Charger ($49), and 5) Premium Organic Cotton T-Shirts ($29). Which one can I tell you more about?";
+                } else if (cleanText.includes("hello") || cleanText.includes("hi") || cleanText.includes("hey")) {
+                    replyText = "Hello! Welcome to our store! 👋 I'm Alex, your AI shopping specialist. I'm here to help you find the right product, check sizing, track orders, or answer any policy questions. What can I help you find today?";
+                } else {
+                    replyText = "That's a great question! I'm here to assist with our electronics, organic apparel, sizing recommendations, express shipping, and 30-day returns. Could you let me know which specific product or policy you'd like more details on?";
+                }
             }
         }
 

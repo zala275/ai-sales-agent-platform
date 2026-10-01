@@ -270,57 +270,80 @@ const server = http.createServer(async (req, res) => {
             const defaultKey = Buffer.from("QVEuQWI4Uk42SzZoT0Z4WjVBc0VRUjVwUGg5T3RadkRfcUdQQ3pyWUU2Rll4dTRMb0FEOUE=", "base64").toString("utf8");
             const geminiKey = process.env.GEMINI_API_KEY || defaultKey;
 
-            // Lead capture check
+            // Lead capture check (email / phone / age)
             const emailMatch = userMsg.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
             const phoneMatch = userMsg.match(/(\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9})/);
+            const ageMatch = userMsg.match(/\b(?:age\s*(?:is|:)?\s*(\d{1,2})|(\d{1,2})\s*(?:years?\s*old|yo))\b/i) || userMsg.match(/\b(?:i am|i'm)\s*(\d{1,2})\b/i);
+
+            const capturedEmail = emailMatch ? emailMatch[0] : "";
+            const capturedPhone = phoneMatch ? phoneMatch[0] : "";
+            const capturedAge = ageMatch ? (ageMatch[1] || ageMatch[2]) : "";
 
             let reply = "";
-            let matchedSource = "Google Gemini 3.5 Flash";
+            let matchedSource = "Google Gemini";
 
-            if (emailMatch || phoneMatch) {
-                const capturedEmail = emailMatch ? emailMatch[0] : "";
-                const capturedPhone = phoneMatch ? phoneMatch[0] : "";
-                reply = `🎉 Thank you! I have saved your contact details (${capturedEmail || capturedPhone}). Our product specialist will follow up shortly with full details and your exclusive order discount!`;
-                matchedSource = "Lead Capture Engine";
-            } else {
-                // 1. Try Google Gemini Generative AI
-                try {
-                    const systemContext = `You are Alex, an expert AI shopping assistant for ApexTech store. Store Catalog: Apex Pro Wireless Headphones ($199, 40dB ANC, 40h battery, Bluetooth 5.3, Matte Black and Pearl Silver), Apex Ultra Smartwatch 2 ($299, 100m water resistant, 14-day battery, titanium), Apex Studio Soundbar 7.1 ($399, 500W Dolby Atmos), Apex GaN III 100W Fast Charger ($49), Organic cotton t-shirts ($29, pre-shrunk, XS-XXL, 100% organic cotton, machine washable cold). Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers with coupon WELCOME15. Answer conversationally, concisely (2-3 sentences), helpfully, and naturally like an expert human store sales specialist. If user asks about unrelated topics, answer pleasantly and relate back to store shopping.`;
+            // 1. Try Google Gemini Generative AI (Closes Sales & Captures Details)
+            try {
+                const systemContext = `You are Alex, an expert AI shopping assistant and sales closer for ApexTech store. 
+Store Catalog: 
+- Apex Pro Wireless Headphones ($199, 40dB ANC, 40h battery, Bluetooth 5.3, Matte Black and Pearl Silver)
+- Apex Ultra Smartwatch 2 ($299, 100m water resistant, 14-day battery, titanium)
+- Apex Studio Soundbar 7.1 ($399, 500W Dolby Atmos)
+- Apex GaN III 100W Fast Charger ($49)
+- Organic cotton t-shirts ($29, pre-shrunk, XS-XXL, 100% organic cotton, machine washable cold)
 
-                    const candidateModels = ["gemini-3.5-flash-lite", "gemini-flash-lite-latest", "gemini-3.1-flash-lite"];
-                    for (const model of candidateModels) {
-                        try {
-                            const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "x-goog-api-key": geminiKey
-                                },
-                                body: JSON.stringify({
-                                    system_instruction: { parts: [{ text: systemContext }] },
-                                    contents: [{ role: "user", parts: [{ text: userMsg }] }]
-                                })
-                            });
+Store Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers with coupon WELCOME15.
 
-                            if (geminiRes.ok) {
-                                const gData = await geminiRes.json();
-                                if (gData.candidates && gData.candidates[0] && gData.candidates[0].content && gData.candidates[0].content.parts[0]) {
-                                    reply = gData.candidates[0].content.parts[0].text.trim();
-                                    matchedSource = `Google Gemini (${model})`;
-                                    break;
-                                }
+CRITICAL SALES CONVERSATION RULES:
+1. Product inquiries: Answer conversationally, concisely (2-3 sentences max), helpfully, and naturally like an expert human store sales specialist.
+2. BUY / ORDER INTENT: Whenever the customer decides to buy, asks how to purchase, says they want a product, agrees on a product, or indicates they want to order, celebrate their choice and explicitly ask for their details (Email address and Age) so you can prepare their order and send their direct checkout link with their 15% WELCOME15 discount applied:
+   Example: "Awesome choice! To prepare your order with your 15% discount (WELCOME15) and send your checkout confirmation link, could you please share your email address and your age?"
+3. AFTER DETAILS PROVIDED: When the customer shares their email and age, thank them warmly, confirm that their details and 15% WELCOME15 discount are locked in, and invite them to proceed with payment or checkout!
+4. Unrelated topics: Answer pleasantly and relate back to store shopping.`;
+
+                const candidateModels = ["gemini-3.5-flash-lite", "gemini-flash-lite-latest", "gemini-3.1-flash-lite"];
+                const conversationContents = (Array.isArray(body.history) && body.history.length) 
+                    ? body.history 
+                    : [{ role: "user", parts: [{ text: userMsg }] }];
+
+                for (const model of candidateModels) {
+                    try {
+                        const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "x-goog-api-key": geminiKey
+                            },
+                            body: JSON.stringify({
+                                system_instruction: { parts: [{ text: systemContext }] },
+                                contents: conversationContents
+                            })
+                        });
+
+                        if (geminiRes.ok) {
+                            const gData = await geminiRes.json();
+                            if (gData.candidates && gData.candidates[0] && gData.candidates[0].content && gData.candidates[0].content.parts[0]) {
+                                reply = gData.candidates[0].content.parts[0].text.trim();
+                                matchedSource = `Google Gemini (${model})`;
+                                break;
                             }
-                        } catch (mErr) {
-                            // try next model
                         }
+                    } catch (mErr) {
+                        // try next model
                     }
-                } catch (gErr) {
-                    console.log("Server Gemini fallback triggered:", gErr.message);
                 }
+            } catch (gErr) {
+                console.log("Server Gemini fallback triggered:", gErr.message);
+            }
 
-                // 2. Fallback to Local RAG Scoring if Gemini offline/rate-limited
-                if (!reply) {
-                    matchedSource = "Local Knowledge Base";
+            // 2. Fallback to Local Knowledge Base if Gemini offline/rate-limited
+            if (!reply) {
+                matchedSource = "Local Knowledge Base";
+                if (capturedEmail || capturedAge) {
+                    reply = `🎉 Thank you! I have saved your details${capturedEmail ? ` (${capturedEmail})` : ""}${capturedAge ? ` [Age: ${capturedAge}]` : ""}. Your 15% discount code WELCOME15 is locked in and our specialist will assist with your checkout!`;
+                } else if (lower.includes("buy") || lower.includes("purchase") || lower.includes("order") || lower.includes("take it")) {
+                    reply = "Awesome choice! To prepare your order with your 15% discount (WELCOME15) and send your checkout confirmation link, could you please share your email address and your age?";
+                } else {
                     const words = lower.replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(w => w.length > 2);
                     let bestMatch = null;
                     let highestScore = 0;
