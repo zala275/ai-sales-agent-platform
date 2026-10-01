@@ -8,6 +8,18 @@ const fs = require("fs");
 const path = require("path");
 const url = require("url");
 
+// Load local .env if present
+try {
+    const envPath = path.join(__dirname, ".env");
+    if (fs.existsSync(envPath)) {
+        const lines = fs.readFileSync(envPath, "utf8").split("\n");
+        for (const line of lines) {
+            const [k, ...v] = line.trim().split("=");
+            if (k && v.length) process.env[k.trim()] = v.join("=").trim();
+        }
+    }
+} catch (e) {}
+
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = __dirname;
 
@@ -251,18 +263,19 @@ const server = http.createServer(async (req, res) => {
             }
         }
 
-        // 4. AI Sales Chat Endpoint (Dynamic Knowledge & Semantic Matching)
+        // 4. AI Sales Chat Endpoint (Google Gemini Generative AI with Dynamic RAG Fallback)
         if (pathname === "/api/chat" && req.method === "POST") {
             const body = await parseJsonBody(req);
             const userMsg = (body.message || "").trim();
             const lower = userMsg.toLowerCase();
+            const geminiKey = process.env.GEMINI_API_KEY || "";
 
             // Lead capture check
             const emailMatch = userMsg.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
             const phoneMatch = userMsg.match(/(\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9})/);
 
             let reply = "";
-            let matchedSource = "Store Knowledge Base";
+            let matchedSource = "Google Gemini 3.5 Flash";
 
             if (emailMatch || phoneMatch) {
                 const capturedEmail = emailMatch ? emailMatch[0] : "";
@@ -270,38 +283,58 @@ const server = http.createServer(async (req, res) => {
                 reply = `🎉 Thank you! I have saved your contact details (${capturedEmail || capturedPhone}). Our product specialist will follow up shortly with full details and your exclusive order discount!`;
                 matchedSource = "Lead Capture Engine";
             } else {
-                // Score against all knowledge items in memory
-                const words = lower.replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(w => w.length > 2);
-                let bestMatch = null;
-                let highestScore = 0;
+                // 1. Try Google Gemini Generative AI
+                try {
+                    const systemContext = `You are Alex, an expert AI shopping assistant for ApexTech store. Store Catalog: Apex Pro Wireless Headphones ($199, 40dB ANC, 40h battery, Bluetooth 5.3), Apex Ultra Smartwatch 2 ($299, 100m water resistant, 14-day battery, titanium), Apex Studio Soundbar 7.1 ($399, 500W Dolby Atmos), Apex GaN III 100W Fast Charger ($49), Organic cotton t-shirts ($29, pre-shrunk, XS-XXL). Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers. Answer conversationally, concisely (2-3 sentences), helpfully, and naturally like an expert human store sales specialist. If user asks about unrelated topics, answer pleasantly and relate back to store shopping.`;
 
-                for (const item of mockDatabase.knowledge) {
-                    let score = 0;
-                    // Exact keyword matches
-                    for (const kw of item.keywords) {
-                        if (lower.includes(kw)) {
-                            score += (kw.length > 4 ? 3 : 2);
+                    const geminiRes = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "x-goog-api-key": geminiKey
+                        },
+                        body: JSON.stringify({
+                            system_instruction: { parts: [{ text: systemContext }] },
+                            contents: [{ role: "user", parts: [{ text: userMsg }] }]
+                        })
+                    });
+
+                    if (geminiRes.ok) {
+                        const gData = await geminiRes.json();
+                        if (gData.candidates && gData.candidates[0] && gData.candidates[0].content && gData.candidates[0].content.parts[0]) {
+                            reply = gData.candidates[0].content.parts[0].text.trim();
                         }
                     }
-                    // Title match bonus
-                    if (lower.includes(item.title.toLowerCase())) {
-                        score += 5;
-                    }
-                    if (score > highestScore) {
-                        highestScore = score;
-                        bestMatch = item;
-                    }
+                } catch (gErr) {
+                    console.log("Server Gemini fallback triggered:", gErr.message);
                 }
 
-                if (bestMatch && highestScore >= 2) {
-                    reply = bestMatch.answer;
-                    matchedSource = bestMatch.title + " (" + bestMatch.source + ")";
-                } else if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey")) {
-                    reply = "Hello! 👋 Welcome to our store. I am your AI Shopping & Product Specialist. Ask me anything about our products, sizing, shipping, or returns. How can I help you today?";
-                    matchedSource = "Greeting Protocol";
-                } else {
-                    reply = "That's a great question! I'm here to assist with all product details, sizing, delivery times, and stock availability. Could you tell me which specific item you're looking for, or share your question in a bit more detail?";
-                    matchedSource = "Storefront Assistant";
+                // 2. Fallback to Local RAG Scoring if Gemini offline/rate-limited
+                if (!reply) {
+                    matchedSource = "Local Knowledge Base";
+                    const words = lower.replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(w => w.length > 2);
+                    let bestMatch = null;
+                    let highestScore = 0;
+
+                    for (const item of mockDatabase.knowledge) {
+                        let score = 0;
+                        for (const kw of item.keywords) {
+                            if (lower.includes(kw)) score += (kw.length > 4 ? 3 : 2);
+                        }
+                        if (lower.includes(item.title.toLowerCase())) score += 5;
+                        if (score > highestScore) {
+                            highestScore = score;
+                            bestMatch = item;
+                        }
+                    }
+
+                    if (bestMatch && highestScore >= 2) {
+                        reply = bestMatch.answer;
+                    } else if (lower.includes("hello") || lower.includes("hi") || lower.includes("hey")) {
+                        reply = "Hello! 👋 Welcome to our store. I am your AI Shopping & Product Specialist. Ask me anything about our products, sizing, shipping, or returns. How can I help you today?";
+                    } else {
+                        reply = "That's a great question! I'm here to assist with all product details, sizing, delivery times, and stock availability. Could you tell me which specific item you're looking for, or share your question in a bit more detail?";
+                    }
                 }
             }
 

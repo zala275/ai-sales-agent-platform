@@ -9,6 +9,7 @@
     const agentKey = currentScript ? currentScript.getAttribute("data-agent-key") : "agt_live_default";
     const primaryColor = (currentScript && currentScript.getAttribute("data-primary-color")) || "#2170e4";
     const position = (currentScript && currentScript.getAttribute("data-position")) || "bottom-right";
+    const geminiApiKey = (currentScript && currentScript.getAttribute("data-gemini-key")) || (window.GEMINI_API_KEY || "");
 
     // Comprehensive Knowledge Base for Autonomous E-Commerce Sales & Shopping Dialogue
     const SALES_RESPONSES = [
@@ -392,40 +393,105 @@
             return;
         }
 
-        // Intelligent Relevance Scoring Engine (Direct Client NLP Execution)
+        // Show typing indicator
+        const typingBubble = document.createElement("div");
+        typingBubble.className = "salesai-bubble-agent";
+        typingBubble.id = "salesai-typing-indicator";
+        typingBubble.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;opacity:0.8;font-size:12px;">
+            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#2563eb;animation:ping 1s cubic-bezier(0,0,0.2,1) infinite;"></span>
+            Alex is thinking...
+        </span>`;
+        messages.appendChild(typingBubble);
+        messages.scrollTop = messages.scrollHeight;
+
         let replyText = "";
-        const cleanText = text.toLowerCase().replace(/[^a-z0-9\s]/g, " ");
-        const words = cleanText.split(/\s+/).filter(w => w.length > 1);
-        let bestMatch = null;
-        let highestScore = 0;
 
-        const HIGH_WEIGHT = ["battery", "waterproof", "swimming", "swim", "soundbar", "charger", "headphone", "headphones", "smartwatch", "t-shirt", "tshirt", "sizing", "discount", "coupon", "refund", "return", "warranty", "genuine", "gift"];
+        // 1. Live Google Gemini 3.5 Flash Generative AI (Answers Literally Anything)
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 4500);
 
-        for (const item of dynamicStoreKnowledge) {
-            let score = 0;
-            for (const k of item.keywords) {
-                let weight = HIGH_WEIGHT.includes(k) ? 10 : 3;
-                if (k.includes(" ")) {
-                    if (cleanText.includes(k)) score += (weight + 6);
-                } else {
-                    if (words.includes(k)) score += weight;
-                    else if (cleanText.includes(k) && k.length > 3) score += (weight / 2);
+            const systemContext = "You are Alex, an expert AI shopping specialist for ApexTech store. Store Catalog: Apex Pro Wireless Headphones ($199, 40dB ANC, 40h battery, Bluetooth 5.3), Apex Ultra Smartwatch 2 ($299, 100m water resistant, 14-day battery, titanium), Apex Studio Soundbar 7.1 ($399, 500W Dolby Atmos), Apex GaN III 100W Fast Charger ($49), Organic cotton t-shirts ($29, pre-shrunk, XS-XXL). Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers. Answer any question conversationally, concisely (2-3 sentences max), helpfully, and naturally like an expert human store sales specialist. If user asks about unrelated topics, answer pleasantly and relate back to store shopping.";
+
+            let apiEndpoint = "";
+            let apiHeaders = { "Content-Type": "application/json" };
+            let apiBody = {};
+
+            if (geminiApiKey) {
+                apiEndpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent";
+                apiHeaders["x-goog-api-key"] = geminiApiKey;
+                apiBody = {
+                    system_instruction: { parts: [{ text: systemContext }] },
+                    contents: [{ role: "user", parts: [{ text: text }] }]
+                };
+            } else {
+                apiEndpoint = "https://ai-sales-agent-platform.onrender.com/api/chat";
+                apiBody = { message: text, agent_id: agentKey };
+            }
+
+            const res = await fetch(apiEndpoint, {
+                method: "POST",
+                headers: apiHeaders,
+                body: JSON.stringify(apiBody),
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+
+            if (res.ok) {
+                const gData = await res.json();
+                if (gData.reply) {
+                    replyText = gData.reply;
+                } else if (gData.candidates && gData.candidates[0] && gData.candidates[0].content && gData.candidates[0].content.parts[0]) {
+                    replyText = gData.candidates[0].content.parts[0].text.trim()
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                        .replace(/\n\n/g, '<br/><br/>')
+                        .replace(/\n/g, '<br/>');
                 }
             }
-            if (score > highestScore) {
-                highestScore = score;
-                bestMatch = item;
-            }
+        } catch (gErr) {
+            console.log("Gemini API fallback triggered:", gErr);
         }
 
-        if (bestMatch && highestScore >= 3) {
-            replyText = bestMatch.response;
-        } else if (cleanText.includes("product") || cleanText.includes("sell") || cleanText.includes("what is your product") || cleanText.includes("items")) {
-            replyText = "We specialize in premium lifestyle electronics and apparel: 1) Apex Pro Wireless ANC Headphones ($199), 2) Apex Ultra Smartwatch 2 ($299), 3) Apex Studio Soundbar 7.1 ($399), 4) Apex GaN III 100W Fast Charger ($49), and 5) Premium Organic Cotton T-Shirts ($29). Which one can I tell you more about?";
-        } else if (cleanText.includes("hello") || cleanText.includes("hi") || cleanText.includes("hey")) {
-            replyText = "Hello! Welcome to our store! 👋 I'm Alex, your AI shopping specialist. I'm here to help you find the right product, check sizing, track orders, or answer any policy questions. What can I help you find today?";
-        } else {
-            replyText = "That's a great question! I'm here to assist with our electronics, organic apparel, sizing recommendations, express shipping, and 30-day returns. Could you let me know which specific product or policy you'd like more details on?";
+        // Remove typing indicator
+        const activeTyping = document.getElementById("salesai-typing-indicator");
+        if (activeTyping) activeTyping.remove();
+
+        // 2. Safety Fallback: Intelligent Relevance Scoring Engine (If Gemini Offline/Rate-Limited)
+        if (!replyText) {
+            const cleanText = text.toLowerCase().replace(/[^a-z0-9\s]/g, " ");
+            const words = cleanText.split(/\s+/).filter(w => w.length > 1);
+            let bestMatch = null;
+            let highestScore = 0;
+
+            const HIGH_WEIGHT = ["battery", "waterproof", "swimming", "swim", "soundbar", "charger", "headphone", "headphones", "smartwatch", "t-shirt", "tshirt", "sizing", "discount", "coupon", "refund", "return", "warranty", "genuine", "gift"];
+
+            for (const item of dynamicStoreKnowledge) {
+                let score = 0;
+                for (const k of item.keywords) {
+                    let weight = HIGH_WEIGHT.includes(k) ? 10 : 3;
+                    if (k.includes(" ")) {
+                        if (cleanText.includes(k)) score += (weight + 6);
+                    } else {
+                        if (words.includes(k)) score += weight;
+                        else if (cleanText.includes(k) && k.length > 3) score += (weight / 2);
+                    }
+                }
+                if (score > highestScore) {
+                    highestScore = score;
+                    bestMatch = item;
+                }
+            }
+
+            if (bestMatch && highestScore >= 3) {
+                replyText = bestMatch.response;
+            } else if (cleanText.includes("product") || cleanText.includes("sell") || cleanText.includes("what is your product") || cleanText.includes("items")) {
+                replyText = "We specialize in premium lifestyle electronics and apparel: 1) Apex Pro Wireless ANC Headphones ($199), 2) Apex Ultra Smartwatch 2 ($299), 3) Apex Studio Soundbar 7.1 ($399), 4) Apex GaN III 100W Fast Charger ($49), and 5) Premium Organic Cotton T-Shirts ($29). Which one can I tell you more about?";
+            } else if (cleanText.includes("hello") || cleanText.includes("hi") || cleanText.includes("hey")) {
+                replyText = "Hello! Welcome to our store! 👋 I'm Alex, your AI shopping specialist. I'm here to help you find the right product, check sizing, track orders, or answer any policy questions. What can I help you find today?";
+            } else {
+                replyText = "That's a great question! I'm here to assist with our electronics, organic apparel, sizing recommendations, express shipping, and 30-day returns. Could you let me know which specific product or policy you'd like more details on?";
+            }
         }
 
         const agentBubble = document.createElement("div");
