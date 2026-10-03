@@ -56,35 +56,35 @@ let mockDatabase = {
             id: "kn_headphones",
             title: "Apex Pro Wireless Headphones",
             keywords: ["headphone", "audio", "earphone", "anc", "music", "apex pro", "sound"],
-            answer: "Our Apex Pro Wireless Headphones feature 40dB Active Noise Cancellation (ANC), 40-hour battery life (60h standard), Bluetooth 5.3, and lossless 40mm dynamic drivers. Available in Matte Black and Pearl Silver with a 2-Year Warranty!",
+            answer: "Our Apex Pro Wireless Headphones (₹14,999 / Offer: ₹12,749 with WELCOME15) feature 40dB Active Noise Cancellation (ANC), 40-hour battery life (60h standard), Bluetooth 5.3, and lossless 40mm dynamic drivers. Available in Matte Black and Pearl Silver with a 2-Year Warranty!",
             source: "testing_catalog.pdf"
         },
         {
             id: "kn_watch",
             title: "Apex Ultra Smartwatch 2",
             keywords: ["watch", "smartwatch", "swim", "swimming", "waterproof", "gps", "battery", "titanium"],
-            answer: "The Apex Ultra Smartwatch 2 features an aerospace titanium chassis, sapphire crystal AMOLED display, and 100m (10 ATM) water resistance — perfectly safe for swimming and diving! Includes ECG, heart rate tracking, and 14-day battery life.",
+            answer: "The Apex Ultra Smartwatch 2 (₹19,999 / Offer: ₹16,999 with WELCOME15) features an aerospace titanium chassis, sapphire crystal AMOLED display, and 100m (10 ATM) water resistance — perfectly safe for swimming and diving! Includes ECG, heart rate tracking, and 14-day battery life.",
             source: "testing_catalog.pdf"
         },
         {
             id: "kn_soundbar",
             title: "Apex Studio Soundbar 7.1",
             keywords: ["soundbar", "speaker", "sound", "dolby", "tv", "atmos", "theater", "subwoofer"],
-            answer: "The Apex Studio Soundbar features 500W peak power, Dolby Atmos 7.1 surround sound, a wireless 8-inch subwoofer, and HDMI eARC connectivity for cinematic home theater audio!",
+            answer: "The Apex Studio Soundbar 7.1 (₹24,999 / Offer: ₹21,249 with WELCOME15) features 500W peak power, Dolby Atmos 7.1 surround sound, a wireless 8-inch subwoofer, and HDMI eARC connectivity for cinematic home theater audio!",
             source: "testing_catalog.pdf"
         },
         {
             id: "kn_charger",
             title: "Apex GaN III Fast Charger 100W",
             keywords: ["charger", "adapter", "gan", "100w", "power delivery", "fast charge", "usb-c", "macbook", "phone"],
-            answer: "The Apex GaN III Fast Charger 100W delivers 100W Power Delivery 3.0 via 3x USB-C and 1x USB-A ports. It rapidly powers MacBooks, laptops, iPhones, and Android devices simultaneously with Thermal Guard protection!",
+            answer: "The Apex GaN III Fast Charger 100W (₹3,499 / Offer: ₹2,974 with WELCOME15) delivers 100W Power Delivery 3.0 via 3x USB-C and 1x USB-A ports. It rapidly powers MacBooks, laptops, iPhones, and Android devices simultaneously with Thermal Guard protection!",
             source: "testing_catalog.pdf"
         },
         {
             id: "kn_tshirt",
             title: "Premium Organic Cotton T-Shirt",
             keywords: ["shirt", "t-shirt", "tshirt", "tee", "top", "clothes", "clothing", "apparel", "cotton", "fabric"],
-            answer: "Our t-shirts are crafted from 100% premium combed organic cotton (180 GSM). They are pre-shrunk, breathable, ultra-soft, and designed for lasting everyday comfort with double-stitched hems.",
+            answer: "Our t-shirts (₹1,299 / Offer: ₹1,104 with WELCOME15) are crafted from 100% premium combed organic cotton (180 GSM). They are pre-shrunk, breathable, ultra-soft, and designed for lasting everyday comfort with double-stitched hems.",
             source: "store_inventory"
         },
         {
@@ -285,18 +285,18 @@ const server = http.createServer(async (req, res) => {
             // 1. Try Google Gemini Generative AI (Closes Sales & Captures Details)
             try {
                 const catalogKnowledge = mockDatabase.knowledge.length
-                    ? `STORE CATALOG & INGESTED KNOWLEDGE BASE:\n` + mockDatabase.knowledge.map(k => `- ${k.title}: ${k.answer}`).join("\n")
-                    : `Store Catalog:
-- Apex Pro Wireless Headphones ($199, 40dB ANC, 40h battery, Bluetooth 5.3, Matte Black and Pearl Silver)
-- Apex Ultra Smartwatch 2 ($299, 100m water resistant, 14-day battery, titanium)
-- Apex Studio Soundbar 7.1 ($399, 500W Dolby Atmos)
-- Apex GaN III 100W Fast Charger ($49)
-- Organic cotton t-shirts ($29, pre-shrunk, XS-XXL, 100% organic cotton, machine washable cold)`;
+                    ? `STORE CATALOG & INGESTED KNOWLEDGE BASE (ALL PRICES IN INDIAN RUPEES - ₹ INR):\n` + mockDatabase.knowledge.map(k => `- ${k.title}: ${k.answer}`).join("\n")
+                    : `Store Catalog (All Prices in Indian Rupees - ₹ INR):
+- Apex Pro Wireless Headphones (₹14,999, 40dB ANC, 40h battery, Bluetooth 5.3, Matte Black and Pearl Silver)
+- Apex Ultra Smartwatch 2 (₹19,999, 100m water resistant, 14-day battery, titanium)
+- Apex Studio Soundbar 7.1 (₹24,999, 500W Dolby Atmos)
+- Apex GaN III 100W Fast Charger (₹3,499)
+- Organic cotton t-shirts (₹1,299, pre-shrunk, XS-XXL, 100% organic cotton, machine washable cold)`;
 
                 const systemContext = `You are Alex, an expert AI shopping assistant and sales closer for the store. 
 ${catalogKnowledge}
 
-Store Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers with coupon WELCOME15.
+Store Policies: 2-4 days express shipping across India, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers with coupon WELCOME15. All prices are in Indian Rupees (₹ / INR). Cash on delivery (COD) and UPI supported nationwide.
 
 MULTILINGUAL INTELLIGENCE (AUTO-DETECT):
 - Automatically detect the customer's language (Spanish, Hindi, French, German, Japanese, Gujarati, Arabic, etc.).

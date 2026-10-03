@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `subscriptions` (
     `user_id` VARCHAR(36) NOT NULL,
     `plan_id` VARCHAR(50) NOT NULL,
     `amount_paid` DECIMAL(10,2) NOT NULL,
-    `currency` VARCHAR(10) DEFAULT 'USD',
+    `currency` VARCHAR(10) DEFAULT 'INR',
     `status` ENUM('active', 'past_due', 'canceled', 'simulated') DEFAULT 'active',
     `payment_method` VARCHAR(50) DEFAULT 'card_demo',
     `transaction_reference` VARCHAR(100),

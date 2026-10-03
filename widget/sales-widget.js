@@ -18,17 +18,17 @@
     const SALES_RESPONSES = [
         {
             keywords: ["product", "products", "item", "items", "catalog", "collection", "stock", "sell", "buy", "store", "what do you have", "what are your products", "what is your product", "all products", "list", "show me"],
-            response: "We specialize in premium lifestyle electronics and apparel: 1) Apex Pro Wireless ANC Headphones ($199), 2) Apex Ultra Smartwatch 2 ($299), 3) Apex Studio Soundbar 7.1 ($399), 4) Apex GaN III 100W Fast Charger ($49), and 5) Premium Organic Cotton T-Shirts ($29). Which one can I tell you more about?",
+            response: "We specialize in premium lifestyle electronics and apparel: 1) Apex Pro Wireless ANC Headphones (₹14,999), 2) Apex Ultra Smartwatch 2 (₹19,999), 3) Apex Studio Soundbar 7.1 (₹24,999), 4) Apex GaN III 100W Fast Charger (₹3,499), and 5) Premium Organic Cotton T-Shirts (₹1,299). Which one can I tell you more about?",
             intent: "products_catalog"
         },
         {
             keywords: ["headphone", "headphones", "earphone", "earphones", "earbud", "earbuds", "audio", "anc", "noise cancel", "noise cancelling", "sound quality", "bass", "mic", "calling", "music", "over ear", "apex pro"],
-            response: "Our Apex Pro Wireless Headphones ($199) feature 40dB Active Noise Cancellation (ANC), 40-hour battery life (60h standard), Bluetooth 5.3, and custom 40mm graphene drivers for studio-grade audio. In stock in Matte Black and Pearl Silver with a 2-Year Warranty!",
+            response: "Our Apex Pro Wireless Headphones (₹14,999 / Offer: ₹12,749 with WELCOME15) feature 40dB Active Noise Cancellation (ANC), 40-hour battery life (60h standard), Bluetooth 5.3, and custom 40mm graphene drivers for studio-grade audio. In stock in Matte Black and Pearl Silver with a 2-Year Warranty!",
             intent: "catalog_headphones"
         },
         {
             keywords: ["watch", "smartwatch", "wearable", "apex ultra", "smart watch", "fitness tracker", "gps", "heart rate", "ecg", "step", "sleep tracker"],
-            response: "The Apex Ultra Smartwatch 2 ($299) is crafted with an aerospace titanium case, sapphire crystal AMOLED display, and 100m (10 ATM) water resistance. Features dual-frequency GPS, health sensors (ECG, SpO2, heart rate), and up to 14 days of battery life!",
+            response: "The Apex Ultra Smartwatch 2 (₹19,999 / Offer: ₹16,999 with WELCOME15) is crafted with an aerospace titanium case, sapphire crystal AMOLED display, and 100m (10 ATM) water resistance. Features dual-frequency GPS, health sensors (ECG, SpO2, heart rate), and up to 14 days of battery life!",
             intent: "catalog_smartwatch"
         },
         {
@@ -43,12 +43,12 @@
         },
         {
             keywords: ["soundbar", "sound bar", "speaker", "subwoofer", "home theater", "tv sound", "dolby", "atmos", "500w", "cinema", "living room"],
-            response: "The Apex Studio Soundbar 7.1 ($399) packs 500W peak power, upward-firing Dolby Atmos speakers, a wireless 8-inch auto-pairing subwoofer, and HDMI eARC connectivity for theater-grade surround sound at home!",
+            response: "The Apex Studio Soundbar 7.1 (₹24,999 / Offer: ₹21,249 with WELCOME15) packs 500W peak power, upward-firing Dolby Atmos speakers, a wireless 8-inch auto-pairing subwoofer, and HDMI eARC connectivity for theater-grade surround sound at home!",
             intent: "catalog_soundbar"
         },
         {
             keywords: ["charger", "adapter", "gan", "100w", "fast charger", "fast charge", "wall plug", "usb c", "power delivery", "pd 3.0", "cable"],
-            response: "The Apex GaN III Fast Charger 100W ($49) utilizes advanced gallium nitride semiconductors. It has 3x USB-C and 1x USB-A ports to rapidly charge MacBooks, laptops, iPhones, and Android phones simultaneously with built-in thermal surge protection!",
+            response: "The Apex GaN III Fast Charger 100W (₹3,499 / Offer: ₹2,974 with WELCOME15) utilizes advanced gallium nitride semiconductors. It has 3x USB-C and 1x USB-A ports to rapidly charge MacBooks, laptops, iPhones, and Android phones simultaneously with built-in thermal surge protection!",
             intent: "catalog_charger"
         },
         {
@@ -108,7 +108,7 @@
         },
         {
             keywords: ["gift", "present", "birthday", "anniversary", "boyfriend", "girlfriend", "brother", "sister", "husband", "wife", "friend", "recommend", "suggestion", "best item"],
-            response: "Great gifts depend on their lifestyle: For music lovers, our Apex Pro ANC Headphones ($199) are an absolute crowd-pleaser; for fitness enthusiasts, the Apex Ultra Smartwatch ($299) is top-tier; and our 100% Organic Cotton Tees ($29) make an easy everyday favorite!",
+            response: "Great gifts depend on their lifestyle: For music lovers, our Apex Pro ANC Headphones (₹14,999) are an absolute crowd-pleaser; for fitness enthusiasts, the Apex Ultra Smartwatch (₹19,999) is top-tier; and our 100% Organic Cotton Tees (₹1,299) make an easy everyday favorite!",
             intent: "gifts"
         },
         {
@@ -539,17 +539,17 @@
 
             const catalogPrompt = uploadedCatalogContent 
                 ? `UPLOADED STORE CATALOG & PRODUCT DETAILS (STRICTLY GROUND YOUR PRODUCT ANSWERS IN THIS CATALOG):\n${uploadedCatalogContent.slice(0, 15000)}`
-                : `Store Catalog:
-- Apex Pro Wireless Headphones ($199, 40dB ANC, 40h battery, Bluetooth 5.3, Matte Black and Pearl Silver)
-- Apex Ultra Smartwatch 2 ($299, 100m water resistant, 14-day battery, titanium)
-- Apex Studio Soundbar 7.1 ($399, 500W Dolby Atmos)
-- Apex GaN III 100W Fast Charger ($49)
-- Organic cotton t-shirts ($29, pre-shrunk, XS-XXL, 100% organic cotton, machine washable cold)`;
+                : `Store Catalog (All Prices in Indian Rupees - ₹ INR):
+- Apex Pro Wireless Headphones (₹14,999, 40dB ANC, 40h battery, Bluetooth 5.3, Matte Black and Pearl Silver)
+- Apex Ultra Smartwatch 2 (₹19,999, 100m water resistant, 14-day battery, titanium)
+- Apex Studio Soundbar 7.1 (₹24,999, 500W Dolby Atmos)
+- Apex GaN III 100W Fast Charger (₹3,499)
+- Organic cotton t-shirts (₹1,299, pre-shrunk, XS-XXL, 100% organic cotton, machine washable cold)`;
 
             const systemContext = `You are Alex, an expert AI shopping specialist and sales closer for the store. 
 ${catalogPrompt}
 
-Store Policies: 2-4 days express shipping nationwide, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers with coupon WELCOME15.
+Store Policies: 2-4 days express shipping across India, 30-day hassle-free returns with free pickup, 2-year warranty, 15% discount for new shoppers with coupon WELCOME15. All prices are in Indian Rupees (₹ / INR). Cash on delivery (COD) and UPI supported nationwide.
 
 MULTILINGUAL INTELLIGENCE (AUTO-DETECT):
 - Automatically detect the customer's language (Spanish, Hindi, French, German, Japanese, Gujarati, Arabic, etc.).
@@ -655,7 +655,7 @@ CRITICAL SALES CONVERSATION RULES:
                 if (bestMatch && highestScore >= 3) {
                     replyText = bestMatch.response;
                 } else if (cleanText.includes("product") || cleanText.includes("sell") || cleanText.includes("what is your product") || cleanText.includes("items")) {
-                    replyText = "We specialize in premium lifestyle electronics and apparel: 1) Apex Pro Wireless ANC Headphones ($199), 2) Apex Ultra Smartwatch 2 ($299), 3) Apex Studio Soundbar 7.1 ($399), 4) Apex GaN III 100W Fast Charger ($49), and 5) Premium Organic Cotton T-Shirts ($29). Which one can I tell you more about?";
+                    replyText = "We specialize in premium lifestyle electronics and apparel: 1) Apex Pro Wireless ANC Headphones (₹14,999), 2) Apex Ultra Smartwatch 2 (₹19,999), 3) Apex Studio Soundbar 7.1 (₹24,999), 4) Apex GaN III 100W Fast Charger (₹3,499), and 5) Premium Organic Cotton T-Shirts (₹1,299). Which one can I tell you more about?";
                 } else if (cleanText.includes("hello") || cleanText.includes("hi") || cleanText.includes("hey")) {
                     replyText = "Hello! Welcome to our store! 👋 I'm Alex, your AI shopping specialist. I'm here to help you find the right product, check sizing, track orders, or answer any policy questions. What can I help you find today?";
                 } else {

@@ -5,9 +5,9 @@
 -- Insert Pricing Plans
 INSERT INTO `plans` (`id`, `name`, `price_monthly`, `price_annual`, `agent_limit`, `monthly_lead_limit`, `knowledge_doc_limit`, `has_crm_sync`, `has_ab_testing`, `has_custom_branding`)
 VALUES
-('starter', 'Starter Tier', 29.00, 290.00, 1, 150, 5, FALSE, FALSE, FALSE),
-('professional', 'Professional Tier', 79.00, 790.00, 5, 1000, 25, TRUE, TRUE, TRUE),
-('enterprise', 'Enterprise Tier', 199.00, 1990.00, 20, 10000, 100, TRUE, TRUE, TRUE)
+('starter', 'Starter Tier', 2499.00, 24990.00, 1, 150, 5, FALSE, FALSE, FALSE),
+('professional', 'Professional Tier', 5999.00, 59990.00, 5, 1000, 25, TRUE, TRUE, TRUE),
+('enterprise', 'Enterprise Tier', 14999.00, 149990.00, 20, 10000, 100, TRUE, TRUE, TRUE)
 ON DUPLICATE KEY UPDATE `name`=VALUES(`name`);
 
 -- Insert Demo Users
@@ -20,8 +20,8 @@ VALUES
 -- Insert Initial Subscriptions (Generates Production MRR)
 INSERT INTO `subscriptions` (`id`, `user_id`, `plan_id`, `amount_paid`, `currency`, `status`, `payment_method`, `transaction_reference`, `billing_cycle`)
 VALUES
-('sub_101', 'usr_client_02', 'professional', 79.00, 'USD', 'active', 'card_visa_4242', 'tx_demo_882910', 'monthly'),
-('sub_102', 'usr_client_03', 'starter', 29.00, 'USD', 'active', 'card_mc_5555', 'tx_demo_771923', 'monthly');
+('sub_101', 'usr_client_02', 'professional', 5999.00, 'INR', 'active', 'card_visa_4242', 'tx_demo_882910', 'monthly'),
+('sub_102', 'usr_client_03', 'starter', 2499.00, 'INR', 'active', 'card_mc_5555', 'tx_demo_771923', 'monthly');
 
 -- Insert AI Sales Agents
 INSERT INTO `agents` (`id`, `user_id`, `name`, `avatar`, `role_title`, `tone`, `greeting_message`, `system_prompt`, `api_key`, `whitelisted_domains`, `widget_primary_color`, `is_active`)
@@ -48,7 +48,7 @@ VALUES
 -- Insert Sample Conversation & Transcript
 INSERT INTO `conversations` (`id`, `agent_id`, `visitor_session_id`, `visitor_ip`, `visitor_country`, `visitor_device`, `lead_captured`, `intent_score`, `sentiment`)
 VALUES
-('conv_9821', 'agt_live_9a8b7c6d', 'sess_992019a', '103.21.144.2', 'United States', 'Desktop (Chrome/Mac)', TRUE, 0.94, 'positive');
+('conv_9821', 'agt_live_9a8b7c6d', 'sess_992019a', '103.21.144.2', 'India', 'Desktop (Chrome/Windows)', TRUE, 0.94, 'positive');
 
 INSERT INTO `messages` (`id`, `conversation_id`, `sender`, `message_text`)
 VALUES
