@@ -709,7 +709,17 @@
             el.classList.add('slide-in');
             document.getElementById('header-step').textContent = currentStep;
             document.getElementById('progress-bar').style.width = (currentStep / totalSteps * 100) + '%';
-            renderStepsNav();
+            
+        window.goToStep = goToStep;
+        window.nextStep = nextStep;
+        window.prevStep = prevStep;
+        window.selectPlan = selectPlan;
+        window.toggleGoal = toggleGoal;
+        window.selectTone = selectTone;
+        window.handleOnboardingFileUpload = handleOnboardingFileUpload;
+        window.copySnippet = copySnippet;
+
+        renderStepsNav();
         }
 
         function nextStep() { if (currentStep < totalSteps) goToStep(currentStep + 1); }
@@ -809,6 +819,16 @@
                 AppState.showToast('Snippet Copied! 📋', 'Paste it before the </body> tag in Shopify (theme.liquid) or WordPress.');
             });
         }
+
+        
+        window.goToStep = goToStep;
+        window.nextStep = nextStep;
+        window.prevStep = prevStep;
+        window.selectPlan = selectPlan;
+        window.toggleGoal = toggleGoal;
+        window.selectTone = selectTone;
+        window.handleOnboardingFileUpload = handleOnboardingFileUpload;
+        window.copySnippet = copySnippet;
 
         renderStepsNav();
     </script>
