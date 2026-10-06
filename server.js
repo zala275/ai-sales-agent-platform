@@ -36,6 +36,7 @@ const MIME_TYPES = {
     ".svg": "image/svg+xml",
     ".ico": "image/x-icon",
     ".pdf": "application/pdf",
+    ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     ".sql": "text/plain"
 };
 

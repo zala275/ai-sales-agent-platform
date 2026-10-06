@@ -451,7 +451,7 @@
     } catch (e) {}
 
     // 2. Fetch latest uploaded knowledge from server
-    const knowledgeEndpoint = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") 
+    const knowledgeEndpoint = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.endsWith(".vercel.app")) 
         ? "/api/knowledge" 
         : "https://ai-sales-agent-platform.onrender.com/api/knowledge";
 
@@ -598,7 +598,10 @@ CRITICAL SALES CONVERSATION RULES:
                     }
                 }
             } else {
-                const res = await fetch("https://ai-sales-agent-platform.onrender.com/api/chat", {
+                const chatApiEndpoint = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.endsWith(".vercel.app")) 
+                    ? "/api/chat" 
+                    : "https://ai-sales-agent-platform.onrender.com/api/chat";
+                const res = await fetch(chatApiEndpoint, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ message: text, agent_id: agentKey, history: chatHistory.slice(-10) }),
