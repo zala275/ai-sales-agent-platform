@@ -550,10 +550,13 @@
                                 <p class="font-bold text-xs text-slate-800">WordPress</p>
                                 <span class="text-[10px] text-slate-500">2 min install</span>
                             </div>
-                            <div onclick="AppState.showToast('Shopify Guide', 'Paste snippet into theme.liquid before closing body tag.')" class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-emerald-500 hover:bg-white transition-all cursor-pointer group">
-                                <span class="material-symbols-outlined text-2xl text-emerald-600 mb-1 group-hover:scale-110 transition-transform">shopping_bag</span>
+                            <div onclick="openShopifyModal()" class="p-3.5 rounded-xl bg-slate-50 border-2 border-emerald-500/40 hover:border-emerald-500 hover:bg-white transition-all cursor-pointer group shadow-sm">
+                                <div class="flex items-center justify-between">
+                                    <span class="material-symbols-outlined text-2xl text-emerald-600 mb-1 group-hover:scale-110 transition-transform">shopping_bag</span>
+                                    <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700">Test Live</span>
+                                </div>
                                 <p class="font-bold text-xs text-slate-800">Shopify</p>
-                                <span class="text-[10px] text-slate-500">Liquid theme</span>
+                                <span class="text-[10px] text-emerald-600 font-semibold">Click to test on Shopify ➔</span>
                             </div>
                             <div onclick="AppState.showToast('Webflow Guide', 'Paste into Project Settings > Custom Code > Footer Code.')" class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-purple-500 hover:bg-white transition-all cursor-pointer group">
                                 <span class="material-symbols-outlined text-2xl text-purple-600 mb-1 group-hover:scale-110 transition-transform">dashboard_customize</span>
@@ -724,6 +727,128 @@
                 AppState.showToast("Connection Active", "Receiving healthy telemetry heartbeat (HTTP 200 OK).");
             }, 600);
         }
-    </script>
+    
+        window.openShopifyModal = openShopifyModal;
+        window.closeShopifyModal = closeShopifyModal;
+        window.copyInstantShopifyCode = copyInstantShopifyCode;
+        window.copyPermanentShopifyCode = copyPermanentShopifyCode;
+
+        function openShopifyModal() {
+            const modal = document.getElementById("shopify-modal");
+            if (modal) {
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+            }
+        }
+
+        function closeShopifyModal() {
+            const modal = document.getElementById("shopify-modal");
+            if (modal) {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            }
+        }
+
+        function copyInstantShopifyCode() {
+            const code = "let s = document.createElement('script'); s.src = 'https://ai-sales-agent-platform.vercel.app/widget/sales-widget.js'; document.body.appendChild(s);";
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.getElementById("btn-copy-instant-text");
+                if (btn) btn.textContent = "Copied Command! Paste in F12 Console 🎉";
+                setTimeout(() => { if (btn) btn.textContent = "Copy 1-Line Test Command"; }, 4000);
+            });
+        }
+
+        function copyPermanentShopifyCode() {
+            const code = '<' + 'script src="https://ai-sales-agent-platform.vercel.app/widget/sales-widget.js" data-agent-key="agt_live_9a8b7c6d" defer><' + '/script>';
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.getElementById("btn-copy-perm-text");
+                if (btn) btn.textContent = "Copied Snippet! Ready to Paste on Shopify 🎉";
+                setTimeout(() => { if (btn) btn.textContent = "Copy Permanent Shopify Snippet"; }, 4000);
+            });
+        }
+</script>
+
+    <!-- Shopify Integration & Testing Modal -->
+    <div id="shopify-modal" onclick="if(event.target === this) closeShopifyModal()" class="fixed inset-0 z-50 bg-black/65 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 max-w-xl w-full rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden text-slate-900 dark:text-white animate-fade-in">
+            <div class="p-6 bg-gradient-to-r from-emerald-600 to-teal-700 text-white flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center">
+                        <span class="material-symbols-outlined text-2xl text-white">shopping_bag</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base">Test AI Sales Agent on Shopify</h3>
+                        <p class="text-xs text-emerald-100">Live test or permanent theme install in minutes</p>
+                    </div>
+                </div>
+                <button onclick="closeShopifyModal()" class="text-white/70 hover:text-white text-2xl leading-none cursor-pointer">&times;</button>
+            </div>
+
+            <div class="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
+                <!-- Method 1: Instant 5-Second Test (No Code Editing) -->
+                <div class="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span>Method 1: Instant 5-Second Live Test on ANY Shopify Store</span>
+                        </span>
+                        <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-200 text-emerald-800">No Theme Edit Needed</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">
+                        You can see your AI agent floating and selling on <strong>your Shopify store right now</strong> without changing any files:
+                    </p>
+                    <ol class="text-xs text-slate-700 dark:text-slate-200 space-y-1 list-decimal list-inside pl-1">
+                        <li>Open your live Shopify store in <strong>Chrome</strong> or <strong>Edge</strong>.</li>
+                        <li>Press <strong>F12</strong> on your keyboard (or right-click ➔ <em>Inspect</em> ➔ click <em>Console</em>).</li>
+                        <li>Paste this 1-line script and press <strong>Enter</strong>:</li>
+                    </ol>
+                    <div class="relative bg-slate-900 text-emerald-400 p-3 rounded-xl font-mono text-[11px] border border-slate-800">
+                        <pre class="whitespace-pre-wrap break-all leading-relaxed" id="shopify-instant-code">let s = document.createElement('script'); s.src = 'https://ai-sales-agent-platform.vercel.app/widget/sales-widget.js'; document.body.appendChild(s);</pre>
+                        <button onclick="copyInstantShopifyCode()" id="btn-copy-instant" class="mt-2 w-full py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer">
+                            <span class="material-symbols-outlined text-[14px]">content_copy</span>
+                            <span id="btn-copy-instant-text">Copy 1-Line Test Command</span>
+                        </button>
+                    </div>
+                    <p class="text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold">
+                        ✨ Boom! The AI agent will instantly appear in the bottom-right corner of your live Shopify store!
+                    </p>
+                </div>
+
+                <!-- Method 2: Permanent Theme Install -->
+                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 space-y-2.5">
+                    <span class="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-sm text-secondary">verified</span>
+                        <span>Method 2: Permanent Install on Shopify (Takes 1 Minute)</span>
+                    </span>
+                    <ol class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 list-decimal list-inside">
+                        <li>Open your <strong>Shopify Admin</strong> (<code>admin.shopify.com</code>).</li>
+                        <li>Go to <strong>Online Store ➔ Themes</strong>.</li>
+                        <li>Click the <strong>three dots (...)</strong> next to your active theme ➔ click <strong>Edit Code</strong>.</li>
+                        <li>In the left sidebar, click <strong>theme.liquid</strong> (under <em>Layout</em>).</li>
+                        <li>Scroll to the very bottom and paste this line right before <code>&lt;/body&gt;</code>:</li>
+                    </ol>
+                    <div class="relative bg-slate-900 text-slate-100 p-3 rounded-xl font-mono text-[11px] border border-slate-800">
+                        <pre class="whitespace-pre-wrap break-all text-emerald-400" id="shopify-permanent-code">&lt;script src="https://ai-sales-agent-platform.vercel.app/widget/sales-widget.js" data-agent-key="agt_live_9a8b7c6d" defer&gt;&lt;/script&gt;</pre>
+                        <button onclick="copyPermanentShopifyCode()" id="btn-copy-perm" class="mt-2 w-full py-1.5 bg-secondary-container hover:bg-secondary text-white rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer">
+                            <span class="material-symbols-outlined text-[14px]">content_copy</span>
+                            <span id="btn-copy-perm-text">Copy Permanent Shopify Snippet</span>
+                        </button>
+                    </div>
+                    <p class="text-xs text-slate-500">6. Click <strong>Save</strong> in Shopify. Your AI agent is now permanently active 24/7!</p>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-3 pt-1">
+                    <a href="test-customer-website.html" target="_blank" class="flex-1 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center gap-1.5">
+                        <span class="material-symbols-outlined text-[15px]">storefront</span>
+                        <span>Open Built-In Storefront Test</span>
+                    </a>
+                    <button onclick="closeShopifyModal()" class="px-4 py-2.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
