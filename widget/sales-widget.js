@@ -569,7 +569,7 @@
     // 2. Fetch latest uploaded knowledge from server
     const knowledgeEndpoint = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.endsWith(".vercel.app")) 
         ? "/api/knowledge" 
-        : "https://ai-sales-agent-platform.onrender.com/api/knowledge";
+        : "https://ai-sales-agent-platform.vercel.app/api/knowledge";
 
     fetch(knowledgeEndpoint)
         .then(res => res.json())
@@ -716,7 +716,7 @@ CRITICAL SALES CONVERSATION RULES:
             } else {
                 const chatApiEndpoint = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname.endsWith(".vercel.app")) 
                     ? "/api/chat" 
-                    : "https://ai-sales-agent-platform.onrender.com/api/chat";
+                    : "https://ai-sales-agent-platform.vercel.app/api/chat";
                 const res = await fetch(chatApiEndpoint, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },

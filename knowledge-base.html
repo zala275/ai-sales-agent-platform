@@ -664,6 +664,76 @@
         </div>
     </div>
 
+    <!-- Agent Ready & Embed Script Modal -->
+    <div id="agent-ready-modal" onclick="if(event.target === this) closeAgentReadyModal()" class="fixed inset-0 z-50 bg-black/65 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-surface-container-lowest max-w-lg w-full rounded-3xl shadow-2xl border border-outline-variant/30 overflow-hidden text-on-surface animate-fade-in">
+            <div class="p-6 bg-gradient-to-r from-emerald-600 to-teal-700 text-white flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center">
+                        <span class="material-symbols-outlined text-2xl text-white">verified</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base">Catalog Ingested &amp; Agent Armed!</h3>
+                        <p class="text-xs text-white/85" id="ready-catalog-title">Live on your AI sales agent</p>
+                    </div>
+                </div>
+                <button onclick="closeAgentReadyModal()" class="text-white/70 hover:text-white text-2xl leading-none">&times;</button>
+            </div>
+
+            <div class="p-6 space-y-4">
+                <!-- Status Bar -->
+                <div class="flex items-center gap-3 p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-800 dark:text-emerald-300 font-medium">
+                    <span class="material-symbols-outlined text-emerald-600 text-lg flex-shrink-0">check_circle</span>
+                    <span>Knowledge extracted, vectorized, and synced to your live cloud sales agent!</span>
+                </div>
+
+                <!-- 1-Line Embed Script Box -->
+                <div class="space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-bold text-on-surface flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-sm text-secondary">code</span>
+                            <span>Your 1-Line Embed Script for Shopify / Any Website:</span>
+                        </label>
+                        <span class="text-[10.5px] text-outline font-semibold">Universal embed</span>
+                    </div>
+                    <div class="relative bg-slate-900 text-slate-100 p-3.5 rounded-2xl font-mono text-xs border border-slate-800">
+                        <pre class="whitespace-pre-wrap break-all text-[11px] leading-relaxed select-all" id="ready-embed-code">&lt;script src="https://ai-sales-agent-platform.vercel.app/widget/sales-widget.js" data-agent-key="agt_live_9a8b7c6d" defer&gt;&lt;/script&gt;</pre>
+                        <button onclick="copyReadyScript()" id="btn-copy-ready" class="mt-2.5 w-full py-2 bg-secondary-container hover:bg-secondary text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow cursor-pointer">
+                            <span class="material-symbols-outlined text-[15px]">content_copy</span>
+                            <span id="btn-copy-ready-text">Copy 1-Line Script Tag</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Platform Install Guide Quick Pills -->
+                <div class="space-y-1.5">
+                    <p class="text-[11px] font-bold text-outline uppercase tracking-wider">How to Add to Your Store:</p>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/30 space-y-1">
+                            <p class="font-bold text-emerald-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">shopping_bag</span> Shopify</p>
+                            <p class="text-[10.5px] text-outline">Online Store ➔ Themes ➔ Edit Code ➔ <code>theme.liquid</code> before <code>&lt;/body&gt;</code>.</p>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-surface-container-low border border-outline-variant/30 space-y-1">
+                            <p class="font-bold text-blue-600 flex items-center gap-1"><span class="material-symbols-outlined text-sm">globe</span> WordPress / Wix</p>
+                            <p class="text-[10.5px] text-outline">Theme Editor ➔ <code>footer.php</code>, or Wix Custom Code (Body - end).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-3 pt-2">
+                    <a href="test-customer-website.html" target="_blank" class="flex-1 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center gap-1.5">
+                        <span class="material-symbols-outlined text-[15px]">storefront</span>
+                        <span>Preview Live On Storefront</span>
+                    </a>
+                    <button onclick="closeAgentReadyModal()" class="px-4 py-2.5 border border-outline-variant/40 hover:bg-surface-container text-on-surface rounded-xl text-xs font-semibold transition-colors cursor-pointer">
+                        Ask Questions in Sandbox
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/app-state.js?v=12.0"></script>
     <script>
         let currentTab = 'pdf';
@@ -749,6 +819,40 @@
         }
 
         
+        
+        window.openAgentReadyModal = openAgentReadyModal;
+        window.closeAgentReadyModal = closeAgentReadyModal;
+        window.copyReadyScript = copyReadyScript;
+
+        function openAgentReadyModal(filename) {
+            const modal = document.getElementById("agent-ready-modal");
+            const titleEl = document.getElementById("ready-catalog-title");
+            if (titleEl && filename) titleEl.textContent = "Armed with: " + filename;
+            if (modal) {
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+            }
+        }
+
+        function closeAgentReadyModal() {
+            const modal = document.getElementById("agent-ready-modal");
+            if (modal) {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            }
+        }
+
+        function copyReadyScript() {
+            const snippet = '<script src="https://ai-sales-agent-platform.vercel.app/widget/sales-widget.js" data-agent-key="agt_live_9a8b7c6d" defer><\/script>';
+            navigator.clipboard.writeText(snippet).then(() => {
+                const btnText = document.getElementById("btn-copy-ready-text");
+                if (btnText) btnText.textContent = "Copied! Paste onto Shopify 🎉";
+                setTimeout(() => {
+                    if (btnText) btnText.textContent = "Copy 1-Line Script Tag";
+                }, 4000);
+            });
+        }
+
         window.openAddSourceModal = openAddSourceModal;
         window.closeAddSourceModal = closeAddSourceModal;
         window.switchSourceTab = switchSourceTab;
@@ -819,6 +923,7 @@
             btn.innerHTML = `<span class="material-symbols-outlined text-[16px]">upload_file</span><span>Start Ingestion &amp; Sync</span>`;
             btn.disabled = false;
             closeAddSourceModal();
+            openAgentReadyModal(currentFileName);
 
             const tbody = document.getElementById('sources-table-body');
             let newRowHtml = '';

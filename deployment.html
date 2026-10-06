@@ -432,9 +432,9 @@
 
                         <!-- High-Contrast, Crystal-Clear Code Block (No blurry overlays or moving dots) -->
                         <div class="relative bg-slate-950 rounded-xl p-5 border border-slate-800 shadow-inner group">
-                            <pre class="font-mono text-xs text-blue-200 overflow-x-auto custom-scrollbar leading-relaxed selection:bg-blue-600 selection:text-white"><code id="code-snippet">&lt;!-- SalesAI Pro Agent Widget --&gt;
+                            <pre class="font-mono text-xs text-blue-200 overflow-x-auto custom-scrollbar leading-relaxed selection:bg-blue-600 selection:text-white"><code id="code-snippet">&lt;!-- SalesAI Pro Autonomous Sales Closer --&gt;
 &lt;script 
-    src="widget/sales-widget.js" 
+    src="https://ai-sales-agent-platform.vercel.app/widget/sales-widget.js" 
     data-agent-key="agt_live_9a8b7c6d"
     data-primary-color="#2170e4"
     data-position="bottom-right"
@@ -654,7 +654,7 @@
     <script>
         function copySnippet() {
             const codeEl = document.getElementById("code-snippet");
-            const snippet = codeEl ? codeEl.textContent.trim() : ('<' + 'script src="widget/sales-widget.js" data-agent-key="agt_live_9a8b7c6d" data-primary-color="#2170e4" data-position="bottom-right" defer><' + '/script>');
+            const snippet = codeEl ? codeEl.textContent.trim() : ('<' + 'script src="https://ai-sales-agent-platform.vercel.app/widget/sales-widget.js" data-agent-key="agt_live_9a8b7c6d" data-primary-color="#2170e4" data-position="bottom-right" defer><' + '/script>');
             navigator.clipboard.writeText(snippet).then(() => {
                 const btn = document.getElementById("btn-copy-code");
                 btn.innerHTML = `<span class="material-symbols-outlined text-sm text-emerald-400">check</span> <span>Copied!</span>`;
