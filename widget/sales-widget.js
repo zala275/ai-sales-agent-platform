@@ -283,6 +283,9 @@
             transition: all 0.2s ease;
             flex-shrink: 0;
         }
+        .salesai-mic-btn svg {
+            pointer-events: none;
+        }
         .salesai-mic-btn:hover {
             background: #e2e8f0;
             color: #1e293b;
@@ -383,53 +386,166 @@
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (micBtn) {
-        if (SpeechRecognition) {
-            const recognition = new SpeechRecognition();
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            recognition.lang = navigator.language || "en-US";
-
-            let isListening = false;
-
+        if (!window.isSecureContext && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
             micBtn.onclick = () => {
-                if (isListening) {
-                    recognition.stop();
-                    return;
-                }
-                try {
-                    recognition.start();
-                    isListening = true;
-                    micBtn.classList.add("listening");
-                    input.placeholder = "Listening... Speak your question now!";
-                } catch (recErr) {
-                    console.warn("Speech recognition start failed:", recErr);
-                }
+                alert("Voice capture requires a secure HTTPS connection. Please ensure your website is running over HTTPS.");
             };
-
-            recognition.onresult = (event) => {
-                const speechResult = event.results[0][0].transcript;
-                input.value = speechResult;
-                input.focus();
-                setTimeout(() => {
-                    form.dispatchEvent(new Event("submit"));
-                }, 300);
-            };
-
-            recognition.onerror = (event) => {
-                console.log("Speech recognition error:", event.error);
-                isListening = false;
-                micBtn.classList.remove("listening");
-                input.placeholder = "Ask about products, sizes, shipping...";
-            };
-
-            recognition.onend = () => {
-                isListening = false;
-                micBtn.classList.remove("listening");
-                input.placeholder = "Ask about products, sizes, shipping...";
+        } else if (!SpeechRecognition) {
+            micBtn.onclick = () => {
+                const notice = "Voice input is supported in Google Chrome, Microsoft Edge, Brave, and Safari. Please open in a supported browser.";
+                alert(notice);
             };
         } else {
-            micBtn.onclick = () => {
-                alert("Voice input is supported in Google Chrome, Microsoft Edge, and Safari.");
+            let activeRecognition = null;
+            let isListening = false;
+            let finalSpeechText = "";
+            let autoSubmitTimer = null;
+
+            function stopListeningCleanly() {
+                isListening = false;
+                micBtn.classList.remove("listening");
+                micBtn.title = "Speak question (Voice Input)";
+                micBtn.setAttribute("aria-label", "Speak question (Voice Input)");
+                if (activeRecognition) {
+                    try { activeRecognition.stop(); } catch (e) {}
+                    activeRecognition = null;
+                }
+            }
+
+            micBtn.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if (isListening) {
+                    stopListeningCleanly();
+                    if (input.value.trim()) {
+                        input.placeholder = "Sending question...";
+                        setTimeout(() => {
+                            form.dispatchEvent(new Event("submit"));
+                        }, 250);
+                    } else {
+                        input.placeholder = "Ask about products, sizes, shipping...";
+                    }
+                    return;
+                }
+
+                // Stop any previous session cleanly
+                stopListeningCleanly();
+                if (autoSubmitTimer) {
+                    clearTimeout(autoSubmitTimer);
+                    autoSubmitTimer = null;
+                }
+
+                try {
+                    const recognition = new SpeechRecognition();
+                    activeRecognition = recognition;
+                    recognition.continuous = false;
+                    recognition.interimResults = true;
+                    recognition.maxAlternatives = 1;
+                    // Detect browser locale or default to en-US
+                    recognition.lang = navigator.language || "en-US";
+
+                    finalSpeechText = "";
+                    input.value = "";
+                    isListening = true;
+                    micBtn.classList.add("listening");
+                    micBtn.title = "Listening... Click to send or stop";
+                    micBtn.setAttribute("aria-label", "Listening... Click to send");
+                    input.placeholder = "🎙️ Listening... Speak your question now!";
+
+                    recognition.onstart = () => {
+                        isListening = true;
+                        micBtn.classList.add("listening");
+                        input.placeholder = "🎙️ Listening... Speak your question now!";
+                    };
+
+                    recognition.onresult = (event) => {
+                        let interim = "";
+                        for (let i = event.resultIndex; i < event.results.length; ++i) {
+                            const chunk = event.results[i][0].transcript;
+                            if (event.results[i].isFinal) {
+                                finalSpeechText += (finalSpeechText ? " " : "") + chunk;
+                            } else {
+                                interim += chunk;
+                            }
+                        }
+
+                        const liveText = (finalSpeechText + (interim ? " " + interim : "")).trim();
+                        if (liveText) {
+                            input.value = liveText;
+                            input.placeholder = '🎙️ Hearing: "' + liveText + '"';
+                        }
+
+                        // Auto-submit when final sentence is detected
+                        if (finalSpeechText.trim() && !interim) {
+                            input.value = finalSpeechText.trim();
+                            if (autoSubmitTimer) clearTimeout(autoSubmitTimer);
+                            autoSubmitTimer = setTimeout(() => {
+                                if (input.value.trim() && isListening) {
+                                    stopListeningCleanly();
+                                    input.placeholder = "Sending question...";
+                                    form.dispatchEvent(new Event("submit"));
+                                }
+                            }, 700);
+                        }
+                    };
+
+                    recognition.onerror = (event) => {
+                        console.warn("[SalesAI Voice] Error:", event.error);
+                        stopListeningCleanly();
+
+                        if (event.error === "not-allowed" || event.error === "permission-denied") {
+                            input.placeholder = "Mic blocked. Allow microphone in browser!";
+                            const errBubble = document.createElement("div");
+                            errBubble.className = "salesai-bubble-agent";
+                            errBubble.style.border = "1px solid #f87171";
+                            errBubble.style.background = "#fff1f2";
+                            errBubble.innerHTML = `<strong>⚠️ Microphone Access Blocked</strong><br>Your browser blocked microphone access. To use voice shopping:<br>1. Click the <strong>lock icon (🔒)</strong> or site controls in your address bar.<br>2. Set <strong>Microphone</strong> to <strong>Allow</strong>.<br>3. Click the mic button again!`;
+                            messages.appendChild(errBubble);
+                            messages.scrollTop = messages.scrollHeight;
+                        } else if (event.error === "no-speech") {
+                            input.placeholder = "No speech detected. Click mic & speak again!";
+                            setTimeout(() => {
+                                if (input.placeholder.includes("No speech")) {
+                                    input.placeholder = "Ask about products, sizes, shipping...";
+                                }
+                            }, 3500);
+                        } else if (event.error === "network") {
+                            input.placeholder = "Voice network timeout. Please type your question.";
+                            setTimeout(() => {
+                                input.placeholder = "Ask about products, sizes, shipping...";
+                            }, 3500);
+                        } else {
+                            input.placeholder = "Ask about products, sizes, shipping...";
+                        }
+                    };
+
+                    recognition.onend = () => {
+                        if (isListening) {
+                            stopListeningCleanly();
+                            if (input.value.trim()) {
+                                if (autoSubmitTimer) clearTimeout(autoSubmitTimer);
+                                autoSubmitTimer = setTimeout(() => {
+                                    if (input.value.trim()) {
+                                        input.placeholder = "Sending question...";
+                                        form.dispatchEvent(new Event("submit"));
+                                    }
+                                }, 350);
+                            } else {
+                                input.placeholder = "Ask about products, sizes, shipping...";
+                            }
+                        } else {
+                            stopListeningCleanly();
+                        }
+                    };
+
+                    recognition.start();
+
+                } catch (recErr) {
+                    console.warn("[SalesAI Voice] Start exception:", recErr);
+                    stopListeningCleanly();
+                    input.placeholder = "Click mic and speak clearly.";
+                }
             };
         }
     }
