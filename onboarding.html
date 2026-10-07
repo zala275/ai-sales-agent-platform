@@ -364,7 +364,7 @@
                         <span class="material-symbols-outlined text-secondary-container text-[28px]" style="font-variation-settings:'FILL' 1">support_agent</span>
                         <p class="text-xs font-semibold text-on-surface mt-1">Need help?</p>
                         <p class="text-[10px] text-outline mb-2">Our team is ready to assist</p>
-                        <button onclick="AppState.showToast('Support Chat','Connecting to onboarding specialist...')" class="w-full py-1.5 text-[11px] ai-gradient text-white font-semibold rounded-lg">
+                        <button onclick="openOnboardingGuideModal()" class="w-full py-1.5 text-[11px] ai-gradient text-white font-semibold rounded-lg">
                             Chat with Us
                         </button>
                     </div>
@@ -831,6 +831,281 @@
         window.copySnippet = copySnippet;
 
         renderStepsNav();
-    </script>
+    
+        // Visual Setup Guide Modal Helpers
+        window.openOnboardingGuideModal = openOnboardingGuideModal;
+        window.closeOnboardingGuideModal = closeOnboardingGuideModal;
+        window.switchGuideTab = switchGuideTab;
+
+        function openOnboardingGuideModal(tabName) {
+            const modal = document.getElementById("onboarding-guide-modal");
+            if (modal) {
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+                if (tabName) switchGuideTab(tabName);
+            }
+        }
+
+        function closeOnboardingGuideModal() {
+            const modal = document.getElementById("onboarding-guide-modal");
+            if (modal) {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            }
+        }
+
+        function switchGuideTab(tab) {
+            // Hide all panels
+            document.querySelectorAll(".guide-content-panel").forEach(p => p.classList.add("hidden"));
+            // Deactivate all tab buttons
+            document.querySelectorAll(".guide-tab-btn").forEach(b => {
+                b.classList.remove("bg-white", "dark:bg-slate-900", "text-blue-600", "shadow-sm", "border");
+                b.classList.add("text-slate-600", "dark:text-slate-300");
+            });
+
+            // Show selected panel
+            const activePanel = document.getElementById("guide-content-" + tab);
+            if (activePanel) activePanel.classList.remove("hidden");
+
+            // Activate button
+            const activeBtn = document.getElementById("tab-btn-" + tab);
+            if (activeBtn) {
+                activeBtn.classList.remove("text-slate-600", "dark:text-slate-300");
+                activeBtn.classList.add("bg-white", "dark:bg-slate-900", "text-blue-600", "shadow-sm", "border");
+            }
+        }
+
+</script>
+
+    <!-- Interactive Visual Setup & Catalog Guide Modal -->
+    <div id="onboarding-guide-modal" onclick="if(event.target === this) closeOnboardingGuideModal()" class="fixed inset-0 z-50 bg-black/65 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 max-w-2xl w-full rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden text-slate-900 dark:text-white animate-fade-in flex flex-col max-h-[90vh]">
+            
+            <!-- Header -->
+            <div class="p-5 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white flex items-center justify-between flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center">
+                        <span class="material-symbols-outlined text-2xl text-white">menu_book</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base leading-tight">Visual Website Setup & Catalog Guide</h3>
+                        <p class="text-xs text-blue-100">Step-by-step instructions for all major platforms (Takes 30 seconds)</p>
+                    </div>
+                </div>
+                <button onclick="closeOnboardingGuideModal()" class="text-white/70 hover:text-white text-2xl leading-none cursor-pointer">&times;</button>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="flex items-center gap-1.5 p-3 bg-slate-100 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 overflow-x-auto flex-shrink-0 custom-scrollbar">
+                <button onclick="switchGuideTab('shopify')" id="tab-btn-shopify" class="guide-tab-btn active px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer bg-white dark:bg-slate-900 text-blue-600 shadow-sm border border-slate-200 dark:border-slate-700">
+                    <span>🛍️ Shopify</span>
+                </button>
+                <button onclick="switchGuideTab('wordpress')" id="tab-btn-wordpress" class="guide-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer text-slate-600 dark:text-slate-300 hover:bg-white/60">
+                    <span>🔵 WordPress / WooCommerce</span>
+                </button>
+                <button onclick="switchGuideTab('wix')" id="tab-btn-wix" class="guide-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer text-slate-600 dark:text-slate-300 hover:bg-white/60">
+                    <span>🟡 Wix</span>
+                </button>
+                <button onclick="switchGuideTab('webflow')" id="tab-btn-webflow" class="guide-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer text-slate-600 dark:text-slate-300 hover:bg-white/60">
+                    <span>⚡ Webflow</span>
+                </button>
+                <button onclick="switchGuideTab('catalog')" id="tab-btn-catalog" class="guide-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer text-slate-600 dark:text-slate-300 hover:bg-white/60">
+                    <span>📚 Catalog Upload</span>
+                </button>
+            </div>
+
+            <!-- Content Area -->
+            <div class="p-6 space-y-4 overflow-y-auto custom-scrollbar flex-1 text-xs">
+                
+                <!-- 1. SHOPIFY GUIDE -->
+                <div id="guide-content-shopify" class="guide-content-panel space-y-3.5">
+                    <div class="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-semibold flex items-center justify-between">
+                        <span>🛍️ Shopify Stores (Liquid Theme Integration)</span>
+                        <span class="text-[10px] uppercase font-bold bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded">Takes 1 Minute</span>
+                    </div>
+
+                    <div class="space-y-3 text-slate-700 dark:text-slate-300">
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">1</span>
+                            <div>
+                                <strong class="text-slate-900 dark:text-white">Open Theme Code:</strong>
+                                <p class="mt-0.5">Log into <strong>Shopify Admin</strong> (<code>admin.shopify.com</code>) ➔ click <strong>Online Store</strong> ➔ <strong>Themes</strong>.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">2</span>
+                            <div>
+                                <strong class="text-slate-900 dark:text-white">Open theme.liquid:</strong>
+                                <p class="mt-0.5">Click the three dots (<code>...</code>) next to your active theme ➔ click <strong>Edit Code</strong> ➔ click <strong>theme.liquid</strong> on the left under <em>Layout</em>.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">3</span>
+                            <div class="flex-1">
+                                <strong class="text-slate-900 dark:text-white">Paste Script &amp; Save:</strong>
+                                <p class="mt-0.5 mb-2">Scroll to the very bottom, paste this line right before <code>&lt;/body&gt;</code>, and click <strong>Save</strong> in Shopify:</p>
+                                <div class="bg-slate-900 text-emerald-400 p-2.5 rounded-lg font-mono text-[11px] break-all border border-slate-800 flex items-center justify-between gap-2">
+                                    <code>&lt;script src="https://ai-sales-agent-platform.vercel.app/widget/sales-widget.js" data-agent-key="agt_live_9a8b7c6d" defer&gt;&lt;/script&gt;</code>
+                                    <button onclick="navigator.clipboard.writeText('<' + 'script src=\"https://ai-sales-agent-platform.vercel.app/widget/sales-widget.js\" data-agent-key=\"agt_live_9a8b7c6d\" defer><' + '/script>'); AppState.showToast('Copied! 🎉', 'Paste before </body> in theme.liquid');" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[10px] font-bold flex-shrink-0">Copy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. WORDPRESS & WOOCOMMERCE GUIDE -->
+                <div id="guide-content-wordpress" class="guide-content-panel hidden space-y-3.5">
+                    <div class="p-3.5 rounded-2xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-300 font-semibold flex items-center justify-between">
+                        <span>🔵 WordPress &amp; WooCommerce Stores</span>
+                        <span class="text-[10px] uppercase font-bold bg-blue-200 text-blue-900 px-2 py-0.5 rounded">Zero Code Needed</span>
+                    </div>
+
+                    <div class="space-y-3 text-slate-700 dark:text-slate-300">
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">1</span>
+                            <div>
+                                <strong class="text-slate-900 dark:text-white">Install Free Header/Footer Plugin:</strong>
+                                <p class="mt-0.5">In WordPress Admin, go to <strong>Plugins ➔ Add New</strong> ➔ search and install the free plugin <strong>WPCode</strong> (or <em>Insert Headers and Footers</em>) and click Activate.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">2</span>
+                            <div>
+                                <strong class="text-slate-900 dark:text-white">Open Header &amp; Footer Settings:</strong>
+                                <p class="mt-0.5">In your left WordPress sidebar, click <strong>Code Snippets ➔ Header &amp; Footer</strong>.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">3</span>
+                            <div class="flex-1">
+                                <strong class="text-slate-900 dark:text-white">Paste into Footer Box &amp; Save:</strong>
+                                <p class="mt-0.5 mb-2">Paste the script tag directly into the <strong>Footer</strong> box and click <strong>Save Changes</strong>:</p>
+                                <div class="bg-slate-900 text-blue-300 p-2.5 rounded-lg font-mono text-[11px] break-all border border-slate-800 flex items-center justify-between gap-2">
+                                    <code>&lt;script src="https://ai-sales-agent-platform.vercel.app/widget/sales-widget.js" data-agent-key="agt_live_9a8b7c6d" defer&gt;&lt;/script&gt;</code>
+                                    <button onclick="navigator.clipboard.writeText('<' + 'script src=\"https://ai-sales-agent-platform.vercel.app/widget/sales-widget.js\" data-agent-key=\"agt_live_9a8b7c6d\" defer><' + '/script>'); AppState.showToast('Copied! 🎉', 'Paste in WPCode Footer box');" class="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-[10px] font-bold flex-shrink-0">Copy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. WIX GUIDE -->
+                <div id="guide-content-wix" class="guide-content-panel hidden space-y-3.5">
+                    <div class="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 font-semibold flex items-center justify-between">
+                        <span>🟡 Wix Websites &amp; Stores</span>
+                        <span class="text-[10px] uppercase font-bold bg-amber-200 text-amber-900 px-2 py-0.5 rounded">Drag &amp; Drop Ready</span>
+                    </div>
+
+                    <div class="space-y-3 text-slate-700 dark:text-slate-300">
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">1</span>
+                            <div>
+                                <strong class="text-slate-900 dark:text-white">Open Wix Settings:</strong>
+                                <p class="mt-0.5">Go to your <strong>Wix Dashboard</strong> ➔ click <strong>Settings</strong> in the left sidebar ➔ scroll down to <strong>Custom Code</strong>.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">2</span>
+                            <div>
+                                <strong class="text-slate-900 dark:text-white">Click Add Custom Code:</strong>
+                                <p class="mt-0.5">Click <strong>+ Add Custom Code</strong> in the top right. Paste your script tag in the code box.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">3</span>
+                            <div>
+                                <strong class="text-slate-900 dark:text-white">Place in Body - End:</strong>
+                                <p class="mt-0.5">Under <em>"Place Code in"</em>, select <strong>Body - end</strong>. Choose <em>"All Pages"</em> and click <strong>Apply</strong>!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. WEBFLOW GUIDE -->
+                <div id="guide-content-webflow" class="guide-content-panel hidden space-y-3.5">
+                    <div class="p-3.5 rounded-2xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800 text-indigo-800 dark:text-indigo-300 font-semibold flex items-center justify-between">
+                        <span>⚡ Webflow Sites &amp; Stores</span>
+                        <span class="text-[10px] uppercase font-bold bg-indigo-200 text-indigo-900 px-2 py-0.5 rounded">Custom Code</span>
+                    </div>
+
+                    <div class="space-y-3 text-slate-700 dark:text-slate-300">
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">1</span>
+                            <div>
+                                <strong class="text-slate-900 dark:text-white">Open Project Settings:</strong>
+                                <p class="mt-0.5">In Webflow Dashboard, click the three dots on your project ➔ click <strong>Settings</strong> ➔ click <strong>Custom Code</strong>.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">2</span>
+                            <div>
+                                <strong class="text-slate-900 dark:text-white">Paste before &lt;/body&gt;:</strong>
+                                <p class="mt-0.5">Scroll down to the box labeled <strong>"Footer Code (Before &lt;/body&gt; tag)"</strong> and paste your script tag.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">3</span>
+                            <div>
+                                <strong class="text-slate-900 dark:text-white">Save &amp; Publish:</strong>
+                                <p class="mt-0.5">Click <strong>Save Changes</strong> at the top, then click <strong>Publish</strong> to publish to your custom domain!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. CATALOG UPLOAD GUIDE -->
+                <div id="guide-content-catalog" class="guide-content-panel hidden space-y-3.5">
+                    <div class="p-3.5 rounded-2xl bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 text-purple-800 dark:text-purple-300 font-semibold flex items-center justify-between">
+                        <span>📚 Product Catalog / PDF Upload Guide</span>
+                        <span class="text-[10px] uppercase font-bold bg-purple-200 text-purple-900 px-2 py-0.5 rounded">RAG Grounding</span>
+                    </div>
+
+                    <div class="space-y-3 text-slate-700 dark:text-slate-300">
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-purple-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">1</span>
+                            <div>
+                                <strong class="text-slate-900 dark:text-white">Export Products or Save Brochure:</strong>
+                                <p class="mt-0.5">From Shopify: Go to <em>Products ➔ Export (CSV)</em>. Or save any product brochure, menu, price list, or warranty policy as a <strong>PDF or TXT</strong> file.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-purple-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">2</span>
+                            <div>
+                                <strong class="text-slate-900 dark:text-white">Upload in Step 3 or Knowledge Base:</strong>
+                                <p class="mt-0.5">Go to <strong>Step 3 (Knowledge &amp; Catalog)</strong> in Onboarding, or open <strong>Knowledge Base</strong> from your sidebar. Drag &amp; drop your file into the upload box.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 items-start p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
+                            <span class="w-6 h-6 rounded-full bg-purple-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">3</span>
+                            <div>
+                                <strong class="text-slate-900 dark:text-white">AI Vectorizes in 5 Seconds:</strong>
+                                <p class="mt-0.5">The platform splits the document into semantic vector chunks and syncs to your live agent. Your agent can now quote prices, inventory, and specs instantly!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="p-4 bg-slate-50 dark:bg-slate-800/60 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between flex-shrink-0">
+                <span class="text-slate-500 text-[11px]">✨ Need personal assistance? Visit the <a href="support.html" class="text-blue-600 underline font-semibold">Support Portal</a></span>
+                <button onclick="closeOnboardingGuideModal()" class="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl text-xs font-bold hover:opacity-90 transition-opacity cursor-pointer">
+                    Got it, Close Guide
+                </button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
