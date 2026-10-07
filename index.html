@@ -69,6 +69,69 @@
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
     </style>
+    <script>
+        window.exportDashboardMetrics = function() {
+            try {
+                const btn = document.getElementById("btn-export-metrics");
+                const btnText = document.getElementById("btn-export-text");
+                if (btnText) btnText.textContent = "Generating CSV...";
+
+                const now = new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
+                const metrics = [
+                    ["SalesAI Pro - Executive Metrics Export", "Generated on: " + now],
+                    [""],
+                    ["Category", "KPI Metric", "Value", "Benchmark / Trend"],
+                    ["Revenue", "Autonomous Revenue Closed", "₹12,45,800", "+18.4% vs last month"],
+                    ["Conversations", "Total Visitor Chats Today", "2,847 conversations", "+12% vs yesterday"],
+                    ["Leads", "BANT Qualified Buyer Leads", "412 high-intent leads", "68% conversion rate"],
+                    ["Closing Performance", "Average Closing Rate", "24.6%", "+3.2% vs industry avg"],
+                    ["AI Operations", "Average Response Latency", "1.2 seconds", "99.8% uptime"],
+                    ["Knowledge Engine", "Catalog Grounding Accuracy", "96.4%", "Zero Hallucination mode active"],
+                    ["Top Channel", "Shopify Storefront Widget", "84% of total volume", "Primary sales engine"],
+                    [""],
+                    ["Top Selling Products Inquired", "Inquiry Volume", "Avg Deal Size", "Close Rate"],
+                    ["Apex Pro Wireless Headphones", "1,240 queries", "₹9,999", "31%"],
+                    ["Apex Ultra Smartwatch 2", "890 queries", "₹14,999", "27%"],
+                    ["Organic Cotton T-Shirts", "450 queries", "₹1,299", "42%"]
+                ];
+
+                const csvRows = metrics.map(row => row.map(cell => '"' + (cell || '').toString().replace(/"/g, '""') + '"').join(',')).join('\r\n');
+                const filename = "SalesAI_Dashboard_Metrics_" + new Date().toISOString().slice(0, 10) + ".csv";
+                
+                // Add UTF-8 BOM so Excel opens Hindi / Rupees / UTF-8 characters properly
+                const blob = new Blob(["\uFEFF" + csvRows], { type: 'text/csv;charset=utf-8;' });
+                
+                if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                    window.navigator.msSaveOrOpenBlob(blob, filename);
+                } else {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+                    link.style.display = "none";
+                    link.href = url;
+                    link.setAttribute("download", filename);
+                    document.body.appendChild(link);
+                    link.click();
+                    setTimeout(() => {
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url);
+                    }, 400);
+                }
+
+                if (btnText) btnText.textContent = "✓ CSV Downloaded!";
+                setTimeout(() => {
+                    if (btnText) btnText.textContent = "Export Metrics";
+                }, 3000);
+
+                if (window.AppState && typeof window.AppState.showToast === "function") {
+                    window.AppState.showToast("Metrics Downloaded! 📊", filename + " saved to your Downloads.");
+                }
+            } catch (err) {
+                console.error("Export error:", err);
+                alert("Error exporting metrics: " + err.message);
+            }
+        };
+    </script>
+
 </head>
 <body class="bg-surface font-sans text-on-surface flex min-h-screen" data-page="dashboard">
 
@@ -514,8 +577,9 @@
                     <p class="text-sm text-on-surface-variant mt-1">Multi-tenant SaaS metrics, global ARR, and aggregate agent usage.</p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="exportDashboardMetrics()" class="px-3.5 py-2 border border-outline-variant/40 hover:bg-surface-container rounded-xl text-xs font-semibold text-on-surface transition-colors flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer" title="Download spreadsheet of current KPIs">
-                        <span class="material-symbols-outlined text-base text-secondary">download</span> Export Metrics
+                    <button id="btn-export-metrics" onclick="exportDashboardMetrics()" class="px-3.5 py-2 border border-outline-variant/40 hover:bg-surface-container rounded-xl text-xs font-semibold text-on-surface transition-all flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer hover:border-secondary" title="Download spreadsheet of current KPIs">
+                        <span class="material-symbols-outlined text-base text-secondary">download</span>
+                        <span id="btn-export-text">Export Metrics</span>
                     </button>
                     <a href="deployment.html" class="px-4 py-2 bg-primary-container text-white rounded-xl text-xs font-semibold hover:bg-opacity-90 transition-colors flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">code</span> Deploy Agent
@@ -770,42 +834,6 @@
     </main>
 
     <script src="js/app-state.js?v=12.0"></script>
-    <script>
-        function exportDashboardMetrics() {
-            const now = new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
-            const metrics = [
-                ["SalesAI Pro - Executive Metrics Export", "Generated on: " + now],
-                [""],
-                ["Category", "KPI Metric", "Value", "Benchmark / Trend"],
-                ["Revenue", "Autonomous Revenue Closed", "₹12,45,800", "+18.4% vs last month"],
-                ["Conversations", "Total Visitor Chats Today", "2,847 conversations", "+12% vs yesterday"],
-                ["Leads", "BANT Qualified Buyer Leads", "412 high-intent leads", "68% conversion rate"],
-                ["Closing Performance", "Average Closing Rate", "24.6%", "+3.2% vs industry avg"],
-                ["AI Operations", "Average Response Latency", "1.2 seconds", "99.8% uptime"],
-                ["Knowledge Engine", "Catalog Grounding Accuracy", "96.4%", "Zero Hallucination mode active"],
-                ["Top Channel", "Shopify Storefront Widget", "84% of total volume", "Primary sales engine"],
-                [""],
-                ["Top Selling Products Inquired", "Inquiry Volume", "Avg Deal Size", "Close Rate"],
-                ["Apex Pro Wireless Headphones", "1,240 queries", "₹9,999", "31%"],
-                ["Apex Ultra Smartwatch 2", "890 queries", "₹14,999", "27%"],
-                ["Organic Cotton T-Shirts", "450 queries", "₹1,299", "42%"]
-            ];
-
-            const csvRows = metrics.map(row => row.map(cell => '"' + (cell || '').replace(/"/g, '""') + '"').join(',')).join('\n');
-            const blob = new Blob([csvRows], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.setAttribute("href", url);
-            link.setAttribute("download", "SalesAI_Dashboard_Metrics_" + new Date().toISOString().slice(0, 10) + ".csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            if (window.AppState && typeof window.AppState.showToast === "function") {
-                window.AppState.showToast("Metrics Downloaded! 📊", "SalesAI_Dashboard_Metrics.csv saved to your Downloads.");
-            }
-        }
-        window.exportDashboardMetrics = exportDashboardMetrics;
-    </script>
+    
 </body>
 </html>
