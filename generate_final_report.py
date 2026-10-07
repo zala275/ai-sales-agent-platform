@@ -75,7 +75,7 @@ def create_report():
     # Styles setup
     style_normal = doc.styles['Normal']
     style_normal.font.name = 'Times New Roman'
-    style_normal.font.size = Pt(12)
+    style_normal.font.size = Pt(11)
     style_normal.paragraph_format.line_spacing = 1.25
     style_normal.paragraph_format.space_after = Pt(6)
 
@@ -1083,7 +1083,7 @@ def create_report():
     add_h2("8.1 CLASS DIAGRAM")
     p_img1 = doc.add_paragraph()
     p_img1.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    doc.add_picture(os.path.join(diag_dir, "class_diagram.png"), width=Inches(6.5))
+    doc.add_picture(os.path.join(diag_dir, "class_diagram.png"), width=Inches(6.2))
 
     p_f1 = doc.add_paragraph()
     p_f1.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -1096,7 +1096,7 @@ def create_report():
     add_h2("8.2 USE-CASE DIAGRAM")
     p_img2 = doc.add_paragraph()
     p_img2.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    doc.add_picture(os.path.join(diag_dir, "use_case_diagram.png"), width=Inches(6.5))
+    doc.add_picture(os.path.join(diag_dir, "use_case_diagram.png"), width=Inches(5.8))
 
     p_f2 = doc.add_paragraph()
     p_f2.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -1109,7 +1109,7 @@ def create_report():
     add_h2("8.3 SEQUENCE DIAGRAM")
     p_img3 = doc.add_paragraph()
     p_img3.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    doc.add_picture(os.path.join(diag_dir, "sequence_diagram.png"), width=Inches(6.5))
+    doc.add_picture(os.path.join(diag_dir, "sequence_diagram.png"), width=Inches(5.8))
 
     p_f3 = doc.add_paragraph()
     p_f3.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -1122,7 +1122,7 @@ def create_report():
     add_h2("8.4 ACTIVITY DIAGRAM")
     p_img4 = doc.add_paragraph()
     p_img4.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    doc.add_picture(os.path.join(diag_dir, "activity_diagram.png"), width=Inches(6.5))
+    doc.add_picture(os.path.join(diag_dir, "activity_diagram.png"), width=Inches(5.5))
 
     p_f4 = doc.add_paragraph()
     p_f4.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -1135,7 +1135,7 @@ def create_report():
     add_h2("8.5 DATA FLOW DIAGRAM")
     p_img5 = doc.add_paragraph()
     p_img5.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    doc.add_picture(os.path.join(diag_dir, "data_flow_diagram.png"), width=Inches(6.5))
+    doc.add_picture(os.path.join(diag_dir, "data_flow_diagram.png"), height=Inches(6.8))
 
     p_f5 = doc.add_paragraph()
     p_f5.alignment = WD_ALIGN_PARAGRAPH.CENTER
