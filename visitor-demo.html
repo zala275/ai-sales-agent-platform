@@ -759,7 +759,7 @@
                 next: 'follow_up'
             },
             'objection_price': {
-                msg: "SalesAI is an autonomous online sales representative platform. You get full access to consultative dialogues, objections handling, CRM synchronization, and lead qualification. Shall we configure your agent?",
+                msg: "We offer 3 transparent tiers tailored to your store volume:<br><br>• <strong>Starter ($49/mo):</strong> Up to 1,500 visitors<br>• <strong>Professional ($149/mo):</strong> Up to 10,000 visitors + Voice Closer + Full RAG Catalog <em>(Recommended for 5,000 visitors)</em><br>• <strong>Enterprise ($499/mo):</strong> Custom high-volume traffic.<br><br>Which plan fits your store best?",
                 next: 'lead_capture'
             },
             'human_vs_bot': {
@@ -794,6 +794,13 @@
         };
 
         function getAIResponse(msg) {
+            const lower = msg.toLowerCase();
+            if (lower.includes('5000') || lower.includes('5,000') || lower.includes('which plan') || lower.includes('what plan') || lower.includes('recommend') || (lower.includes('plan') && lower.includes('visitor'))) {
+                return {
+                    msg: "For <strong>5,000 monthly visitors</strong>, I strongly recommend our <strong>Professional Plan ($149/mo)</strong>! It easily covers up to 10,000 visitors, includes full autonomous voice support, real-time catalog RAG, and automated CRM sync. Would you like me to set up a 14-day free trial for you?",
+                    next: 'lead_capture'
+                };
+            }
             const lower = msg.toLowerCase();
             if (lower.includes('chatbot') || lower.includes('bot') || lower.includes('not a chat') || lower.includes('why are you')) return aiResponses.not_a_bot;
             if (lower.includes('expensive') || lower.includes('costly') || lower.includes('too much') || lower.includes('discount') || lower.includes('budget')) return aiResponses.objection_price;
