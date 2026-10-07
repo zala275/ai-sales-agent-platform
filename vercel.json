@@ -40,6 +40,30 @@
     {
       "src": "widget/**",
       "use": "@vercel/static"
+    },
+    {
+      "src": "AI_Sales_Agent_Project_Report.pdf",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "AI_Sales_Agent_Project_Report.docx",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "PROJECT_FINAL_REPORT.md",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "download_report.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "robots.txt",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "sitemap.xml",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
