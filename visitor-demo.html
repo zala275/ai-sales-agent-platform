@@ -728,6 +728,15 @@
         let currentStep = 'greeting';
         let leadEmailPending = false;
 
+        window.openWidget = openWidget;
+        window.closeWidget = closeWidget;
+        window.toggleWidget = toggleWidget;
+
+        // Auto open widget on page load so it is immediately ready
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(openWidget, 400);
+        });
+
         function toggleWidget() {
             widgetOpen ? closeWidget() : openWidget();
         }
@@ -801,7 +810,6 @@
                     next: 'lead_capture'
                 };
             }
-            const lower = msg.toLowerCase();
             if (lower.includes('chatbot') || lower.includes('bot') || lower.includes('not a chat') || lower.includes('why are you')) return aiResponses.not_a_bot;
             if (lower.includes('expensive') || lower.includes('costly') || lower.includes('too much') || lower.includes('discount') || lower.includes('budget')) return aiResponses.objection_price;
             if (lower.includes('human') || lower.includes('salesman') || lower.includes('rep') || lower.includes('hire')) return aiResponses.human_vs_bot;
